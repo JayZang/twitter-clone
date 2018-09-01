@@ -3,7 +3,6 @@
     <div class="HomePageInfo">
       <svg class="twitterIcon-bird" viewBox="0 0 1208 982" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <!-- Generator: Sketch 45.2 (43514) - http://www.bohemiancoding.com/sketch -->
-        <title>bird</title>
         <desc>Created with Sketch.</desc>
         <defs></defs>
         <g id="Final-Horizon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
