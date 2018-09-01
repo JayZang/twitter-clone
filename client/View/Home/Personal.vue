@@ -26,30 +26,30 @@
             </div>
           </div>
           <div class="TabContainer">
-            <router-link :to="`/${userId}/posts`" class="TabItem active">
+            <a href="#" :class="TabItemClass[0]" @click.prevent="postTabClickEventHandler">
               <div class="TabTxt">
                 <div class="TabTitle">推文</div>
                 <div class="Count">12345</div>
               </div>
-            </router-link>
-            <router-link :to="`/${userId}/posts`" class="TabItem">
+            </a>
+            <a href="#" :class="TabItemClass[1]" @click.prevent="followingTabClickEventHandler">
               <div class="TabTxt">
                 <div class="TabTitle">正在跟隨</div>
                 <div class="Count">12345</div>
               </div>
-            </router-link>
-            <router-link :to="`/${userId}/posts`" class="TabItem">
+            </a>
+            <a href="#" :class="TabItemClass[2]" @click.prevent="followerTabClickEventHandler">
               <div class="TabTxt">
                 <div class="TabTitle">跟隨者</div>
                 <div class="Count">12345</div>
               </div>
-            </router-link>
-            <router-link :to="`/${userId}/posts`" class="TabItem">
+            </a>
+            <a href="#" :class="TabItemClass[3]" @click.prevent="likesTabClickEventHandler">
               <div class="TabTxt">
                 <div class="TabTitle">喜歡的內容</div>
                 <div class="Count">12345</div>
               </div>
-            </router-link>
+            </a>
           </div>
           <div class="FollowBtnContainer">
             <button href="#" class="FollowBtn">追蹤</button>
@@ -58,17 +58,42 @@
       </div>
     </div>
     <div class="WallContent">
+      <div class="ContentContainer">
+        <div class="LeftSideContent"></div>
+        <div class="RightSideContent">
+          <component :is="contentComponent" :userId="userId"></component>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import PersonalPost from '@/components/Home/Personal/Posts'
+import PersonalFollowing from '@/components/Home/Personal/Following'
+import PersonalFollower from '@/components/Home/Personal/Follower'
+import PersonalLikes from '@/components/Home/Personal/Likes'
+
 export default {
   name: 'PersonalHome',
   data () {
     return {
       userId: null,
-      needPersonalWallFix: false
+      needPersonalWallFix: false,
+      contentComponent: PersonalPost,
+      TabItemClass: [{
+        TabItem: true,
+        active: true
+      }, {
+        TabItem: true,
+        active: false
+      }, {
+        TabItem: true,
+        active: false
+      }, {
+        TabItem: true,
+        active: false
+      }]
     }
   },
   created () {
@@ -77,8 +102,27 @@ export default {
   },
   methods: {
     windowScrollEventHandelr (e) {
-      console.log($(window).scrollTop())
       this.needPersonalWallFix = $(window).scrollTop() > 300
+    },
+    postTabClickEventHandler (e) {
+      this.contentComponent = PersonalPost
+      this.setTabActive(0)
+    },
+    followingTabClickEventHandler (e) {
+      this.contentComponent = PersonalFollowing
+      this.setTabActive(1)
+    },
+    followerTabClickEventHandler (e) {
+      this.contentComponent = PersonalFollower
+      this.setTabActive(2)
+    },
+    likesTabClickEventHandler (e) {
+      this.contentComponent = PersonalLikes
+      this.setTabActive(3)
+    },
+    setTabActive (index) {
+      this.TabItemClass.forEach(item => item.active = false)
+      this.TabItemClass[index].active = true
     }
   }
 }
@@ -241,11 +285,10 @@ export default {
 
 .WallContent {
   background-color: #e6ecf0;
-  height: 1600px;
 }
 
 #PersonalHome[fix=true] {
-  padding-top: 380px;
+  padding-top: 425px;
 }
 
 #PersonalHome[fix=true] .PersonalWall{
@@ -260,5 +303,27 @@ export default {
 
 #PersonalHome[fix=true] .CardContainer {
   transform: translateY(0);
+}
+
+.ContentContainer {
+  max-width: 890px;
+  margin: 0 auto;
+  padding-top: 10px;
+  display: flex;
+}
+
+.LeftSideContent {
+  width: 33.333%;
+  padding: 0 5px;
+  display: none;
+}
+
+.RightSideContent {
+  flex-grow: 1;
+  padding: 0 5px;
+  height: 1600px;
+  background-color: white;
+  max-width: 66.66666%;
+  margin: 0 auto;
 }
 </style>
