@@ -43,12 +43,12 @@
           <div class="RegisterTitle">
             今天就加入 Twitter。
           </div>
-          <a class="btn regist" href="/regist">
+          <router-link class="btn regist" to="/regist" href="/regist">
             註冊
-          </a>
-          <a class="btn login" href="/login">
+          </router-link >
+          <router-link class="btn login" to="/login" href="/login">
             登入
-          </a>
+          </router-link>
         </div>
       </div>
     </div>

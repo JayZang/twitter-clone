@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <router-view name="TopNavBar"/>
     <router-view/>
   </div>
 </template>
@@ -16,6 +17,9 @@ export default {
   padding: 0;
 }
 
+a {
+  color: #1c94e0;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;  margin: 0;
   color: #2c3e50;
