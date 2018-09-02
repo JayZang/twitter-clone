@@ -4,7 +4,7 @@ var _ = require('lodash')
 
 var router = express.Router()
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res) => { 
   let token = req.headers['x-auth']
 
   try {
