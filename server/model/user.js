@@ -2,20 +2,20 @@ var mongoose = require('mongoose')
 var jwt = require('jsonwebtoken')
 
 var UserSchema = mongoose.Schema({
-  userName: {
+  name: {
     type: String,
-    required; true,
+    required: true,
     trim: true
   },
-  userId:{
+  account:{
     type: String,
     required: true,
     unique: true,
     trim: true
-  }
+  },
   password: {
     type: String,
-    required; true,
+    required: true,
     minlength: 8
   },
   tokens: [{
@@ -25,7 +25,7 @@ var UserSchema = mongoose.Schema({
     },
     token: {
       type: String,
-      required; true
+      required: true
     }
   }]
 })
