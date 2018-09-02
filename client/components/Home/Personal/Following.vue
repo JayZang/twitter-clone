@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="">
+  <div id="PersonalFollowing">
     Following
   </div>
 </template>
@@ -11,5 +11,5 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 </style>

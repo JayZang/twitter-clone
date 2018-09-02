@@ -53,6 +53,10 @@ export default {
 </script>
 
 <style lang="css" scoped>
+#PersonalPost {
+    background-color: white;
+}
+
 .HeadContainer {
   padding: 0 12px;
   background-color: #fff;
