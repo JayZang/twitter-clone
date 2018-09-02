@@ -12,7 +12,8 @@ router.post('/', async (req, res) => {
   // verify the two password is same
   if (userBuf.password !== passwordConfirmed){
     return res.json({
-      result: false
+      result: false,
+      errMsg: '密碼確認不同'
     });
   }
 
@@ -32,7 +33,10 @@ router.post('/', async (req, res) => {
     // custom err msg from mongoose err code
     if (err.code === 11000){
       errMsg = '帳號已有人使用'
+    } else if (err.errors && err.errors.password) {
+      errMsg = err.errors.password.message
     } else {
+      console.log(err)
       errMsg = '未知錯誤'
     }
 

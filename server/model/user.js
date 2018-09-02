@@ -17,7 +17,7 @@ var UserSchema = mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 8
+    minlength: [8, '密碼長度須大於8位元']
   },
   tokens: [{
     access: {
@@ -31,6 +31,7 @@ var UserSchema = mongoose.Schema({
   }]
 })
 
+// 用戶登入
 UserSchema.statics.findByCredentials = async function (account, password) {
   let UserModel = this
 

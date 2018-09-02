@@ -5,19 +5,25 @@
         <div class="RegistText">
           <span>建立你的帳戶</span>
         </div>
+        <div class="ErrHint alert alert-danger" v-if="errHint">
+          {{ errHint }}
+        </div>
         <div class="RegistInput">
           <div class="username">
-            <input type="text" name="" value="" placeholder="使用者名稱">
+            <input type="text" v-model="name" placeholder="使用者名稱">
+          </div>
+          <div class="account">
+            <input type="text" v-model="account" placeholder="帳號">
           </div>
           <div class="password">
-            <input type="password" name="" value="" placeholder="密碼">
+            <input type="password" v-model="password" placeholder="密碼">
           </div>
           <div class="password-confirm">
-            <input type="password" name="" value="" placeholder="密碼確認">
+            <input type="password" v-model="password2" placeholder="密碼確認">
           </div>
         </div>
         <div class="Submit">
-          <button class="btn submit" type="button">註冊</button>
+          <button class="btn submit" type="button" @click="registEventHandler">註冊</button>
         </div>
       </div>
     </div>
@@ -33,9 +39,42 @@
 </template>
 
 <script>
+import userAPI from '@/API/user'
+
 export default {
   name: 'RegistPage',
-  components: {}
+  data () {
+    return {
+      name: null,
+      account: null,
+      password: null,
+      password2: null,
+      errHint: ''
+    }
+  },
+  methods: {
+    async registEventHandler () {
+      if (!this.name || !this.account || !this.password || !this.password2) {
+        this.errHint = '請勿空白'
+        return
+      }
+
+      let res = await userAPI.regist({
+        name: this.name,
+        account: this.account,
+        password: this.password,
+        password2: this.password2
+      })
+
+      if (!res.result) {
+        console.log(res)
+        this.errHint = res.errMsg
+        return
+      }
+
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 
@@ -87,6 +126,7 @@ export default {
 }
 
 .RegistInput .username,
+.RegistInput .account,
 .RegistInput .password {
   margin-bottom: 15px;
 }

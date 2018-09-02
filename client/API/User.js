@@ -1,9 +1,10 @@
 import axios from 'axios'
 
 async function login (account, password) {
-  let result;
+  let res;
+
   try {
-    result = await axios.post('/API/user/login', {
+    res = await axios.post('/API/user/login', {
       account,
       password
     })
@@ -14,9 +15,30 @@ async function login (account, password) {
     }
   }
 
-  return result.data
+  return res.data
+}
+
+async function regist (request) {
+  let res;
+
+  try {
+    res = await axios.post('/API/user/', {
+      name: request.name,
+      account: request.account,
+      password: request.password,
+      password2: request.password2
+    })
+  } catch (e) {
+    return {
+      result: false,
+      errMsg: '無法連接伺服器'
+    }
+  }
+
+  return res.data
 }
 
 export default {
-  login
+  login,
+  regist
 }
