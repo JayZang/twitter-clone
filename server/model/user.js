@@ -42,6 +42,7 @@ UserSchema.methods.setAuthToken = function () {
   }, 'Secret')
 
   user.tokens.push(token)
+  return token
 }
 
 // 存入資料庫前把密碼 Hash 起來
