@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import userAPI from '@/API/User'
+import store from '@/store'
 
 export default {
   name: 'LoginPage',
@@ -46,17 +46,14 @@ export default {
   },
   methods: {
     async loginEventHandeler () {
-      if (!this.account || !this.password){
-        this.errHint = '帳號和密碼請勿空白'
-        return
-      }
-
-      let res = await userAPI.login(this.account, this.password)
+      let res = await this.$store.dispatch('login', {
+        account: this.account,
+        password: this.password,
+      })
 
       if (!res.result) {
+        console.log(res)
         this.errHint = res.errMsg
-        this.password = ''
-        this.account = ''
         return
       }
 

@@ -40,6 +40,7 @@
 
 <script>
 import userAPI from '@/API/user'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'RegistPage',
@@ -54,12 +55,7 @@ export default {
   },
   methods: {
     async registEventHandler () {
-      if (!this.name || !this.account || !this.password || !this.password2) {
-        this.errHint = '請勿空白'
-        return
-      }
-
-      let res = await userAPI.regist({
+      let res = await this.$store.dispatch('regist', {
         name: this.name,
         account: this.account,
         password: this.password,

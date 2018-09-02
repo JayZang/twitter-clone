@@ -1,13 +1,10 @@
 import axios from 'axios'
 
-async function login (account, password) {
+async function login (request) {
   let res;
 
   try {
-    res = await axios.post('/API/user/login', {
-      account,
-      password
-    })
+    res = await axios.post('/API/user/login', request)
   } catch(e) {
     return {
       result: false,
@@ -22,12 +19,7 @@ async function regist (request) {
   let res;
 
   try {
-    res = await axios.post('/API/user/', {
-      name: request.name,
-      account: request.account,
-      password: request.password,
-      password2: request.password2
-    })
+    res = await axios.post('/API/user/', request)
   } catch (e) {
     return {
       result: false,

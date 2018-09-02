@@ -25,7 +25,8 @@ router.post('/', async (req, res) => {
     let token = user.setAuthToken();
     res.header('x-auth', token)
       .json({
-        result: true
+        result: true,
+        user
       })
   } catch (err) {
     let errMsg;
@@ -58,7 +59,8 @@ router.post('/login', async (req, res) => {
 
     res.header('x-auth', token)
       .json({
-        result: true
+        result: true,
+        user
       })
   } catch (err) {
     res.json({

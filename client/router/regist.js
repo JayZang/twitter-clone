@@ -7,5 +7,8 @@ export default [{
   components: {
     TopNavBar,
     default: regist
+  },
+  meta: {
+    requireNotLogin: true
   }
 }]
