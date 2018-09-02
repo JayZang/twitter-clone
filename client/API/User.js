@@ -42,7 +42,35 @@ async function regist (request) {
   }
 }
 
+async function checkAuth (token) {
+  let res;
+
+  try {
+    res = await axios({
+        methods: 'get',
+        url: '/API/user/',
+        headers: {
+          'x-auth': token
+        }
+      })
+  } catch (e) {
+    return {
+      res: {
+        result: false,
+        errMsg: '認證錯誤1'
+      },
+      token: null
+    }
+  }
+
+  return {
+    res: res.data,
+    token: res.headers['x-auth']
+  }
+}
+
 export default {
   login,
-  regist
+  regist,
+  checkAuth
 }

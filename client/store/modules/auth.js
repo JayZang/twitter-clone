@@ -1,8 +1,7 @@
 import userAPI from '@/API/user'
 
 const state = {
-  user: null,
-  token: null
+  user: null
 }
 
 const getters = {
@@ -40,15 +39,23 @@ const actions = {
       window.localStorage.setItem('AuthToken', token)
     }
     return res
+  },
+  checkAuth: async ({commit}) => {
+    let currentToken = window.localStorage.getItem('AuthToken')
+    let {res, token} = await userAPI.checkAuth(currentToken)
+
+    if(res.result){
+      window.localStorage.setItem('AuthToken', token)
+      commit('setUser', res.user)
+    }
+
+    return res
   }
 }
 
 const mutations = {
   setUser: (state, user) => {
     state.user = user
-  },
-  setToken: (state, token) => {
-    state.token = token
   }
 }
 

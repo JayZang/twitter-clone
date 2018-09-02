@@ -4,15 +4,16 @@ var _ = require('lodash')
 
 var router = express.Router()
 
-router.get('/', async (req, res) => { 
+router.get('/', async (req, res) => {
   let token = req.headers['x-auth']
 
   try {
     let user = await UserModel.findByToken(token)
-    res.json({
-      result: true,
-      user
-    })
+    res.header('x-auth', token)
+      .json({
+        result: true,
+        user
+      })
   } catch (e) {
     res.json({
       result: false,
