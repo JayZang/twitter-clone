@@ -58,7 +58,11 @@ UserSchema.methods.setAuthToken = function () {
     exp:  Math.floor(Date.now() / 1000) + (60 * 60)
   }, 'Secret')
 
-  user.tokens.push(token)
+  user.tokens.push({
+    access,
+    token
+  })
+  user.save();
   return token
 }
 

@@ -5,16 +5,19 @@
         <div class="LoginText">
           <span>登入 Twitter</span>
         </div>
+        <div class="ErrHint alert alert-danger" v-if="errHint">
+          {{ errHint }}
+        </div>
         <div class="LoginInput">
-          <div class="username">
-            <input type="text" name="" value="" placeholder="使用者名稱">
+          <div class="account">
+            <input type="text" v-model="account" placeholder="帳號">
           </div>
           <div class="password">
-            <input type="password" name="" value="" placeholder="密碼">
+            <input type="password" v-model="password" placeholder="密碼">
           </div>
         </div>
         <div class="Submit">
-          <button class="btn submit" type="button">登入</button>
+          <button class="btn submit" type="button" @click="loginEventHandeler">登入</button>
         </div>
       </div>
     </div>
@@ -30,9 +33,36 @@
 </template>
 
 <script>
+import userAPI from '@/API/User'
+
 export default {
   name: 'LoginPage',
-  components: {}
+  data () {
+    return {
+      account: null,
+      password: null,
+      errHint: null
+    }
+  },
+  methods: {
+    async loginEventHandeler () {
+      if (!this.account || !this.password){
+        this.errHint = '帳號和密碼請勿空白'
+        return
+      }
+
+      let res = await userAPI.login(this.account, this.password)
+
+      if (!res.result) {
+        this.errHint = res.errMsg
+        this.password = ''
+        this.account = ''
+        return
+      }
+
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 
@@ -83,7 +113,7 @@ export default {
   border-color: rgba(0,132,180,0.5);
 }
 
-.LoginInput .username {
+.LoginInput .account {
   margin-bottom: 15px;
 }
 
