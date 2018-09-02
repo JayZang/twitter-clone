@@ -320,10 +320,9 @@ export default {
 
 .RightSideContent {
   flex-grow: 1;
-  padding: 0 5px;
   height: 1600px;
   background-color: white;
-  max-width: 66.66666%;
+  max-width: calc(66.66666% - 10px);
   margin: 0 auto;
 }
 </style>
