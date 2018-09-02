@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
 var jwt = require('jsonwebtoken')
+var bcryptjs = require('bcryptjs')
 
 var UserSchema = mongoose.Schema({
   name: {
@@ -42,5 +43,17 @@ UserSchema.methods.setAuthToken = function () {
 
   user.tokens.push(token)
 }
+
+// 存入資料庫前把密碼 Hash 起來
+UserSchema.pre('save', function (next) {
+  let user = this;
+
+  if (user.isModified('password')) {
+    let hash = bcryptjs.hashSync(user.password, 10)
+    user.password = hash
+  }
+
+  next()
+})
 
 module.exports = mongoose.model('Users', UserSchema);
