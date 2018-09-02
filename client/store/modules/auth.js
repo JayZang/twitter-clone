@@ -1,7 +1,8 @@
 import userAPI from '@/API/user'
 
 const state = {
-  user: null
+  user: null,
+  token: null
 }
 
 const getters = {
@@ -10,29 +11,34 @@ const getters = {
 
 const actions = {
   login: async ({commit}, para) => {
-    let res = {}
-
     if (!para.account || !para.password) {
-      res.errMsg = '帳號和密碼請勿空白'
-      res.result = false
-      return res
+      return {
+        errMsg: '帳號和密碼請勿空白',
+        result: false
+      }
     }
 
-    res = await userAPI.login(para)
-    res.result && commit('setUser', res.user)
+    let {res, token} = await userAPI.login(para)
+    console.log(res)
+    if (res.result) {
+      commit('setUser', res.user)
+      window.localStorage.setItem('AuthToken', token)
+    }
     return res
   },
   regist: async ({commit}, para) => {
-    let res = {}
-
     if (!para.name || !para.account || !para.password || !para.password2) {
-      res.errMsg = '請勿空白'
-      res.result = false
-      return res
+      return {
+        errMsg: '請勿空白',
+        result: false
+      }
     }
 
-    res = await userAPI.regist(para)
-    res.result && commit('setUser', res.user)
+    let {res, token} = await userAPI.regist(para)
+    if (res.result) {
+      commit('setUser', res.user)
+      window.localStorage.setItem('AuthToken', token)
+    }
     return res
   }
 }
@@ -40,6 +46,9 @@ const actions = {
 const mutations = {
   setUser: (state, user) => {
     state.user = user
+  },
+  setToken: (state, token) => {
+    state.token = token
   }
 }
 

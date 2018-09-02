@@ -7,12 +7,18 @@ async function login (request) {
     res = await axios.post('/API/user/login', request)
   } catch(e) {
     return {
-      result: false,
-      errMsg: '無法連接伺服器'
+      res: {
+        result: false,
+        errMsg: '無法連接伺服器'
+      },
+      token: null
     }
   }
 
-  return res.data
+  return {
+    res: res.data,
+    token: res.headers['x-auth']
+  }
 }
 
 async function regist (request) {
@@ -22,12 +28,18 @@ async function regist (request) {
     res = await axios.post('/API/user/', request)
   } catch (e) {
     return {
-      result: false,
-      errMsg: '無法連接伺服器'
+      res: {
+        result: false,
+        errMsg: '無法連接伺服器'
+      },
+      token: null
     }
   }
 
-  return res.data
+  return {
+    res: res.data,
+    token: res.headers['x-auth']
+  }
 }
 
 export default {

@@ -31,7 +31,7 @@ var UserSchema = mongoose.Schema({
   }]
 })
 
-// 用戶登入
+// 用帳密取得用戶
 UserSchema.statics.findByCredentials = async function (account, password) {
   let UserModel = this
 
@@ -49,7 +49,21 @@ UserSchema.statics.findByCredentials = async function (account, password) {
   }
 }
 
-// 設置用戶登入 token
+// 用 token 取得用戶
+UserSchema.statics.findByToken = async function (token) {
+  let UserModel = this;
+
+  try {
+    let decoded = jwt.verify(token, 'Secret')
+    let user = await UserModel.findById(decoded.id)
+
+    return user;
+  } catch (e) {
+    return Promise.reject()
+  }
+}
+
+// 設置用戶 auth token
 UserSchema.methods.setAuthToken = function () {
   let user = this
   let access = 'auth'

@@ -4,6 +4,23 @@ var _ = require('lodash')
 
 var router = express.Router()
 
+router.get('/', async (req, res) => {
+  let token = req.headers['x-auth']
+
+  try {
+    let user = await UserModel.findByToken(token)
+    res.json({
+      result: true,
+      user
+    })
+  } catch (e) {
+    res.json({
+      result: false,
+      errMsg: '認證錯誤'
+    })
+  }
+})
+
 // User regist
 router.post('/', async (req, res) => {
   let userBuf = _.pick(req.body, ['name', 'account', 'password'])
