@@ -31,6 +31,23 @@ var UserSchema = mongoose.Schema({
   }]
 })
 
+UserSchema.statics.findByCredentials = async function (account, password) {
+  let UserModel = this
+
+  try{
+    let user = await UserModel.findOne({account})
+    let result = bcryptjs.compareSync(password, user.password)
+
+    if (!result) {
+      return Promise.reject()
+    }
+
+    return user
+  } catch (e) {
+    return Promise.reject(e)
+  }
+}
+
 // 設置用戶登入 token
 UserSchema.methods.setAuthToken = function () {
   let user = this

@@ -45,8 +45,24 @@ router.post('/', async (req, res) => {
 })
 
 // User login
-router.post('/login', (req, res) => {
-res.send('Login')
+router.post('/login', async (req, res) => {
+  let body = _.pick(req.body, ['account', 'password'])
+
+  try {
+    let user = await UserModel.findByCredentials(body.account, body.password)
+    let token = user.setAuthToken()
+
+    res.header('x-auth', token)
+      .json({
+        result: true
+      })
+  } catch (err) {
+    res.json({
+      result: false,
+      errMsg: '帳號或密碼錯誤',
+      err
+    })
+  }
 })
 
 // User logout
