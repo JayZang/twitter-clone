@@ -18,7 +18,11 @@ const router = new VueRouter({
 })
 
 // 路由守衛設置
-router.beforeEach((to, from, next) => {
+router.beforeEach( async (to, from, next) => {
+  if (!store.getters.isAuthChecked){
+    await store.dispatch('checkAuth')
+  }
+
   if(to.meta.requireNotLogin && store.getters.isLogin)
     return next('/')
 

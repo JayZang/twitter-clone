@@ -1,11 +1,13 @@
 import userAPI from '@/API/user'
 
 const state = {
+  isAuthChecked: false,
   user: null
 }
 
 const getters = {
-  isLogin: state => !!state.user
+  isLogin: state => !!state.user,
+  isAuthChecked: state => !!state.isAuthChecked
 }
 
 const actions = {
@@ -18,7 +20,7 @@ const actions = {
     }
 
     let {res, token} = await userAPI.login(para)
-    console.log(res)
+
     if (res.result) {
       commit('setUser', res.user)
       window.localStorage.setItem('AuthToken', token)
@@ -34,6 +36,7 @@ const actions = {
     }
 
     let {res, token} = await userAPI.regist(para)
+
     if (res.result) {
       commit('setUser', res.user)
       window.localStorage.setItem('AuthToken', token)
@@ -49,6 +52,7 @@ const actions = {
       commit('setUser', res.user)
     }
 
+    commit('setIsAuthChecked', true)
     return res
   }
 }
@@ -56,6 +60,9 @@ const actions = {
 const mutations = {
   setUser: (state, user) => {
     state.user = user
+  },
+  setIsAuthChecked: (state, boolean) => {
+    state.isAuthChecked = boolean
   }
 }
 

@@ -7,13 +7,7 @@
 
 <script>
 export default {
-  name: 'App',
-  beforeCreate () {
-    this.$store.dispatch('checkAuth')
-      .then((e) => {
-        console.log(e)
-      })
-  }
+  name: 'App'
 }
 </script>
 
