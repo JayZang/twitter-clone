@@ -47,7 +47,6 @@ export default {
   props:['userId'],
   mounted () {
     let html = $("#PostTemplate").html()
-    console.log(html)
   }
 }
 </script>

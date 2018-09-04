@@ -55,7 +55,11 @@ UserSchema.statics.findByToken = async function (token) {
 
   try {
     let decoded = jwt.verify(token, 'Secret')
-    let user = await UserModel.findById(decoded.id)
+    let user = await UserModel.findOne({
+      _id: decoded.id,
+      'tokens.token': token,
+      'tokens.access': 'auth'
+    })
 
     return user;
   } catch (e) {

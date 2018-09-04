@@ -7,7 +7,8 @@ const state = {
 
 const getters = {
   isLogin: state => !!state.user,
-  isAuthChecked: state => !!state.isAuthChecked
+  isAuthChecked: state => !!state.isAuthChecked,
+  userAccount: state => state.user && state.user.account
 }
 
 const actions = {

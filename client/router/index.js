@@ -19,10 +19,12 @@ const router = new VueRouter({
 
 // 路由守衛設置
 router.beforeEach( async (to, from, next) => {
+  // 是否已身份確認
   if (!store.getters.isAuthChecked){
     await store.dispatch('checkAuth')
   }
 
+  // 登入用戶不能造訪之頁面
   if(to.meta.requireNotLogin && store.getters.isLogin)
     return next('/')
 

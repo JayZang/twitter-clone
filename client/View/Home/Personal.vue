@@ -52,7 +52,7 @@
             </a>
           </div>
           <div class="FollowBtnContainer">
-            <button href="#" class="FollowBtn">追蹤</button>
+            <button href="#" class="FollowBtn" v-if="!this.isLoginedUser">追蹤</button>
           </div>
         </div>
       </div>
@@ -79,6 +79,7 @@ export default {
   data () {
     return {
       userId: null,
+      isLoginedUser: false,
       needPersonalWallFix: false,
       contentComponent: PersonalPost,
       TabItemClass: [{
@@ -96,8 +97,13 @@ export default {
       }]
     }
   },
+  props: ['UserId'],
   created () {
-    this.userId = this.$route.params.UserId
+    // 此 component 可從兩部分取得 Ｕser ID
+    // 1. URL 的 params
+    // 2. component 的 porps
+    this.userId = this.$route.params.OtherUserId || this.UserId()
+    this.isLoginedUser = this.userId === this.$store.getters.userAccount
     window.addEventListener('scroll', this.windowScrollEventHandelr)
   },
   methods: {
