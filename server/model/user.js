@@ -28,8 +28,15 @@ var UserSchema = mongoose.Schema({
       type: String,
       required: true
     }
+  }],
+  following: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Users',
+    default: []
   }]
 })
+
+// UserSchema.path('following').validate(fun)
 
 // 用帳密取得用戶
 UserSchema.statics.findByCredentials = async function (account, password) {

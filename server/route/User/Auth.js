@@ -1,25 +1,23 @@
 var express = require("express")
-var UserModel = require('../model/user')
+var UserModel = require('../../model/user')
 var _ = require('lodash')
 
 var router = express.Router()
 
+// User authentication, resonse user object when the token is valid,
 router.get('/', async (req, res) => {
-  let token = req.headers['x-auth']
-
-  try {
-    let user = await UserModel.findByToken(token)
-    res.header('x-auth', token)
-      .json({
-        result: true,
-        user
-      })
-  } catch (e) {
-    res.json({
+  if (!req.user) {
+    return res.json({
       result: false,
       errMsg: '認證錯誤'
     })
   }
+
+  res.header('x-auth', req.token)
+    .json({
+      result: true,
+      user: req.user
+    })
 })
 
 // User regist

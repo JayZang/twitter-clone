@@ -2,6 +2,8 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 
+var AuthMiddleware = require('./middleware/Auth')
+
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/TwitterWeblike')
 var app = express()
@@ -9,9 +11,14 @@ var app = express()
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
+app.use(AuthMiddleware.GetLoginedUser)
+
 // API 路由
-var UserRouter = require ('./route/user')
-app.use('/API/user/', UserRouter)
+var UserRouters = require ('./route/User')
+UserRouters.forEach((RouteItem) => {
+  app.use('/API/user/', RouteItem)
+})
+
 
 // 頁面路由
 app.get('*', (req, res) => {
