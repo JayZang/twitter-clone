@@ -47,7 +47,7 @@ async function checkAuth (token) {
 
   try {
     res = await axios({
-        methods: 'get',
+        method: 'get',
         url: '/API/user/',
         headers: {
           'x-auth': token

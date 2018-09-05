@@ -1,10 +1,16 @@
 import axios from 'axios'
 
-async function GetPersonBasicInfo (personId) {
+async function GetPersonBasicInfo (personId, token) {
   let res
 
   try {
-    res = await axios.get(`/API/person/${personId}`)
+    res = await axios({
+        methods: 'get',
+        url: `/API/person/${personId}`,
+        headers: {
+          'x-auth': token
+        }
+      })
   } catch (e) {
     return {
       res: {

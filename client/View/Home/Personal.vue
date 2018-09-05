@@ -50,7 +50,7 @@
                 <div class="Count">12345</div>
               </div>
             </a>
-            <router-link to="/1123456">Iam</router-link>
+            <router-link to="/test2">Iam</router-link>
           </div>
           <div class="FollowBtnContainer" v-if="!this.isLoginedUser">
             <button class="FollowBtn" v-if="!isFollowing" @click="followClickEventHandler">追蹤</button>
@@ -85,6 +85,7 @@ export default {
       userId: null,
       person: null,
       needPersonalWallFix: false,
+      isFollowing: false,
       followingBtnTxt: '追蹤中',
       contentComponent: PersonalPost,
       TabItemClass: [{
@@ -106,15 +107,6 @@ export default {
   computed: {
     isLoginedUser: function () {
       return this.userId === this.$store.getters.userAccount
-    },
-    isFollowing: function () {
-      if (!this.$store.getters.isLogin ||
-          !this.$store.getters.userFollowing ||
-          !this.person) {
-        return false
-      }
-
-      return this.$store.getters.userFollowing.includes(this.person._id)
     },
     followingCount: function () {
       return this.person ? this.person.following.length : 0
@@ -138,7 +130,7 @@ export default {
       let loginUserId = this.UserId && this.UserId()
       this.userId = otherUserId || loginUserId
 
-      let res = await personInfo.GetPersonBasicInfo(this.userId)
+      let res = await personInfo.GetPersonBasicInfo(this.userId, this.$store.getters.authToken)
 
       if (!res.result) {
         console.log(res.errMsg)
@@ -146,6 +138,7 @@ export default {
       }
 
       this.person = res.person
+      this.isFollowing = res.isFollowing
     },
     windowScrollEventHandelr (e) {
       this.needPersonalWallFix = $(window).scrollTop() > 300
@@ -181,15 +174,30 @@ export default {
 
       if (!res.result)
         return
+
+      this.isFollowing = true
+      this.followingBtnTxt = '追蹤中'
     },
     async backFollowClickEventHandler (e) {
+      if (!this.$store.getters.isLogin) {
+        this.$router.push('/login')
+      } else if (this.isLoginedUser) {
+        return
+      }
 
+      let res = await UserAction.deleteFollow(this.userId, this.$store.getters.authToken)
+
+      if (!res.result)
+        return
+
+      this.isFollowing = false
+      this.followingBtnTxt = '追蹤'
     },
     backFollowMouseEnterEventHandler (e) {
-      this.followingBtnTxt = '取消追蹤'
+      this.isFollowing && (this.followingBtnTxt = '取消追蹤')
     },
     backFollowMouseLeaveEventHandler (e) {
-      this.followingBtnTxt = '追蹤中'
+      this.isFollowing &&  (this.followingBtnTxt = '追蹤中')
     }
   }
 }
