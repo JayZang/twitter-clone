@@ -81,7 +81,7 @@ UserSchema.methods.setAuthToken = function () {
   let token = jwt.sign({
     id: user._id,
     access,
-    exp:  Math.floor(Date.now() / 1000) + (60 * 60)
+    exp:  Math.floor(Date.now() / 1000) + (60 * 60 * 3)
   }, 'Secret')
 
   user.tokens.push({

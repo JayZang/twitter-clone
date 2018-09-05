@@ -50,9 +50,10 @@
                 <div class="Count">12345</div>
               </div>
             </a>
+            <router-link to="/1123456">Iam</router-link>
           </div>
           <div class="FollowBtnContainer">
-            <button href="#" class="FollowBtn" v-if="!this.isLoginedUser">追蹤</button>
+            <button href="#" class="FollowBtn" v-if="!this.isLoginedUser" @click="followClickEventHandler">追蹤</button>
           </div>
         </div>
       </div>
@@ -73,13 +74,13 @@ import PersonalPost from '@/components/Home/Personal/Posts'
 import PersonalFollowing from '@/components/Home/Personal/Following'
 import PersonalFollower from '@/components/Home/Personal/Follower'
 import PersonalLikes from '@/components/Home/Personal/Likes'
+import UserAction from '@/API/User/Action'
 
 export default {
   name: 'PersonalHome',
   data () {
     return {
       userId: null,
-      isLoginedUser: false,
       needPersonalWallFix: false,
       contentComponent: PersonalPost,
       TabItemClass: [{
@@ -98,15 +99,26 @@ export default {
     }
   },
   props: ['UserId'],
+  computed: {
+    isLoginedUser: function () {
+      return this.userId === this.$store.getters.userAccount
+    }
+  },
+  watch: {
+    'UserId': function () {
+      this.initUserID()
+    }
+  },
   created () {
-    // 此 component 可從兩部分取得 Ｕser ID
-    // 1. URL 的 params
-    // 2. component 的 porps
-    this.userId = this.$route.params.OtherUserId || this.UserId()
-    this.isLoginedUser = this.userId === this.$store.getters.userAccount
+    this.initUserID()
     window.addEventListener('scroll', this.windowScrollEventHandelr)
   },
   methods: {
+    initUserID () {
+      let otherUserId = this.$route.params.OtherUserId
+      let loginUserId = this.UserId && this.UserId()
+      this.userId = otherUserId || loginUserId
+    },
     windowScrollEventHandelr (e) {
       this.needPersonalWallFix = $(window).scrollTop() > 300
     },
@@ -129,6 +141,18 @@ export default {
     setTabActive (index) {
       this.TabItemClass.forEach(item => item.active = false)
       this.TabItemClass[index].active = true
+    },
+    followClickEventHandler (e) {
+      if (!this.$store.getters.isLogin) {
+        this.$router.push('/login')
+      } else if (this.isLoginedUser) {
+        return
+      }
+
+      UserAction.follow(this.userId, this.$store.getters.authToken)
+        .then((res) => {
+          console.log(res)
+        })
     }
   }
 }

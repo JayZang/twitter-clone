@@ -17,10 +17,7 @@
 
 <script>
 export default {
-  name: 'TopNavBar',
-  created () {
-    console.log(123)
-  }
+  name: 'TopNavBar'
 }
 </script>
 

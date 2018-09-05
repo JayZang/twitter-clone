@@ -1,14 +1,16 @@
-import userAPI from '@/API/user'
+import userAuth from '@/API/User/Auth'
 
 const state = {
   isAuthChecked: false,
-  user: null
+  user: null,
+  authToken: null
 }
 
 const getters = {
   isLogin: state => !!state.user,
   isAuthChecked: state => !!state.isAuthChecked,
-  userAccount: state => state.user && state.user.account
+  userAccount: state => state.user && state.user.account,
+  authToken: state => state.authToken
 }
 
 const actions = {
@@ -20,10 +22,11 @@ const actions = {
       }
     }
 
-    let {res, token} = await userAPI.login(para)
+    let {res, token} = await userAuth.login(para)
 
     if (res.result) {
       commit('setUser', res.user)
+      commit('setAuthToken', token)
       window.localStorage.setItem('AuthToken', token)
     }
     return res
@@ -36,21 +39,23 @@ const actions = {
       }
     }
 
-    let {res, token} = await userAPI.regist(para)
+    let {res, token} = await userAuth.regist(para)
 
     if (res.result) {
       commit('setUser', res.user)
+      commit('setAuthToken', token)
       window.localStorage.setItem('AuthToken', token)
     }
     return res
   },
   checkAuth: async ({commit}) => {
     let currentToken = window.localStorage.getItem('AuthToken')
-    let {res, token} = await userAPI.checkAuth(currentToken)
+    let {res, token} = await userAuth.checkAuth(currentToken)
 
     if(res.result){
       window.localStorage.setItem('AuthToken', token)
       commit('setUser', res.user)
+      commit('setAuthToken', token)
     }
 
     commit('setIsAuthChecked', true)
@@ -64,6 +69,9 @@ const mutations = {
   },
   setIsAuthChecked: (state, boolean) => {
     state.isAuthChecked = boolean
+  },
+  setAuthToken: (state, token) => {
+    state.authToken = token
   }
 }
 

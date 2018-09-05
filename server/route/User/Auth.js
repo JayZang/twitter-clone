@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
     })
   }
 
-  res.header('x-auth', req.token)
+  res.header('x-auth', req.token.auth)
     .json({
       result: true,
       user: req.user

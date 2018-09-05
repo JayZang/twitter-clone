@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import userAPI from '@/API/user'
 import { mapGetters } from 'vuex'
 
 export default {

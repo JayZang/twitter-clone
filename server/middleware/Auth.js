@@ -6,7 +6,9 @@ const GetLoginedUser = async (req, res, next) => {
   try {
     let user = await UserModel.findByToken(token)
     req.user = user
-    req.authToken = token
+    req.token || (req.token = {})
+    req.token.auth = token
+
     next()
   } catch (e) {
     // do nothing

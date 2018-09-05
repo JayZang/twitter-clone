@@ -57,7 +57,7 @@ async function checkAuth (token) {
     return {
       res: {
         result: false,
-        errMsg: '認證錯誤1'
+        errMsg: '無法連接伺服器'
       },
       token: null
     }
@@ -72,5 +72,5 @@ async function checkAuth (token) {
 export default {
   login,
   regist,
-  checkAuth
+  checkAuth,
 }
