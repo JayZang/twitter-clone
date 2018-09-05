@@ -21,10 +21,49 @@ router.get('/follow/:UserId', async (req, res) => {
     let user = req.user
     if (user.following.find(val => val.toString() === targetUser._id.toString())) {
       throw new Error('已追蹤過此用戶')
+    } else if (user._id.toString() === targetUser._id.toString()) {
+      throw new Error('無法追蹤自己')
     }
 
     await user.update({
       $push: {
+        following: targetUser._id
+      }
+    })
+
+    return res.json({
+      result: true,
+    })
+  } catch (e) {
+    return res.json({
+      result: false,
+      errMsg: e.message || '查看系統錯誤訊息',
+      err: e
+    })
+  }
+})
+
+router.delete('/follow/:UserId', async (req, res) => {
+  if (!req.user) {
+    return res.json({
+      result: false,
+      errMsg: '尚未登入'
+    })
+  }
+
+  try {
+    let targetUser = await UserModel.findOne({account: req.params.UserId})
+    if (!targetUser) {
+      throw new Error('無此用戶')
+    }
+
+    let user = req.user
+    if (!user.following.find(val => val.toString() === targetUser._id.toString())) {
+      throw new Error('未追蹤此用戶')
+    }
+
+    await user.update({
+      $pull: {
         following: targetUser._id
       }
     })

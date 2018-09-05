@@ -35,7 +35,7 @@
             <a href="#" :class="TabItemClass[1]" @click.prevent="followingTabClickEventHandler">
               <div class="TabTxt">
                 <div class="TabTitle">正在跟隨</div>
-                <div class="Count">12345</div>
+                <div class="Count">{{followingCount}}</div>
               </div>
             </a>
             <a href="#" :class="TabItemClass[2]" @click.prevent="followerTabClickEventHandler">
@@ -53,8 +53,8 @@
             <router-link to="/1123456">Iam</router-link>
           </div>
           <div class="FollowBtnContainer" v-if="!this.isLoginedUser">
-            <button class="FollowBtn" @click="followClickEventHandler">追蹤</button>
-            <button class="BackFollowBtn" @click="backFollowClickEventHandler">{{followingBtnTxt}}</button>
+            <button class="FollowBtn" v-if="!isFollowing" @click="followClickEventHandler">追蹤</button>
+            <button class="BackFollowBtn" v-if="isFollowing" @mouseenter="backFollowMouseEnterEventHandler" @mouseleave="backFollowMouseLeaveEventHandler" @click="backFollowClickEventHandler">{{followingBtnTxt}}</button>
           </div>
         </div>
       </div>
@@ -76,13 +76,16 @@ import PersonalFollowing from '@/components/Home/Personal/Following'
 import PersonalFollower from '@/components/Home/Personal/Follower'
 import PersonalLikes from '@/components/Home/Personal/Likes'
 import UserAction from '@/API/User/Action'
+import personInfo from '@/API/Person/Info'
 
 export default {
   name: 'PersonalHome',
   data () {
     return {
       userId: null,
+      person: null,
       needPersonalWallFix: false,
+      followingBtnTxt: '追蹤中',
       contentComponent: PersonalPost,
       TabItemClass: [{
         TabItem: true,
@@ -104,13 +107,17 @@ export default {
     isLoginedUser: function () {
       return this.userId === this.$store.getters.userAccount
     },
-    followingBtnTxt: function () {
-      return '追蹤中'
-    },
     isFollowing: function () {
-      if (!this.$store.getters.isLogin || !this.$store.getters.userFollowing){
+      if (!this.$store.getters.isLogin ||
+          !this.$store.getters.userFollowing ||
+          !this.person) {
         return false
       }
+
+      return this.$store.getters.userFollowing.includes(this.person._id)
+    },
+    followingCount: function () {
+      return this.person ? this.person.following.length : 0
     }
   },
   watch: {
@@ -123,13 +130,22 @@ export default {
     window.addEventListener('scroll', this.windowScrollEventHandelr)
   },
   methods: {
-    initUserID () {
+    async initUserID () {
       // 取得 User ID 的兩種方式
       // 1. route param: Url 指定用戶 ID
       // 2. component prop: 程式邏輯實作，此處實作為取得登入用戶 ID 的 function
       let otherUserId = this.$route.params.OtherUserId
       let loginUserId = this.UserId && this.UserId()
       this.userId = otherUserId || loginUserId
+
+      let res = await personInfo.GetPersonBasicInfo(this.userId)
+
+      if (!res.result) {
+        console.log(res.errMsg)
+        return
+      }
+
+      this.person = res.person
     },
     windowScrollEventHandelr (e) {
       this.needPersonalWallFix = $(window).scrollTop() > 300
@@ -162,8 +178,18 @@ export default {
       }
 
       let res = await UserAction.follow(this.userId, this.$store.getters.authToken)
+
       if (!res.result)
         return
+    },
+    async backFollowClickEventHandler (e) {
+
+    },
+    backFollowMouseEnterEventHandler (e) {
+      this.followingBtnTxt = '取消追蹤'
+    },
+    backFollowMouseLeaveEventHandler (e) {
+      this.followingBtnTxt = '追蹤中'
     }
   }
 }
@@ -329,6 +355,10 @@ export default {
   min-width: 105px;
   outline: none;
   cursor: pointer;
+}
+
+.BackFollowBtn:hover {
+  background-color: #e0245e;
 }
 
 .FollowBtn:hover {

@@ -13,16 +13,12 @@ async function follow (userId, token) {
       })
   } catch (e) {
     return {
-      res: {
-        result: false,
-        errMsg: '無法連接伺服器'
-      }
+      result: false,
+      errMsg: '無法連接伺服器'
     }
   }
 
-  return {
-    res: res.data
-  }
+  return res.data
 }
 
 export default {
