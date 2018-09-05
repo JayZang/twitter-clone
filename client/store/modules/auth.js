@@ -10,6 +10,7 @@ const getters = {
   isLogin: state => !!state.user,
   isAuthChecked: state => !!state.isAuthChecked,
   userAccount: state => state.user && state.user.account,
+  userFollowing: state => state.user && state.user.following,
   authToken: state => state.authToken
 }
 

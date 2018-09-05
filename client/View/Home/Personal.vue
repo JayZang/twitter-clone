@@ -52,8 +52,9 @@
             </a>
             <router-link to="/1123456">Iam</router-link>
           </div>
-          <div class="FollowBtnContainer">
-            <button href="#" class="FollowBtn" v-if="!this.isLoginedUser" @click="followClickEventHandler">追蹤</button>
+          <div class="FollowBtnContainer" v-if="!this.isLoginedUser">
+            <button class="FollowBtn" @click="followClickEventHandler">追蹤</button>
+            <button class="BackFollowBtn" @click="backFollowClickEventHandler">{{followingBtnTxt}}</button>
           </div>
         </div>
       </div>
@@ -102,6 +103,14 @@ export default {
   computed: {
     isLoginedUser: function () {
       return this.userId === this.$store.getters.userAccount
+    },
+    followingBtnTxt: function () {
+      return '追蹤中'
+    },
+    isFollowing: function () {
+      if (!this.$store.getters.isLogin || !this.$store.getters.userFollowing){
+        return false
+      }
     }
   },
   watch: {
@@ -115,6 +124,9 @@ export default {
   },
   methods: {
     initUserID () {
+      // 取得 User ID 的兩種方式
+      // 1. route param: Url 指定用戶 ID
+      // 2. component prop: 程式邏輯實作，此處實作為取得登入用戶 ID 的 function
       let otherUserId = this.$route.params.OtherUserId
       let loginUserId = this.UserId && this.UserId()
       this.userId = otherUserId || loginUserId
@@ -142,22 +154,19 @@ export default {
       this.TabItemClass.forEach(item => item.active = false)
       this.TabItemClass[index].active = true
     },
-    followClickEventHandler (e) {
+    async followClickEventHandler (e) {
       if (!this.$store.getters.isLogin) {
         this.$router.push('/login')
       } else if (this.isLoginedUser) {
         return
       }
 
-      UserAction.follow(this.userId, this.$store.getters.authToken)
-        .then((res) => {
-          console.log(res)
-        })
+      let res = await UserAction.follow(this.userId, this.$store.getters.authToken)
+      if (!res.result)
+        return
     }
   }
 }
-
-
 </script>
 
 <style lang="css" scoped>
@@ -301,6 +310,19 @@ export default {
   padding: 6px 16px;
   border: 1px solid #0084B4;
   color: #0084B4;
+  display: inline-block;
+  font-size: 14px;
+  border-radius: 100px;
+  min-width: 105px;
+  outline: none;
+  cursor: pointer;
+}
+
+.BackFollowBtn {
+  padding: 6px 16px;
+  background-color: #329CC3;
+  border: 0;
+  color: white;
   display: inline-block;
   font-size: 14px;
   border-radius: 100px;
