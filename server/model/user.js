@@ -41,8 +41,6 @@ var UserSchema = mongoose.Schema({
   }]
 })
 
-// UserSchema.path('following').validate(fun)
-
 // 用帳密取得用戶
 UserSchema.statics.findByCredentials = async function (account, password) {
   let UserModel = this
@@ -80,7 +78,7 @@ UserSchema.statics.findByToken = async function (token) {
 }
 
 // 設置用戶 auth token
-UserSchema.methods.setAuthToken = function () {
+UserSchema.methods.setAuthToken = async function (replaceToken) {
   let user = this
   let access = 'auth'
   let token = jwt.sign({
@@ -89,11 +87,18 @@ UserSchema.methods.setAuthToken = function () {
     exp:  Math.floor(Date.now() / 1000) + (60 * 60 * 3)
   }, 'Secret')
 
+  // delete token which equal to replaceToken
+  if (!!replaceToken) {
+    let tokenIndex = user.tokens.findIndex(item => item.access === access && item.token === replaceToken)
+    tokenIndex >= 0 && user.tokens.splice(tokenIndex,1)
+  }
+
   user.tokens.push({
     access,
     token
   })
-  user.save();
+
+  await user.save();
   return token
 }
 

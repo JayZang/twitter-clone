@@ -13,7 +13,9 @@ router.get('/', async (req, res) => {
     })
   }
 
-  res.header('x-auth', req.token.auth)
+  // Set new token
+  let token = await req.user.setAuthToken(req.headers['x-auth'])
+  res.header('x-auth', token)
     .json({
       result: true,
       user: req.user
@@ -38,7 +40,7 @@ router.post('/', async (req, res) => {
   try {
     await user.save()
 
-    let token = user.setAuthToken();
+    let token = await user.setAuthToken();
     res.header('x-auth', token)
       .json({
         result: true,
@@ -71,7 +73,7 @@ router.post('/login', async (req, res) => {
 
   try {
     let user = await UserModel.findByCredentials(body.account, body.password)
-    let token = user.setAuthToken()
+    let token = await user.setAuthToken()
 
     res.header('x-auth', token)
       .json({
