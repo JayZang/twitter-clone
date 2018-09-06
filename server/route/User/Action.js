@@ -25,11 +25,19 @@ router.get('/follow/:UserId', async (req, res) => {
       throw new Error('無法追蹤自己')
     }
 
-    await user.update({
+    let userPromise = user.update({
       $push: {
         following: targetUser._id
       }
     })
+
+    let targetUserPromise = targetUser.update({
+      $push: {
+        follower: user._id
+      }
+    })
+
+    await Promise.all([userPromise, targetUserPromise])
 
     return res.json({
       result: true,
@@ -62,11 +70,19 @@ router.delete('/follow/:UserId', async (req, res) => {
       throw new Error('未追蹤此用戶')
     }
 
-    await user.update({
+    let userPromise = user.update({
       $pull: {
         following: targetUser._id
       }
     })
+
+    let targetUserPromise = targetUser.update({
+      $pull: {
+        follower: user._id
+      }
+    })
+
+    await Promise.all([userPromise, targetUserPromise])
 
     return res.json({
       result: true,

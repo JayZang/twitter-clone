@@ -41,7 +41,7 @@
             <a href="#" :class="TabItemClass[2]" @click.prevent="followerTabClickEventHandler">
               <div class="TabTxt">
                 <div class="TabTitle">跟隨者</div>
-                <div class="Count">12345</div>
+                <div class="Count">{{followerCount}}</div>
               </div>
             </a>
             <a href="#" :class="TabItemClass[3]" @click.prevent="likesTabClickEventHandler">
@@ -110,6 +110,9 @@ export default {
     },
     followingCount: function () {
       return this.person ? this.person.following.length : 0
+    },
+    followerCount: function () {
+      return this.person ? this.person.follower.length : 0
     }
   },
   watch: {

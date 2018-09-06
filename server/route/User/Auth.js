@@ -4,7 +4,7 @@ var _ = require('lodash')
 
 var router = express.Router()
 
-// User authentication, resonse user object when the token is valid,
+// User authentication, response user object when the token is valid,
 router.get('/', async (req, res) => {
   if (!req.user) {
     return res.json({

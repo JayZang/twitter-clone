@@ -33,6 +33,11 @@ var UserSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Users',
     default: []
+  }],
+  follower: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Users',
+    default: []
   }]
 })
 
