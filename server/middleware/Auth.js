@@ -4,7 +4,7 @@ const GetLoginedUser = async (req, res, next) => {
   let token = req.headers['x-auth']
 
   if (!token) {
-      next()
+      return next()
   }
 
   try {
