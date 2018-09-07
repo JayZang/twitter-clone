@@ -63,7 +63,7 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="css">
 .FollowBtnContainer {
     margin-left: auto;
     display: flex;
@@ -93,6 +93,11 @@ export default {
   min-width: 105px;
   outline: none;
   cursor: pointer;
+}
+
+.BackFollowBtn:focus,
+.FollowBtn:focus {
+  outline: none;
 }
 
 .BackFollowBtn:hover {

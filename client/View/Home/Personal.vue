@@ -22,7 +22,7 @@
               </a>
             </div>
             <div class="NameInfo">
-              <span>Jay</span>
+              <span>{{personName}}</span>
             </div>
           </div>
           <div class="TabContainer">
@@ -52,7 +52,7 @@
             </a>
             <router-link to="/test2">Iam</router-link>
           </div>
-          <FollowBtn :following="isFollowing" :userId="userId"/>
+          <FollowBtn :following="isFollowing" :userId="personID"/>
         </div>
       </div>
     </div>
@@ -61,7 +61,8 @@
         <div class="LeftSideContent"></div>
         <div class="RightSideContent">
           <PersonalPost v-if="TabItemClass[0].active"/>
-          <PersonalFollow v-if="TabItemClass[1].active || TabItemClass[2].active" :personID="person.account" :type="TabItemClass[1].active ? 'following' : 'follower'"/>
+          <PersonalFollowing v-if="TabItemClass[1].active" :personID="personID"/>
+          <PersonalFollower v-if="TabItemClass[2].active" :personID="personID"/>
           <PersonalLikes v-if="TabItemClass[3].active"/>
         </div>
       </div>
@@ -71,7 +72,8 @@
 
 <script>
 import PersonalPost from '@/components/Home/Personal/Posts'
-import PersonalFollow from '@/components/Home/Personal/Follow'
+import PersonalFollowing from '@/components/Home/Personal/Following'
+import PersonalFollower from '@/components/Home/Personal/Follower'
 import PersonalLikes from '@/components/Home/Personal/Likes'
 import FollowBtn from '@/components/Btns/Follow'
 import personInfo from '@/API/Person/Info'
@@ -80,7 +82,7 @@ export default {
   name: 'PersonalHome',
   data () {
     return {
-      userId: null,
+      personID: null,
       person: null,
       needPersonalWallFix: false,
       isFollowing: false,
@@ -99,27 +101,32 @@ export default {
       }]
     }
   },
-  props: ['UserId'],
   components: {
     PersonalPost,
-    PersonalFollow,
+    PersonalFollowing,
+    PersonalFollower,
     PersonalLikes,
     FollowBtn
   },
   computed: {
     isLoginedUser: function () {
-      return this.userId === this.$store.getters.userAccount
+      return this.personID === this.$store.getters.userAccount
     },
     followingCount: function () {
       return this.person ? this.person.following.length : 0
     },
     followerCount: function () {
       return this.person ? this.person.follower.length : 0
+    },
+    personName: function () {
+      return this.person ? this.person.name : ''
     }
   },
   watch: {
-    'UserId': function () {
+    '$route.params.PersonID': function () {
       this.initUserID()
+      this.postTabClickEventHandler()
+      next()
     }
   },
   created () {
@@ -131,17 +138,16 @@ export default {
       // 取得 User ID 的兩種方式
       // 1. route param: Url 指定用戶 ID
       // 2. component prop: 程式邏輯實作，此處實作為取得登入用戶 ID 的 function
-      let otherUserId = this.$route.params.OtherUserId
-      let loginUserId = this.UserId && this.UserId()
-      this.userId = otherUserId || loginUserId
+      this.personID = this.$route.params.PersonID
 
-      let res = await personInfo.GetPersonBasicInfo(this.userId, this.$store.getters.authToken)
+      let res = await personInfo.GetPersonBasicInfo(this.personID, this.$store.getters.authToken)
 
       if (!res.result) {
         console.log(res.errMsg)
         return
       }
 
+      console.log('Get New User Home Page')
       this.person = res.person
       this.isFollowing = res.isFollowing
     },

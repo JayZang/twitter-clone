@@ -10,7 +10,7 @@ export default [{
   beforeEnter (to, from, next) {
     // 已登入使用者渲染使用者首頁而非預設首頁
     if (store.getters.isLogin) {
-      return next({name: 'UserHome'})
+      return next({name: 'UserHome', params: {PersonID: store.getters.userAccount}})
     }
 
     next()
@@ -22,23 +22,16 @@ export default [{
     TopNavBar,
     default: PersonalHome
   },
-  props: {
-    default: {
-      UserId: () => {
-        return store.getters.userAccount
-      }
-    }
-  },
   beforeEnter (to, from, next) {
-    if (!store.getters.isLogin) {
+    if (!store.getters.isLogin || !to.params.PersonID) {
       return next({name: 'Home'})
     }
 
     return next()
   }
 }, {
-  path: '/:OtherUserId',
-  name: 'OtherUserHome',
+  path: '/:PersonID',
+  name: 'PersonHome',
   components: {
     TopNavBar,
     default: PersonalHome
