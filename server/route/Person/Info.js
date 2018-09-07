@@ -4,10 +4,10 @@ var UserModel = require('../../model/user')
 var router = express.Router()
 
 // 取得用戶基本資訊
-router.get('/:Id', async (req, res) => {
-  let personId = req.params.Id
+router.get('/:account', async (req, res) => {
+  let personAccount = req.params.account
   let person = await UserModel.findOne({
-    account: personId
+    account: personAccount
   })
 
   if (!person) {
@@ -26,6 +26,30 @@ router.get('/:Id', async (req, res) => {
     result: true,
     person,
     isFollowing
+  })
+})
+
+router.get('/:account/following', async (req, res) => {
+  let personAccount = req.params.account
+  let person = await UserModel.findOne({
+    account: personAccount
+  })
+
+  if (!person) {
+    return res.json({
+      result: false,
+      errMsg: '無此用戶'
+    })
+  }
+
+  let opt = {
+    path: 'following',
+    select: ['_id', 'account']
+  }
+  let populatedPerson = await person.populate(opt).execPopulate()
+  res.json({
+    result: true,
+    'following': populatedPerson.following
   })
 })
 

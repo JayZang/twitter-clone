@@ -52,10 +52,7 @@
             </a>
             <router-link to="/test2">Iam</router-link>
           </div>
-          <div class="FollowBtnContainer" v-if="!this.isLoginedUser">
-            <button class="FollowBtn" v-if="!isFollowing" @click="followClickEventHandler">追蹤</button>
-            <button class="BackFollowBtn" v-if="isFollowing" @mouseenter="backFollowMouseEnterEventHandler" @mouseleave="backFollowMouseLeaveEventHandler" @click="backFollowClickEventHandler">{{followingBtnTxt}}</button>
-          </div>
+          <FollowBtn :following="isFollowing" :userId="userId"/>
         </div>
       </div>
     </div>
@@ -63,7 +60,9 @@
       <div class="ContentContainer">
         <div class="LeftSideContent"></div>
         <div class="RightSideContent">
-          <component :is="contentComponent" :userId="userId"></component>
+          <PersonalPost v-if="TabItemClass[0].active"/>
+          <PersonalFollow v-if="TabItemClass[1].active || TabItemClass[2].active" :personID="person.account" :type="TabItemClass[1].active ? 'following' : 'follower'"/>
+          <PersonalLikes v-if="TabItemClass[3].active"/>
         </div>
       </div>
     </div>
@@ -72,10 +71,9 @@
 
 <script>
 import PersonalPost from '@/components/Home/Personal/Posts'
-import PersonalFollowing from '@/components/Home/Personal/Following'
-import PersonalFollower from '@/components/Home/Personal/Follower'
+import PersonalFollow from '@/components/Home/Personal/Follow'
 import PersonalLikes from '@/components/Home/Personal/Likes'
-import UserAction from '@/API/User/Action'
+import FollowBtn from '@/components/Btns/Follow'
 import personInfo from '@/API/Person/Info'
 
 export default {
@@ -86,8 +84,6 @@ export default {
       person: null,
       needPersonalWallFix: false,
       isFollowing: false,
-      followingBtnTxt: '追蹤中',
-      contentComponent: PersonalPost,
       TabItemClass: [{
         TabItem: true,
         active: true
@@ -104,6 +100,12 @@ export default {
     }
   },
   props: ['UserId'],
+  components: {
+    PersonalPost,
+    PersonalFollow,
+    PersonalLikes,
+    FollowBtn
+  },
   computed: {
     isLoginedUser: function () {
       return this.userId === this.$store.getters.userAccount
@@ -147,60 +149,20 @@ export default {
       this.needPersonalWallFix = $(window).scrollTop() > 300
     },
     postTabClickEventHandler (e) {
-      this.contentComponent = PersonalPost
       this.setTabActive(0)
     },
     followingTabClickEventHandler (e) {
-      this.contentComponent = PersonalFollowing
       this.setTabActive(1)
     },
     followerTabClickEventHandler (e) {
-      this.contentComponent = PersonalFollower
       this.setTabActive(2)
     },
     likesTabClickEventHandler (e) {
-      this.contentComponent = PersonalLikes
       this.setTabActive(3)
     },
     setTabActive (index) {
       this.TabItemClass.forEach(item => item.active = false)
       this.TabItemClass[index].active = true
-    },
-    async followClickEventHandler (e) {
-      if (!this.$store.getters.isLogin) {
-        this.$router.push('/login')
-      } else if (this.isLoginedUser) {
-        return
-      }
-
-      let res = await UserAction.follow(this.userId, this.$store.getters.authToken)
-
-      if (!res.result)
-        return
-
-      this.isFollowing = true
-      this.followingBtnTxt = '追蹤中'
-    },
-    async backFollowClickEventHandler (e) {
-      if (!this.$store.getters.isLogin) {
-        this.$router.push('/login')
-      } else if (this.isLoginedUser) {
-        return
-      }
-
-      let res = await UserAction.deleteFollow(this.userId, this.$store.getters.authToken)
-
-      if (!res.result)
-        return
-
-      this.isFollowing = false
-      this.followingBtnTxt = '追蹤'
-    },
-    backFollowMouseEnterEventHandler (e) {
-      this.isFollowing && (this.followingBtnTxt = '取消追蹤')
-    },
-    backFollowMouseLeaveEventHandler (e) {
-      this.isFollowing &&  (this.followingBtnTxt = '追蹤中')
     }
   }
 }
@@ -335,45 +297,6 @@ export default {
 .Count {
   font-size: 18px;
   font-weight: bold;
-}
-
-.FollowBtnContainer {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-}
-
-.FollowBtn {
-  padding: 6px 16px;
-  border: 1px solid #0084B4;
-  color: #0084B4;
-  display: inline-block;
-  font-size: 14px;
-  border-radius: 100px;
-  min-width: 105px;
-  outline: none;
-  cursor: pointer;
-}
-
-.BackFollowBtn {
-  padding: 6px 16px;
-  background-color: #329CC3;
-  border: 0;
-  color: white;
-  display: inline-block;
-  font-size: 14px;
-  border-radius: 100px;
-  min-width: 105px;
-  outline: none;
-  cursor: pointer;
-}
-
-.BackFollowBtn:hover {
-  background-color: #e0245e;
-}
-
-.FollowBtn:hover {
-    background-color: #E5F2F7;
 }
 
 .WallContent {

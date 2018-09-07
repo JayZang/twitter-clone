@@ -1,13 +1,18 @@
 <template lang="html">
   <div class="">
-    Follower
+    {{personID}} {{type}}
   </div>
 </template>
 
 <script>
 export default {
-  name: 'PersonalFollower',
-  props:['userId']
+  name: 'PersonalFollow',
+  props: ['personID', 'type'],
+  data () {
+    return {
+
+    }
+  }
 }
 </script>
 
