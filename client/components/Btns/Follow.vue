@@ -70,6 +70,12 @@ export default {
     align-items: center;
 }
 
+.FollowBtnContainer.small button{
+  font-size: 12px;
+  min-width: 90px;
+  padding: 5px 8px;
+}
+
 .FollowBtn {
   padding: 6px 16px;
   border: 1px solid #0084B4;

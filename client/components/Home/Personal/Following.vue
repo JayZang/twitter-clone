@@ -10,7 +10,7 @@
                 <img src="" alt="">
               </div>
               <div class="Btn">
-                <FollowBtn :userId="person.account" :following="!!person.isFollowing" />
+                <FollowBtn class="small" :userId="person.account" :following="!!person.isFollowing" />
               </div>
               <div class="ProfileInfo">
                 <div class="Name">
@@ -102,7 +102,7 @@ export default {
 }
 
 .Content {
-  margin: 13px 15px;
+  padding: 13px 15px;
 }
 
 .ProfileImg {
@@ -113,6 +113,7 @@ export default {
   background-color: black;
   overflow: hidden;
   margin: -45px 2px 0 -3px;
+  border: 3px solid white;
 }
 
 .ProfileImg img {

@@ -126,7 +126,6 @@ export default {
     '$route.params.PersonID': function () {
       this.initUserID()
       this.postTabClickEventHandler()
-      next()
     }
   },
   created () {

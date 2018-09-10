@@ -16,12 +16,16 @@ app.use(AuthMiddleware.GetLoginedUser)
 // API 路由
 var UserRouters = require ('./route/User')
 var PersonRouters = require ('./route/Person')
+var PostRouters = require ('./route/Post')
 UserRouters.forEach((RouteItem) => {
   app.use('/API/user/', RouteItem)
 })
 PersonRouters.forEach((RouteItem) => {
   app.use('/API/person/', RouteItem)
 })
+app.use('/API/post/', PostRouters)
+
+
 
 // 頁面路由
 app.get('*', (req, res) => {
