@@ -5,6 +5,7 @@ var PostModel = require('../../model/post')
 
 var router = express.Router()
 
+// 用戶貼文
 router.post('/', async (req, res) => {
   if (!req.user) {
     return res.json({
@@ -21,6 +22,8 @@ router.post('/', async (req, res) => {
 
   try {
     await post.save()
+    req.user.posts.push(post._id)
+    await req.user.save()
     res.json({
       result: true
     })

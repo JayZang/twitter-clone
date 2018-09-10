@@ -8,7 +8,7 @@
         <div class="ProfileImgContainer">
           <div class="ProfileImg">
             <a href="#" class="ProfileImgLink">
-              <img src="" alt="">
+              <img :src="personImg" alt="">
             </a>
           </div>
         </div>
@@ -18,7 +18,7 @@
           <div class="CardContainer">
             <div class="ImgWrapper">
               <a href="#">
-                <img src="" alt="">
+                <img :src="personImg" alt="">
               </a>
             </div>
             <div class="NameInfo">
@@ -29,7 +29,7 @@
             <a href="#" :class="TabItemClass[0]" @click.prevent="postTabClickEventHandler">
               <div class="TabTxt">
                 <div class="TabTitle">推文</div>
-                <div class="Count">12345</div>
+                <div class="Count">{{postsCount}}</div>
               </div>
             </a>
             <a href="#" :class="TabItemClass[1]" @click.prevent="followingTabClickEventHandler">
@@ -52,7 +52,7 @@
             </a>
             <router-link to="/test2">Iam</router-link>
           </div>
-          <FollowBtn :following="isFollowing" :userId="personID"/>
+          <FollowBtn :following="isFollowing" :userId="personAccount"/>
         </div>
       </div>
     </div>
@@ -60,9 +60,9 @@
       <div class="ContentContainer">
         <div class="LeftSideContent"></div>
         <div class="RightSideContent">
-          <PersonalPost v-if="TabItemClass[0].active"/>
-          <PersonalFollowing v-if="TabItemClass[1].active" :personID="personID"/>
-          <PersonalFollower v-if="TabItemClass[2].active" :personID="personID"/>
+          <PersonalPost v-if="TabItemClass[0].active" :personID="personID" />
+          <PersonalFollowing v-if="TabItemClass[1].active" :personID="personAccount"/>
+          <PersonalFollower v-if="TabItemClass[2].active" :personID="personAccount"/>
           <PersonalLikes v-if="TabItemClass[3].active"/>
         </div>
       </div>
@@ -82,7 +82,7 @@ export default {
   name: 'PersonalHome',
   data () {
     return {
-      personID: null,
+      personAccount: null,
       person: null,
       needPersonalWallFix: false,
       isFollowing: false,
@@ -110,7 +110,10 @@ export default {
   },
   computed: {
     isLoginedUser: function () {
-      return this.personID === this.$store.getters.userAccount
+      return this.personAccount === this.$store.getters.userAccount
+    },
+    postsCount: function () {
+      return this.person ? this.person.posts.length : 0
     },
     followingCount: function () {
       return this.person ? this.person.following.length : 0
@@ -120,10 +123,16 @@ export default {
     },
     personName: function () {
       return this.person ? this.person.name : ''
+    },
+    personID: function () {
+      return this.person ? this.person._id : null
+    },
+    personImg: function () {
+      return this.person ? this.person.profileImg : ''
     }
   },
   watch: {
-    '$route.params.PersonID': function () {
+    '$route.params.PersonAccount': function () {
       this.initUserID()
       this.postTabClickEventHandler()
     }
@@ -137,9 +146,9 @@ export default {
       // 取得 User ID 的兩種方式
       // 1. route param: Url 指定用戶 ID
       // 2. component prop: 程式邏輯實作，此處實作為取得登入用戶 ID 的 function
-      this.personID = this.$route.params.PersonID
+      this.personAccount = this.$route.params.PersonAccount
 
-      let res = await personInfo.GetPersonBasicInfo(this.personID, this.$store.getters.authToken)
+      let res = await personInfo.GetPersonBasicInfo(this.personAccount, this.$store.getters.authToken)
 
       if (!res.result) {
         console.log(res.errMsg)
@@ -207,6 +216,7 @@ export default {
   border-radius: 50%;
   transition: 300ms;
   transform: translateY(0);
+  overflow: hidden;
 }
 
 .ProfileImgContainer .ProfileImgLink {
@@ -250,6 +260,12 @@ export default {
   width: 36px;
   height: 36px;
   margin-right: 10px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.CardContainer .ImgWrapper img {
+  width: 100%;
 }
 
 .CardContainer .NameInfo {

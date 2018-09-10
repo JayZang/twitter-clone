@@ -31,14 +31,20 @@ var UserSchema = mongoose.Schema({
   }],
   following: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Users',
-    default: []
+    ref: 'Users'
   }],
   follower: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Users',
-    default: []
-  }]
+    ref: 'Users'
+  }],
+  posts: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Posts'
+  }],
+  profileImg: {
+    type: String,
+    default: '/static/img/default-user-profile-img.png'
+  }
 })
 
 // 用帳密取得用戶

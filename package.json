@@ -18,6 +18,7 @@
     "crypto": "^1.0.1",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.10",
+    "moment": "^2.22.2",
     "mongoose": "^5.2.12",
     "validator": "^10.7.0",
     "vue": "^2.5.2",

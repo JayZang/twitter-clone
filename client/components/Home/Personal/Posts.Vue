@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="PostsContainer">
-      <div id="PostTemplate">
+      <div id="PostTemplate" v-if="!isResponsed">
         <div class="Post">
           <div class="LeftSide">
             <div class="ProfileImg">
@@ -37,16 +37,91 @@
           </div>
         </div>
       </div>
+      <div class="Post" v-for="post in posts">
+        <div class="LeftSide">
+          <div class="ProfileImg">
+            <img :src="personImg" alt="">
+          </div>
+        </div>
+        <div class="RightSide">
+          <div class="Info">
+            <div class="Name">{{personName}}</div>
+            <div class="UserId">
+              @<span class="id">{{personAccount}}</span>
+            </div>
+            <div class="Date">{{RegPostDate(post.created)}}</div>
+          </div>
+          <div class="Content">{{post.content}}</div>
+          <div class="OperationBtns">
+            <div class="ReplyBtn Btn">
+              <i class="far fa-comment"></i>
+              <span class="Count">7</span>
+            </div>
+            <div class="LikeBtn Btn">
+              <i class="far fa-heart"></i>
+              <span class="Count">{{post.likes.length}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
+
+import postAPI from '@/API/Person/info'
+
 export default {
   name: 'PersonalPost',
-  props:['userId'],
-  mounted () {
-    let html = $("#PostTemplate").html()
+  props:['personID'],
+  data () {
+    return {
+      person: null,
+      isResponsed: false
+    }
+  },
+  computed: {
+    posts: function () {
+      return !!this.person ? this.person.posts : []
+    },
+    personName: function () {
+      return !!this.person ? this.person.name : ''
+    },
+    personAccount: function () {
+      return !!this.person ? this.person.account : ''
+    },
+    personImg: function () {
+      return this.person ? this.person.profileImg : ''
+    },
+    RegPostDate: function () {
+      return date => moment(date).format('YYYY年M月D日')
+    }
+  },
+  created () {
+    this.getPersonPosts()
+  },
+  watch: {
+    'personID': function () {
+      this.getPersonPosts()
+    }
+  },
+  methods: {
+    async getPersonPosts () {
+      if (!this.personID)
+        return
+
+      let res = await postAPI.GetPersonPosts(this.personID, this.$store.getters.authToken);
+      this.isResponsed = true
+
+      if (!res.result) {
+        return
+      }
+
+      this.person = res.person
+      console.log(this.person)
+    }
   }
 }
 </script>
@@ -129,6 +204,7 @@ export default {
   width: 100%;
   height: 48px;
   border-radius: 50%;
+  overflow: hidden;
 }
 
 .Post .ProfileImg img {

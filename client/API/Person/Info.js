@@ -69,8 +69,32 @@ async function GetPersonFollowerInfo (personId, token) {
   return res.data
 }
 
+async function GetPersonPosts (personId, token) {
+  let res;
+
+  try {
+    res = await axios({
+      method: 'GET',
+      url: `/API/person/${personId}/posts`,
+      headers: {
+        'x-auth': token
+      }
+    })
+  } catch (e) {
+    return {
+      res: {
+        result: false,
+        errMsg: '無法連接伺服器'
+      }
+    }
+  }
+
+  return res.data
+}
+
 export default {
   GetPersonBasicInfo,
   GetPersonFollowingInfo,
-  GetPersonFollowerInfo
+  GetPersonFollowerInfo,
+  GetPersonPosts
 }

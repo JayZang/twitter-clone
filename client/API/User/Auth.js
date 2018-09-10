@@ -62,7 +62,7 @@ async function checkAuth (token) {
       token: null
     }
   }
-console.log(res)
+
   return {
     res: res.data,
     token: res.headers['x-auth']
