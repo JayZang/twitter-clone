@@ -17,7 +17,32 @@ var PostSchema = mongoose.Schema({
   likes: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Users'
+  }],
+  comments: [{
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true
+    },
+    comment: {
+      type: String,
+      trim: true,
+      required: true
+    }
   }]
 })
+
+PostSchema.methods.toggleLike = async function (userId) {
+  let post = this
+  let index = post.likes.findIndex(item => item.toString() === userId.toString())
+
+  if (index === -1) {
+    post.likes.push(userId)
+  } else {
+    post.likes.splice(index, 1)
+  }
+
+  await post.save()
+  return post
+}
 
 module.exports = mongoose.model('Posts', PostSchema)

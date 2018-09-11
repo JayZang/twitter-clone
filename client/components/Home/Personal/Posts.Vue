@@ -120,7 +120,6 @@ export default {
       }
 
       this.person = res.person
-      console.log(this.person)
     }
   }
 }

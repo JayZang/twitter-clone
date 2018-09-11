@@ -7,7 +7,7 @@
             <div class="BkgWall"></div>
             <div class="Content">
               <div class="ProfileImg">
-                <img src="" alt="">
+                <img :src="person.profileImg" alt="">
               </div>
               <div class="Btn">
                 <FollowBtn class="small" :userId="person.account" :following="!!person.isFollowing" />

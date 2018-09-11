@@ -50,7 +50,6 @@
                 <div class="Count">12345</div>
               </div>
             </a>
-            <router-link to="/test2">Iam</router-link>
           </div>
           <FollowBtn :following="isFollowing" :userId="personAccount"/>
         </div>
