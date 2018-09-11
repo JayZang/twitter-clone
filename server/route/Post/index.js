@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
 
   try {
     await post.save()
-    req.user.posts.push(post._id)
+    req.user.posts.unshift(post._id)
     await req.user.save()
     res.json({
       result: true

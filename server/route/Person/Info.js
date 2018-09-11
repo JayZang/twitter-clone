@@ -109,7 +109,12 @@ router.get('/:account/follower', async (req, res) => {
 router.get('/:id/posts', async (req, res) => {
   try {
     let opt = {
-      path: 'posts'
+      path: 'posts',
+      options: {
+        sort: {
+          created: -1
+        }
+      }
     }
     let user = await UserModel.findById(req.params.id, '_id account name posts profileImg')
     let populatedUser = await user.populate(opt).execPopulate()
