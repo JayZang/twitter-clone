@@ -13,7 +13,7 @@
         </div>
         <div class="Date">{{RegPostDate(post.created)}}</div>
       </div>
-      <div class="Content">{{post.content}}</div>
+      <div class="Content" v-html="post.content"></div>
       <div class="OperationBtns">
         <div class="ReplyBtn Btn">
           <span class="BtnWrapper">

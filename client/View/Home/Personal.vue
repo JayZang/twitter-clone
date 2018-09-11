@@ -59,7 +59,7 @@
       <div class="ContentContainer">
         <div class="LeftSideContent"></div>
         <div class="RightSideContent">
-          <PersonalPost v-if="TabItemClass[0].active" :personID="personID" />
+          <PersonalPostBox v-if="TabItemClass[0].active" :personID="personID" />
           <PersonalFollowing v-if="TabItemClass[1].active" :personID="personAccount"/>
           <PersonalFollower v-if="TabItemClass[2].active" :personID="personAccount"/>
           <PersonalLikes v-if="TabItemClass[3].active"/>
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import PersonalPost from '@/components/Home/Personal/Posts'
+import PersonalPostBox from '@/components/Home/Personal/Post/PostBox'
 import PersonalFollowing from '@/components/Home/Personal/Following'
 import PersonalFollower from '@/components/Home/Personal/Follower'
 import PersonalLikes from '@/components/Home/Personal/Likes'
@@ -101,7 +101,7 @@ export default {
     }
   },
   components: {
-    PersonalPost,
+    PersonalPostBox,
     PersonalFollowing,
     PersonalFollower,
     PersonalLikes,

@@ -25,7 +25,8 @@ router.post('/', async (req, res) => {
     req.user.posts.unshift(post._id)
     await req.user.save()
     res.json({
-      result: true
+      result: true,
+      post
     })
   } catch (e) {
     let errMsgArray = []

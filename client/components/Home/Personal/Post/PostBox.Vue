@@ -7,6 +7,7 @@
         </div>
       </div>
     </div>
+    <PostSenderComponent class="" v-if="isLoginedUser" @newPost="newPostEventHandler"/>
     <div class="PostsContainer">
       <div id="PostTemplate" v-if="!isResponsed">
         <div class="Post">
@@ -33,11 +34,13 @@
 
 <script>
 import PostComponent from './Post'
+import PostSenderComponent from './Sender'
 import personAPI from '@/API/Person/info'
 
 export default {
-  name: 'PersonalPost',
+  name: 'PersonalPostBox',
   components: {
+    PostSenderComponent,
     PostComponent
   },
   props:['personID'],
@@ -48,8 +51,16 @@ export default {
     }
   },
   computed: {
-    posts: function () {
-      return !!this.person ? this.person.posts : []
+    posts: {
+      get: function () {
+        return !!this.person ? this.person.posts : []
+      },
+      set: function (newPost) {
+        this.person.posts.unshift(newPost)
+      }
+    },
+    isLoginedUser: function () {
+      return !!this.person ? this.person.account === this.$store.getters.userAccount : false
     }
   },
   created () {
@@ -73,6 +84,9 @@ export default {
       }
 
       this.person = res.person
+    },
+    newPostEventHandler (newpost) {
+      this.posts = newpost
     }
   }
 }
