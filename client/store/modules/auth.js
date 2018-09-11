@@ -9,6 +9,7 @@ const state = {
 const getters = {
   isLogin: state => !!state.user,
   isAuthChecked: state => !!state.isAuthChecked,
+  userID: state => state.user && state.user._id,
   userAccount: state => state.user && state.user.account,
   userFollowing: state => state.user && state.user.following,
   authToken: state => state.authToken

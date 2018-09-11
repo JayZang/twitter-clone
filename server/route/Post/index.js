@@ -67,7 +67,8 @@ router.get('/:Id/like', async (req, res) => {
     await post.toggleLike(req.user._id)
 
     res.json({
-      result: true
+      result: true,
+      likes: post.likes
     })
   } catch (e) {
     let errMsgArray = []
