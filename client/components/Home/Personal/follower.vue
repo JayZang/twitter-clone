@@ -4,7 +4,7 @@
       <div class="List">
         <div class="ItemContainer" v-for="person in personList">
           <div class="Item">
-            <div class="BkgWall"></div>
+            <div class="BkgWall" :style="`background-image: url(${person.bkgWallImg})`"></div>
             <div class="Content">
               <div class="ProfileImg">
                 <img :src="person.profileImg" alt="">
@@ -93,7 +93,8 @@ export default {
 .BkgWall {
   height: 90px;
   background-color: #dfdfdf;
-  border-bottom: 1px solid black;
+  background-position: center;
+  background-size: cover;
 }
 
 .Btn {

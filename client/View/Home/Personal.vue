@@ -2,7 +2,7 @@
   <div id="PersonalHome" :fix="needPersonalWallFix">
     <div class="PersonalWall">
       <div class="WallImgContainer">
-        <div class="BkgImgContainer">
+        <div class="BkgImgContainer" :style="`background-image: url(${personBkgImg})`">
 
         </div>
         <div class="ProfileImgContainer">
@@ -128,6 +128,9 @@ export default {
     },
     personImg: function () {
       return this.person ? this.person.profileImg : ''
+    },
+    personBkgImg: function () {
+      return this.person ? this.person.bkgWallImg : ''
     }
   },
   watch: {
@@ -199,6 +202,9 @@ export default {
 .BkgImgContainer {
   height: 320px;
   background-color: #dedede;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .ProfileImgContainer {

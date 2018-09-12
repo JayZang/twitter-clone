@@ -45,7 +45,7 @@ router.get('/:account/following', async (req, res) => {
 
   let opt = {
     path: 'following',
-    select: ['_id', 'account', 'name', 'profileImg']
+    select: ['_id', 'account', 'name', 'profileImg', 'bkgWallImg']
   }
   let populatedPerson = await person.populate(opt).execPopulate()
   let following = populatedPerson.following
@@ -83,7 +83,7 @@ router.get('/:account/follower', async (req, res) => {
 
   let opt = {
     path: 'follower',
-    select: ['_id', 'account', 'name', 'profileImg']
+    select: ['_id', 'account', 'name', 'profileImg', 'bkgWallImg']
   }
   let populatedPerson = await person.populate(opt).execPopulate()
   let follower = populatedPerson.follower

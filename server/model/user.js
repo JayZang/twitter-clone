@@ -44,6 +44,10 @@ var UserSchema = mongoose.Schema({
   profileImg: {
     type: String,
     default: '/static/img/default-user-profile-img.png'
+  },
+  bkgWallImg: {
+    type: String,
+    default: '/static/img/default-user-bkg-img.jpg'
   }
 })
 
