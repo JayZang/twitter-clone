@@ -39,7 +39,7 @@ PostSchema.methods.toggleLike = async function (userId) {
 }
 
 // populate relatived information to the post
-PostSchema.methods.getDetailInfo = async function () {
+PostSchema.methods.getDetailAllInfo = async function () {
   let post = this
   let opts = [{
     path: 'author',
@@ -48,6 +48,26 @@ PostSchema.methods.getDetailInfo = async function () {
     path: 'likes',
     select: '_id name account profileImg'
   },{
+    path: 'comments',
+    select: 'user created content',
+    sort: {
+      created: -1
+    },
+    populate: {
+      path: 'user',
+      select: '_id name account profileImg'
+    }
+  }]
+
+  let populatedPost = await post.populate(opts).execPopulate()
+
+  return populatedPost
+}
+
+// populate relatived information to the post
+PostSchema.methods.getDetailCommentInfo = async function () {
+  let post = this
+  let opts = [{
     path: 'comments',
     select: 'user created content',
     sort: {

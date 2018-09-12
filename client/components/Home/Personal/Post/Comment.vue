@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="PostCommentSenderContainer">
+  <div class="PostCommentSenderContainer" @click.stop="">
     <div class="CommentSenderBox">
       <div class="BoxHeader">
         <div class="CloseBtn" @click.stop="closeBtnClickEventHandler">
@@ -53,7 +53,6 @@ export default {
   props: ['postID'],
   data () {
     return {
-      contentEl: null,
       inputContent: ''
     }
   },
@@ -195,10 +194,6 @@ export default {
   border: 1px solid #C6E7FB;
   border-radius: 8px;
   padding: 8px;
-  word-wrap: normal;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   font-size: 14px;
   letter-spacing: 0.03em;
   min-height: 80px;

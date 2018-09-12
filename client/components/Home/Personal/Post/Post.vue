@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="Post">
+  <div class="Post" @click.stop="showDetailPostInfo = true">
     <div class="LeftSide">
       <div class="ProfileImg">
         <img :src="person.profileImg" alt="">
@@ -30,6 +30,7 @@
         </div>
       </div>
     </div>
+    <DetailPostInfoComponent v-if="showDetailPostInfo" @Close="showDetailPostInfo = false" :postID="post._id"/>
     <PostCommentSenderComponent v-if="showReplyBox" @Close="showReplyBox = false" @ReplySuccess="replySuccessEventHandler" :postID="post._id">
       <template slot="Title">{{person.name}}</template>
       <template slot="ProfileImg">
@@ -49,19 +50,22 @@
 import moment from 'moment'
 
 import PostCommentSenderComponent from './Comment'
+import DetailPostInfoComponent from './DetailPostInfo'
 import postAPI from '@/API/Post'
 
 export default {
   name: 'SinglePost',
   props: ['post', 'person'],
   components: {
-    PostCommentSenderComponent
+    PostCommentSenderComponent,
+    DetailPostInfoComponent
   },
   data () {
     return {
       likes: [],
       comments: [],
-      showReplyBox: false
+      showReplyBox: false,
+      showDetailPostInfo: false
     }
   },
   computed: {

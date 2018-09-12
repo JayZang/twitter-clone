@@ -7,7 +7,7 @@
         </div>
       </div>
     </div>
-    <PostSenderComponent class="" v-if="isLoginedUser" @newPost="newPostEventHandler"/>
+    <PostCreaterComponent class="" v-if="isLoginedUser" @newPost="newPostEventHandler"/>
     <div class="PostsContainer">
       <div id="PostTemplate" v-if="!isResponsed">
         <div class="Post">
@@ -34,13 +34,13 @@
 
 <script>
 import PostComponent from './Post'
-import PostSenderComponent from './Sender'
+import PostCreaterComponent from './PostCreater'
 import personAPI from '@/API/Person/info'
 
 export default {
   name: 'PersonalPostBox',
   components: {
-    PostSenderComponent,
+    PostCreaterComponent,
     PostComponent
   },
   props:['personID'],

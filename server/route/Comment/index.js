@@ -41,10 +41,11 @@ router.post('/post/:Id', async (req, res) => {
     // Add the comment id to post's comment list
     targetPost.comments.unshift(comment._id)
     await targetPost.save()
+    let detailTargetPost = await targetPost.getDetailCommentInfo()
 
     res.json({
       result: true,
-      comments: targetPost.comments
+      comments: detailTargetPost.comments
     })
   } catch (e) {
     let errMsgArray = []

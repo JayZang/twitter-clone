@@ -17,6 +17,11 @@ export default {
       followingBtnTxt: '追蹤中'
     }
   },
+  watch: {
+    following: function () {
+      this.isFollowing = this.following
+    }
+  },
   computed: {
     isLoginedUser: function () {
       return this.userId === this.$store.getters.userAccount

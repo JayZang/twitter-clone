@@ -110,7 +110,14 @@ router.get('/:Id', async (req, res) => {
       throw new Error('找不到該貼文')
     }
 
-    let DetailedPost = await post.getDetailInfo()
+    let DetailedPost = await post.getDetailAllInfo()
+    DetailedPost = DetailedPost.toObject()
+
+    let isFollowing = false
+    if (req.user) {
+      isFollowing = !!req.user.following.find(val => val.toString() === DetailedPost.author._id.toString())
+    }
+    DetailedPost.author.isFollowing = isFollowing
 
     res.json({
       result: true,
