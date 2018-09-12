@@ -44,7 +44,7 @@ router.post('/post/:Id', async (req, res) => {
 
     res.json({
       result: true,
-      comment
+      comments: targetPost.comments
     })
   } catch (e) {
     let errMsgArray = []
@@ -60,7 +60,7 @@ router.post('/post/:Id', async (req, res) => {
 
     !!errMsg && (errMsg += ', ')
     errMsg += e.message || '未知錯誤'
-    
+
     res.json({
       result: false,
       errMsg,

@@ -2,7 +2,7 @@
   <div class="PostSenderContainer">
     <img :src="user.profileImg" class="UserImg">
     <div class="EditerContainer">
-      <div class="Editer" default-txt="有什麼新鮮事？" contenteditable @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" @input="editerInputEventHandler" v-model="postContent">
+      <div class="Editer" default-txt="有什麼新鮮事？" contenteditable @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" @input="editerInputEventHandler">
         有什麼新鮮事？
       </div>
       <button type="button" class="btn PostBtn" :disabled="!inputContent.length" v-if="isEditerFocused" @mousedown="sendPostBtnClickEventHandler">發推</button>
@@ -20,8 +20,7 @@ export default {
       user: this.$store.state.Auth.user,
       isEditerFocused: false,
       contentEl: null,
-      inputContent: '',
-      postContent: ''
+      inputContent: ''
     }
   },
   methods: {
@@ -42,7 +41,6 @@ export default {
     },
     editerInputEventHandler (e) {
       this.inputContent = e.target.innerText.trim()
-      console.log(this.postContent)
     },
     async sendPostBtnClickEventHandler (e) {
       let reg = new RegExp("\n","g");

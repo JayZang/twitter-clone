@@ -26,29 +26,6 @@ async function SendPost (request) {
   return res.data
 }
 
-async function GetPersonPosts (personId, token) {
-  let res;
-
-  try {
-    res = await axios({
-      method: 'GET',
-      url: `/API/post/person/${personId}`,
-      headers: {
-        'x-auth': token
-      }
-    })
-  } catch (e) {
-    return {
-      res: {
-        result: false,
-        errMsg: '無法連接伺服器'
-      }
-    }
-  }
-
-  return res.data
-}
-
 async function ToggleLike (postId) {
   let res;
 
@@ -74,6 +51,5 @@ async function ToggleLike (postId) {
 
 export default {
   SendPost,
-  GetPersonPosts,
   ToggleLike
 }

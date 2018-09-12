@@ -16,9 +16,9 @@
       <div class="Content" v-html="post.content"></div>
       <div class="OperationBtns">
         <div class="ReplyBtn Btn">
-          <span class="BtnWrapper">
+          <span class="BtnWrapper" @click.stop="showReplyBox = true">
             <i class="far fa-comment"></i>
-            <span class="Count">{{post.comments.length}}</span>
+            <span class="Count">{{commentsCount}}</span>
           </span>
         </div>
         <div class="LikeBtn Btn" :isLiked="isLiked">
@@ -30,20 +30,38 @@
         </div>
       </div>
     </div>
+    <PostCommentSenderComponent v-if="showReplyBox" @Close="showReplyBox = false" @ReplySuccess="replySuccessEventHandler" :postID="post._id">
+      <template slot="Title">{{person.name}}</template>
+      <template slot="ProfileImg">
+        <img :src="person.profileImg" alt="">
+      </template>
+      <template slot="Name">{{person.name}}</template>
+      <template slot="Account">{{person.account}}</template>
+      <template slot="Date">{{RegPostDate(post.created)}}</template>
+      <template slot="PostContent" >
+        <div v-html="post.content"></div>
+      </template>
+    </PostCommentSenderComponent>
   </div>
 </template>
 
 <script>
 import moment from 'moment'
 
+import PostCommentSenderComponent from './Comment'
 import postAPI from '@/API/Post'
 
 export default {
   name: 'SinglePost',
   props: ['post', 'person'],
+  components: {
+    PostCommentSenderComponent
+  },
   data () {
     return {
-      likes: []
+      likes: [],
+      comments: [],
+      showReplyBox: false
     }
   },
   computed: {
@@ -55,10 +73,20 @@ export default {
     },
     isLiked: function () {
       return this.likes.includes(this.$store.getters.userID)
+    },
+    commentsCount: function () {
+      return this.comments.length
     }
   },
   created () {
     this.likes = this.post.likes
+    this.comments = this.post.comments
+  },
+  watch: {
+    post: function () {
+      this.likes = this.post.likes
+      this.comments = this.post.comments
+    }
   },
   methods: {
     async toggleLike (postID) {
@@ -67,6 +95,9 @@ export default {
       if (res.result) {
         this.likes = res.likes
       }
+    },
+    replySuccessEventHandler (comments) {
+      this.comments = comments
     }
   }
 }
