@@ -110,6 +110,7 @@ export default {
   border-bottom: 1px solid #e6ecf0;
   cursor: pointer;
   display: flex;
+  background-color: white;
 }
 
 .Post:hover {

@@ -5,7 +5,7 @@ var PostModel = require('../../model/post')
 
 var router = express.Router()
 
-// 用戶發布貼文
+// create new post
 router.post('/', async (req, res) => {
   if (!req.user) {
     return res.json({
@@ -48,7 +48,7 @@ router.post('/', async (req, res) => {
   }
 })
 
-// 喜歡或取消喜歡貼文
+// like or delete like post
 router.get('/:Id/like', async (req, res) => {
   if (!req.user) {
     return res.json({
@@ -89,6 +89,48 @@ router.get('/:Id/like', async (req, res) => {
     }
 
     !errMsg && (errMsg = '未知錯誤')
+
+    res.json({
+      result: false,
+      errMsg,
+      err: e
+    })
+  }
+})
+
+// get detail infomation of the indicated post
+router.get('/:Id', async (req, res) => {
+  try {
+    let post = await PostModel.findById(req.params.Id)
+      .catch(e => {
+        throw new Error('錯誤格式ID')
+      })
+
+    if (!post) {
+      throw new Error('找不到該貼文')
+    }
+
+    let DetailedPost = await post.getDetailInfo()
+
+    res.json({
+      result: true,
+      post: DetailedPost
+    })
+
+  } catch (e) {
+    let errMsgArray = []
+    let errMsg = ''
+
+    if (e.errors) {
+      Object.keys(e.errors).forEach(key => {
+        errMsgArray.push(e.errors[key].message)
+      })
+
+      errMsg = errMsgArray.join(', ')
+    }
+
+    !!errMsg && (errMsg += ', ')
+    errMsg += e.message || '未知錯誤'
 
     res.json({
       result: false,
