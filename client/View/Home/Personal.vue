@@ -351,7 +351,7 @@ export default {
 .ContentContainer {
   max-width: 890px;
   margin: 0 auto;
-  padding-top: 30px;
+  padding: 30px 0;
   display: flex;
 }
 

@@ -17,6 +17,7 @@ app.use(AuthMiddleware.GetLoginedUser)
 var UserRouters = require ('./route/User')
 var PersonRouters = require ('./route/Person')
 var PostRouters = require ('./route/Post')
+var CommentRouters = require ('./route/Comment')
 UserRouters.forEach((RouteItem) => {
   app.use('/API/user/', RouteItem)
 })
@@ -24,6 +25,7 @@ PersonRouters.forEach((RouteItem) => {
   app.use('/API/person/', RouteItem)
 })
 app.use('/API/post/', PostRouters)
+app.use('/API/comment/', CommentRouters)
 
 
 

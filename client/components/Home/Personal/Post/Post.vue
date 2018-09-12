@@ -18,7 +18,7 @@
         <div class="ReplyBtn Btn">
           <span class="BtnWrapper">
             <i class="far fa-comment"></i>
-            <span class="Count">7</span>
+            <span class="Count">{{post.comments.length}}</span>
           </span>
         </div>
         <div class="LikeBtn Btn" :isLiked="isLiked">

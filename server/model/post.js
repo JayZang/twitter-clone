@@ -19,15 +19,8 @@ var PostSchema = mongoose.Schema({
     ref: 'Users'
   }],
   comments: [{
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true
-    },
-    comment: {
-      type: String,
-      trim: true,
-      required: true
-    }
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comments'
   }]
 })
 
