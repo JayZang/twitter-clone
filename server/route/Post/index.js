@@ -24,9 +24,16 @@ router.post('/', async (req, res) => {
     await post.save()
     req.user.posts.unshift(post._id)
     await req.user.save()
+
+    let opt = {
+      path: 'author',
+      select: ['_id', 'account', 'name', 'profileImg']
+    }
+    let populatedPost = await post.populate(opt).execPopulate()
+
     res.json({
       result: true,
-      post
+      post: populatedPost
     })
   } catch (e) {
     let errMsgArray = []

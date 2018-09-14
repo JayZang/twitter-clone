@@ -10,14 +10,9 @@ router.get('/info', (req, res) => {
       throw new Error('尚未登入')
     }
 
-    let user = _.pick(req.user, [
-        '_id',
-        'name',
-        'account',
-        'following',
-        'follower',
-        'profileImg',
-        'bkgWallImg'
+    let user = _.omit(req.user.toObject(), [
+        'password',
+        'tokens'
       ])
 
     res.json({

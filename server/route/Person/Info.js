@@ -114,16 +114,20 @@ router.get('/:account/posts', async (req, res) => {
         sort: {
           created: -1
         }
+      },
+      populate: {
+        path: 'author',
+        select: ['_id', 'account', 'name', 'profileImg']
       }
     }
     let user = await UserModel.findOne({
       account: req.params.account
-    }, '_id account name posts profileImg')
+    })
     let populatedUser = await user.populate(opt).execPopulate()
 
     res.json({
       result: true,
-      person: populatedUser
+      posts: populatedUser.posts
     })
   } catch (e) {
     res.json({

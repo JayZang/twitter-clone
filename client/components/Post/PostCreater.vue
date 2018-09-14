@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="PostSenderContainer">
+  <div class="PostSenderContainer" v-if="isLogin">
     <img :src="user.profileImg" class="UserImg">
     <div class="EditerContainer">
       <div class="Editer" default-txt="有什麼新鮮事？" contenteditable @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" @input="editerInputEventHandler">
@@ -18,6 +18,7 @@ export default {
   data () {
     return {
       user: this.$store.state.Auth.user,
+      isLogin: this.$store.getters.isLogin,
       isEditerFocused: false,
       contentEl: null,
       inputContent: ''

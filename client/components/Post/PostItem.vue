@@ -1,15 +1,15 @@
 <template lang="html">
-  <router-link class="Post" :to="{name: 'PersonDetailPostInfo', params: {PersonAccount: person.account, PostID: post._id}}" tag="div">
+  <router-link class="Post" :to="{name: 'PersonDetailPostInfo', params: {PersonAccount: post.author.account, PostID: post._id}}" tag="div">
     <div class="LeftSide">
       <div class="ProfileImg">
-        <img :src="person.profileImg" alt="">
+        <img :src="post.author.profileImg" alt="">
       </div>
     </div>
     <div class="RightSide">
       <div class="Info">
-        <div class="Name">{{person.name}}</div>
+        <div class="Name">{{post.author.name}}</div>
         <div class="UserId">
-          @<span class="id">{{person.account}}</span>
+          @<span class="id">{{post.author.account}}</span>
         </div>
         <div class="Date">{{RegPostDate(post.created)}}</div>
       </div>
@@ -31,12 +31,12 @@
       </div>
     </div>
     <PostCommentBoxComponent v-if="showReplyBox" @Close="showReplyBox = false" @ReplySuccess="replySuccessEventHandler" :postID="post._id">
-      <template slot="Title">{{person.name}}</template>
+      <template slot="Title">{{post.author.name}}</template>
       <template slot="ProfileImg">
-        <img :src="person.profileImg" alt="">
+        <img :src="post.author.profileImg" alt="">
       </template>
-      <template slot="Name">{{person.name}}</template>
-      <template slot="Account">{{person.account}}</template>
+      <template slot="Name">{{post.author.name}}</template>
+      <template slot="Account">{{post.author.account}}</template>
       <template slot="Date">{{RegPostDate(post.created)}}</template>
       <template slot="PostContent" >
         <div v-html="post.content"></div>
@@ -52,8 +52,8 @@ import PostCommentBoxComponent from './CommentBox'
 import postAPI from '@/API/Post'
 
 export default {
-  name: 'SinglePost',
-  props: ['post', 'person'],
+  name: 'PostItem',
+  props: ['post'],
   components: {
     PostCommentBoxComponent
   },

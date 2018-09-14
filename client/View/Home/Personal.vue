@@ -129,6 +129,7 @@ export default {
 
       this.person = res.person
       this.isFollowing = res.isFollowing
+      document.title = `${this.person.name} (@${this.person.account}) | Twitter`
     },
     windowScrollEventHandelr (e) {
       this.needPersonalWallFix = $(window).scrollTop() > 300
