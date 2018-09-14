@@ -4,7 +4,7 @@
       <PostItemComponent v-for="post in posts" :post="post"/>
       <div class="NonPost" v-if="!posts.length">
         <img src="/static/img/twitter-bird.png" alt="">
-        <div class="txt">尚未發送個人貼文</div>
+        <div class="txt">尚未有貼文</div>
       </div>
     </div>
     <router-view />
@@ -24,6 +24,10 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.PostsBox {
+    background-color: white;
+}
+
 .NonPost {
   text-align: center;
   padding: 10px;

@@ -36,6 +36,7 @@
       <div class="RightSideContainer">
         <div class="PostCreaterContainer">
           <PostCreaterComponent />
+          <PostsBoxComponent :posts="[]"/>
         </div>
       </div>
     </div>
@@ -45,11 +46,13 @@
 <script>
 import UserInfoAPI from '@/API/User/Info'
 import PostCreaterComponent from '@/components/Post/PostCreater'
+import PostsBoxComponent from '@/components/Post/PostsBox'
 
 export default {
   name: 'UserHome',
   components: {
-    PostCreaterComponent
+    PostCreaterComponent,
+    PostsBoxComponent
   },
   data () {
     return {
