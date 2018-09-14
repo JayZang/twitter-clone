@@ -35,8 +35,8 @@
       </div>
       <div class="RightSideContainer">
         <div class="PostCreaterContainer">
-          <PostCreaterComponent />
-          <PostsBoxComponent :posts="[]"/>
+          <PostCreaterComponent @newPost="newPostEventHandler"/>
+          <PostsBoxComponent :posts="posts"/>
         </div>
       </div>
     </div>
@@ -57,6 +57,7 @@ export default {
   data () {
     return {
       user: undefined,
+      posts: []
     }
   },
   computed: {
@@ -85,11 +86,9 @@ export default {
       return this.user ? this.user.following.length : 0
     }
   },
-  watch: {
-
-  },
   mounted () {
     this.getUserInfo()
+    this.getPosts()
   },
   methods: {
     getUserInfo: async function () {
@@ -101,7 +100,19 @@ export default {
       }
 
       this.user = res.user
-      console.log(res)
+    },
+    getPosts: async function () {
+      let res = await UserInfoAPI.getPosts()
+
+      if (!res.result) {
+        console.log(res)
+        return
+      }
+
+      this.posts = res.posts
+    },
+    newPostEventHandler (newPost) {
+      this.posts.unshift(newPost)
     }
   }
 }
@@ -110,7 +121,7 @@ export default {
 <style lang="css" scoped>
 .UserHomeContainer {
   margin-top: 46px;
-  height: calc(100vh - 46px);
+  min-height: calc(100vh - 46px);
   background-color: #e6ecf0;
 }
 
@@ -128,6 +139,7 @@ export default {
 
 .LeftSideContainer {
     width: 290px;
+    position: fixed;
 }
 
 .ProfileWallImg {
@@ -194,6 +206,7 @@ export default {
 
 .RightSideContainer {
   margin-left: 12px;
-  flex-grow: 1;
+  width: calc(100% - 300px);
+  margin-left: auto;
 }
 </style>
