@@ -28,6 +28,9 @@
             </div>
           </div>
         </div>
+        <div class="NonPerson" v-if="!personList.length">
+          <div class="txt">尚無追蹤者</div>
+        </div>
       </div>
     </div>
   </div>
@@ -141,5 +144,13 @@ export default {
 
 .Des {
   height: 125px;
+}
+
+.NonPerson {
+  text-align: center;
+  padding: 10px;
+  font-size: 18px;
+  color: #14171a;
+  margin: 0 auto;
 }
 </style>
