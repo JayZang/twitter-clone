@@ -121,6 +121,16 @@ export default {
   },
   created () {
     this.GetPostInfo()
+    $('body').css({
+      height: '100vh',
+      'overflow-y': 'hidden'
+    })
+  },
+  destroyed () {
+    $('body').css({
+      height: '',
+      'overflow-y': ''
+    })
   },
   methods: {
     async GetPostInfo () {

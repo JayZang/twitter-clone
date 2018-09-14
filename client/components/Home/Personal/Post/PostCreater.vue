@@ -99,6 +99,7 @@ export default {
   text-overflow: ellipsis;
   font-size: 14px;
   letter-spacing: 0.03em;
+  cursor: text;
 }
 
 .Editer:focus {

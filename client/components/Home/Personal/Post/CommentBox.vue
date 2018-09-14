@@ -197,6 +197,7 @@ export default {
   font-size: 14px;
   letter-spacing: 0.03em;
   min-height: 80px;
+  cursor: text;
 }
 
 .Editer:focus {

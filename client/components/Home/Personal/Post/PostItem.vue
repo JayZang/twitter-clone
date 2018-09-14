@@ -30,7 +30,6 @@
         </div>
       </div>
     </div>
-    <router-view />
     <PostCommentBoxComponent v-if="showReplyBox" @Close="showReplyBox = false" @ReplySuccess="replySuccessEventHandler" :postID="post._id">
       <template slot="Title">{{person.name}}</template>
       <template slot="ProfileImg">

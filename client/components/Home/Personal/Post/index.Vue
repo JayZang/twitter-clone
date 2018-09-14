@@ -28,6 +28,7 @@
         </div>
       </div>
       <PostItemComponent v-for="post in posts" :post="post" :person="person"/>
+      <router-view />
       <div class="NonPost" v-if="!posts.length">
         <img src="/static/img/twitter-bird.png" alt="">
         <div class="txt">尚未發送個人貼文</div>

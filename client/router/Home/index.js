@@ -1,10 +1,13 @@
 import Home from '@/View/Home'
 import PersonalHome from '@/View/Home/Personal'
+import UserHome from '@/View/Home/User'
+
 import TopNavBar from '@/components/NavBar/TopNavBar'
 import PersonalPost from '@/components/Home/Personal/Post/'
 import PersonalFollowing from '@/components/Home/Personal/Following'
 import PersonalFollower from '@/components/Home/Personal/Follower'
 import DetailPostInfoComponent from '@/components/Home/Personal/Post/DetailPostInfo'
+
 import store from '@/store'
 
 export default [{
@@ -17,7 +20,7 @@ export default [{
   beforeEnter (to, from, next) {
     // 已登入使用者渲染使用者首頁而非預設首頁
     if (store.getters.isLogin) {
-      return next({name: 'UserHome', params: {PersonAccount: store.getters.userAccount}})
+      return next({name: 'UserHome'})
     }
 
     next()
@@ -27,10 +30,10 @@ export default [{
   name: 'UserHome',
   components: {
     TopNavBar,
-    default: PersonalHome
+    default: UserHome
   },
   beforeEnter (to, from, next) {
-    if (!store.getters.isLogin || !to.params.PersonAccount) {
+    if (!store.getters.isLogin) {
       return next({name: 'Home'})
     }
 

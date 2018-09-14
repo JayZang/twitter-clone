@@ -4,6 +4,7 @@ var _ = require('lodash')
 
 var router = express.Router()
 
+// follow other person
 router.get('/follow/:UserId', async (req, res) => {
   if (!req.user) {
     return res.json({
@@ -51,6 +52,7 @@ router.get('/follow/:UserId', async (req, res) => {
   }
 })
 
+// disfollow someone
 router.delete('/follow/:UserId', async (req, res) => {
   if (!req.user) {
     return res.json({

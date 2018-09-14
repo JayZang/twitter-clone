@@ -24,19 +24,19 @@
             </div>
           </div>
           <div class="TabContainer">
-            <router-link :to="{name: 'PersonPosts', params: {PersonAccount: personAccount}}">
+            <router-link :to="{name: 'PersonPosts', params: {PersonAccount: personAccount}}" class="TabItem" exact-active-class="active">
               <div class="TabTxt">
                 <div class="TabTitle">推文</div>
                 <div class="Count">{{postsCount}}</div>
               </div>
             </router-link>
-            <router-link :to="{name: 'PersonFollowing', params: {PersonAccount: personAccount}}">
+            <router-link :to="{name: 'PersonFollowing', params: {PersonAccount: personAccount}}" class="TabItem" exact-active-class="active">
               <div class="TabTxt">
                 <div class="TabTitle">正在跟隨</div>
                 <div class="Count">{{followingCount}}</div>
               </div>
             </router-link>
-            <router-link :to="{name: 'PersonFollower', params: {PersonAccount: personAccount}}">
+            <router-link :to="{name: 'PersonFollower', params: {PersonAccount: personAccount}}" class="TabItem" exact-active-class="active">
               <div class="TabTxt">
                 <div class="TabTitle">跟隨者</div>
                 <div class="Count">{{followerCount}}</div>
