@@ -1,7 +1,10 @@
 import axios from 'axios'
 
-async function GetPersonBasicInfo (personId, token) {
+import store from '@/store'
+
+async function GetPersonBasicInfo (personId) {
   let res
+  let token = store.getters.authToken
 
   try {
     res = await axios({
@@ -23,8 +26,9 @@ async function GetPersonBasicInfo (personId, token) {
   return res.data
 }
 
-async function GetPersonFollowingInfo (personId, token) {
+async function GetPersonFollowingInfo (personId) {
   let res
+  let token = store.getters.authToken
 
   try {
     res = await axios({
@@ -46,8 +50,9 @@ async function GetPersonFollowingInfo (personId, token) {
   return res.data
 }
 
-async function GetPersonFollowerInfo (personId, token) {
+async function GetPersonFollowerInfo (personId) {
   let res
+  let token = store.getters.authToken
 
   try {
     res = await axios({
@@ -69,8 +74,9 @@ async function GetPersonFollowerInfo (personId, token) {
   return res.data
 }
 
-async function GetPersonPosts (personId, token) {
-  let res;
+async function GetPersonPosts (personId) {
+  let res
+  let token = store.getters.authToken
 
   try {
     res = await axios({

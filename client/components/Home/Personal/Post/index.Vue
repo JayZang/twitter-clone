@@ -27,23 +27,26 @@
           </div>
         </div>
       </div>
-      <PostComponent v-for="post in posts" :post="post" :person="person"/>
+      <PostItemComponent v-for="post in posts" :post="post" :person="person"/>
+      <div class="NonPost" v-if="!posts.length">
+        <img src="/static/img/twitter-bird.png" alt="">
+        <div class="txt">尚未發送個人貼文</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import PostComponent from './Post'
+import PostItemComponent from './PostItem'
 import PostCreaterComponent from './PostCreater'
 import personAPI from '@/API/Person/info'
 
 export default {
-  name: 'PersonalPostBox',
+  name: 'PersonalPost',
   components: {
     PostCreaterComponent,
-    PostComponent
+    PostItemComponent
   },
-  props:['personID'],
   data () {
     return {
       person: null,
@@ -67,23 +70,23 @@ export default {
     this.getPersonPosts()
   },
   watch: {
-    'personID': function () {
+    '$route.params.PersonAccount': function () {
       this.getPersonPosts()
     }
   },
   methods: {
     async getPersonPosts () {
-      if (!this.personID)
-        return
-
-      let res = await personAPI.GetPersonPosts(this.personID, this.$store.getters.authToken);
+      let personAccount = this.$route.params.PersonAccount
+      let res = await personAPI.GetPersonPosts(personAccount);
       this.isResponsed = true
 
       if (!res.result) {
+        console.log(res)
         return
       }
 
       this.person = res.person
+      document.title = `${this.person.name} (@${this.person.account}) | Twitter`
     },
     newPostEventHandler (newpost) {
       this.posts = newpost
@@ -158,5 +161,17 @@ export default {
 
 .Post .RightSide {
   flex-grow: 1;
+}
+
+.NonPost {
+  text-align: center;
+  padding: 10px;
+  font-size: 13px;
+  color: #14171a;
+}
+
+.NonPost img {
+  width: 30px;
+  margin-bottom: 5px;
 }
 </style>

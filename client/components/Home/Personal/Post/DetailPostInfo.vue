@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="DetailPostInfoContainer" @click.stop="">
-    <div class="CloseBtn" @click.stop="sendCloseEvent">╳</div>
+    <router-link :to="{name: 'PersonPosts', params: {PersonAccount: personAccount}}" class="CloseBtn">╳</router-link>
     <div class="DetailPostInfoBox" v-if="Post">
       <div class="PersonBox">
         <div class="LeftSide">
@@ -33,8 +33,8 @@
           <span><span class="count">{{Post.likes.length}}</span> 個喜歡</span>
         </div>
         <div class="LikePersonImg">
-          <router-link :to="`/${person.account}`" v-for="person in Post.likes" >
-            <img :src="person.profileImg" :title="person.name" @click="sendCloseEvent">
+          <router-link class="LikeUserLink" :to="`/${person.account}`" v-for="(person, index) in Post.likes" v-if="index < 10">
+            <img :src="person.profileImg" :title="person.name">
           </router-link>
         </div>
       </div>
@@ -42,7 +42,7 @@
         <img class="UserProfileImg" :src="loginedUser.profileImg">
         <div class="EditerContainer">
           <div class="Editer" default-txt="推你的回覆" contenteditable @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" @input="editerInputEventHandler"></div>
-          <button type="button" class="btn ReplyBtn" v-if="isEditerFocused" :disabled="!inputContent.length" @mousedown="replyBtnClickEventHandler(Post._id)">回覆</button>
+          <button type="button" class="btn ReplyBtn" v-if="isEditerFocused" :disabled="!inputContent.length" @mousedown="replyBtnClickEventHandler">回覆</button>
         </div>
       </div>
       <div class="CommentsContainer">
@@ -62,9 +62,7 @@
                 <span>{{RegCommentDate(comment.created)}}</span>
               </div>
             </div>
-            <div class="CommentContent" v-html="comment.content">
-
-            </div>
+            <div class="CommentContent" v-html="comment.content"></div>
           </div>
         </div>
       </div>
@@ -81,12 +79,13 @@ import FollowBtnComponent from '@/components/Btns/Follow'
 
 export default {
   name: 'DetailPostInfo',
-  props: ['postID'],
   components: {
     FollowBtnComponent
   },
   data () {
     return {
+      personAccount: this.$route.params.PersonAccount,
+      postID: this.$route.params.PostID,
       Post: null,
       inputContent: '',
       contentEl: null,
@@ -120,7 +119,7 @@ export default {
       return this.$store.state.Auth.user
     }
   },
-  mounted () {
+  created () {
     this.GetPostInfo()
   },
   methods: {
@@ -148,9 +147,9 @@ export default {
     editerInputEventHandler (e) {
       this.inputContent = e.target.innerText.trim()
     },
-    async replyBtnClickEventHandler (postID) {
+    async replyBtnClickEventHandler () {
       let reg = new RegExp("\n","g");
-      let res = await commentAPI.SendCommentToPost(postID, {
+      let res = await commentAPI.SendCommentToPost(this.postID, {
           content: this.inputContent.replace(reg, '<br>')
         })
 
@@ -282,12 +281,15 @@ export default {
   border-left: 1px solid #e6ecf0;
 }
 
+.LikeUserLink {
+  margin-left: 10px;
+}
+
 .LikePersonImg img {
   width: 24px;
   height: 24px;
   border-radius: 50%;
   overflow: hidden;
-  margin-left: 10px;
 }
 
 .BoxReplyContainer {
@@ -326,6 +328,7 @@ export default {
   font-size: 14px;
   letter-spacing: 0.03em;
   max-height: 38px;
+  cursor: text;
 }
 
 .Editer:focus {

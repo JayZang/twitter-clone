@@ -39,7 +39,6 @@ import FollowBtn from '@/components/Btns/Follow'
 
 export default {
   name: 'PersonFollowingList',
-  props: ['personID'],
   data () {
     return {
       personList: []
@@ -51,14 +50,10 @@ export default {
   created () {
     this.getPersonListInfo()
   },
-  watch: {
-    'personID': function () {
-      this.getPersonListInfo()
-    }
-  },
   methods: {
     async getPersonListInfo () {
-      let res = await personInfo.GetPersonFollowingInfo(this.personID, this.$store.getters.authToken)
+      let PersonAccount = this.$route.params.PersonAccount
+      let res = await personInfo.GetPersonFollowingInfo(PersonAccount)
 
       if (!res.result) {
         console.log(res.errMsg)

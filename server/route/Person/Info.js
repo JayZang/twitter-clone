@@ -105,8 +105,8 @@ router.get('/:account/follower', async (req, res) => {
   })
 })
 
-// 取得指定使用者貼文，此處需使用使用者的 _id
-router.get('/:id/posts', async (req, res) => {
+// 取得指定使用者貼文
+router.get('/:account/posts', async (req, res) => {
   try {
     let opt = {
       path: 'posts',
@@ -116,7 +116,9 @@ router.get('/:id/posts', async (req, res) => {
         }
       }
     }
-    let user = await UserModel.findById(req.params.id, '_id account name posts profileImg')
+    let user = await UserModel.findOne({
+      account: req.params.account
+    }, '_id account name posts profileImg')
     let populatedUser = await user.populate(opt).execPopulate()
 
     res.json({

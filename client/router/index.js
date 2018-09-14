@@ -17,7 +17,7 @@ const router = new VueRouter({
   ]
 })
 
-// 路由守衛設置
+// 全局路由守衛設置
 router.beforeEach( async (to, from, next) => {
   // 是否已身份確認
   if (!store.getters.isAuthChecked){
@@ -27,6 +27,10 @@ router.beforeEach( async (to, from, next) => {
   // 登入用戶不能造訪之頁面
   if(to.meta.requireNotLogin && store.getters.isLogin)
     return next('/')
+
+  // 登入用戶不能造訪之頁面
+  if(to.meta.title)
+    document.title = to.meta.title
 
   next()
 })

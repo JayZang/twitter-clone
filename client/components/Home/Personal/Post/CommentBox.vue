@@ -49,7 +49,7 @@
 import commentAPI from '@/API/Comment'
 
 export default {
-  name: 'PostCommentSender',
+  name: 'PostCommentBox',
   props: ['postID'],
   data () {
     return {

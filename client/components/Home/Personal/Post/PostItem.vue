@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="Post" @click.stop="showDetailPostInfo = true">
+  <router-link class="Post" :to="{name: 'PersonDetailPostInfo', params: {PersonAccount: person.account, PostID: post._id}}" tag="div">
     <div class="LeftSide">
       <div class="ProfileImg">
         <img :src="person.profileImg" alt="">
@@ -30,8 +30,8 @@
         </div>
       </div>
     </div>
-    <DetailPostInfoComponent v-if="showDetailPostInfo" @Close="showDetailPostInfo = false" :postID="post._id"/>
-    <PostCommentSenderComponent v-if="showReplyBox" @Close="showReplyBox = false" @ReplySuccess="replySuccessEventHandler" :postID="post._id">
+    <router-view />
+    <PostCommentBoxComponent v-if="showReplyBox" @Close="showReplyBox = false" @ReplySuccess="replySuccessEventHandler" :postID="post._id">
       <template slot="Title">{{person.name}}</template>
       <template slot="ProfileImg">
         <img :src="person.profileImg" alt="">
@@ -42,30 +42,27 @@
       <template slot="PostContent" >
         <div v-html="post.content"></div>
       </template>
-    </PostCommentSenderComponent>
-  </div>
+    </PostCommentBoxComponent>
+  </router-link>
 </template>
 
 <script>
 import moment from 'moment'
 
-import PostCommentSenderComponent from './Comment'
-import DetailPostInfoComponent from './DetailPostInfo'
+import PostCommentBoxComponent from './CommentBox'
 import postAPI from '@/API/Post'
 
 export default {
   name: 'SinglePost',
   props: ['post', 'person'],
   components: {
-    PostCommentSenderComponent,
-    DetailPostInfoComponent
+    PostCommentBoxComponent
   },
   data () {
     return {
       likes: [],
       comments: [],
-      showReplyBox: false,
-      showDetailPostInfo: false
+      showReplyBox: false
     }
   },
   computed: {

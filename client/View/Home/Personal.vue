@@ -2,9 +2,7 @@
   <div id="PersonalHome" :fix="needPersonalWallFix">
     <div class="PersonalWall">
       <div class="WallImgContainer">
-        <div class="BkgImgContainer" :style="`background-image: url(${personBkgImg})`">
-
-        </div>
+        <div class="BkgImgContainer" :style="`background-image: url(${personBkgImg})`"></div>
         <div class="ProfileImgContainer">
           <div class="ProfileImg">
             <a href="#" class="ProfileImgLink">
@@ -26,30 +24,30 @@
             </div>
           </div>
           <div class="TabContainer">
-            <a href="#" :class="TabItemClass[0]" @click.prevent="postTabClickEventHandler">
+            <router-link :to="{name: 'PersonPosts', params: {PersonAccount: personAccount}}">
               <div class="TabTxt">
                 <div class="TabTitle">推文</div>
                 <div class="Count">{{postsCount}}</div>
               </div>
-            </a>
-            <a href="#" :class="TabItemClass[1]" @click.prevent="followingTabClickEventHandler">
+            </router-link>
+            <router-link :to="{name: 'PersonFollowing', params: {PersonAccount: personAccount}}">
               <div class="TabTxt">
                 <div class="TabTitle">正在跟隨</div>
                 <div class="Count">{{followingCount}}</div>
               </div>
-            </a>
-            <a href="#" :class="TabItemClass[2]" @click.prevent="followerTabClickEventHandler">
+            </router-link>
+            <router-link :to="{name: 'PersonFollower', params: {PersonAccount: personAccount}}">
               <div class="TabTxt">
                 <div class="TabTitle">跟隨者</div>
                 <div class="Count">{{followerCount}}</div>
               </div>
-            </a>
-            <a href="#" :class="TabItemClass[3]" @click.prevent="likesTabClickEventHandler">
+            </router-link>
+            <!-- <router-link to="">
               <div class="TabTxt">
                 <div class="TabTitle">喜歡的內容</div>
                 <div class="Count">12345</div>
               </div>
-            </a>
+            </router-link> -->
           </div>
           <FollowBtn :following="isFollowing" :userId="personAccount"/>
         </div>
@@ -59,10 +57,7 @@
       <div class="ContentContainer">
         <div class="LeftSideContent"></div>
         <div class="RightSideContent">
-          <PersonalPostBox v-if="TabItemClass[0].active" :personID="personID" />
-          <PersonalFollowing v-if="TabItemClass[1].active" :personID="personAccount"/>
-          <PersonalFollower v-if="TabItemClass[2].active" :personID="personAccount"/>
-          <PersonalLikes v-if="TabItemClass[3].active"/>
+          <router-view />
         </div>
       </div>
     </div>
@@ -70,10 +65,6 @@
 </template>
 
 <script>
-import PersonalPostBox from '@/components/Home/Personal/Post/PostBox'
-import PersonalFollowing from '@/components/Home/Personal/Following'
-import PersonalFollower from '@/components/Home/Personal/Follower'
-import PersonalLikes from '@/components/Home/Personal/Likes'
 import FollowBtn from '@/components/Btns/Follow'
 import personInfo from '@/API/Person/Info'
 
@@ -84,27 +75,10 @@ export default {
       personAccount: null,
       person: null,
       needPersonalWallFix: false,
-      isFollowing: false,
-      TabItemClass: [{
-        TabItem: true,
-        active: true
-      }, {
-        TabItem: true,
-        active: false
-      }, {
-        TabItem: true,
-        active: false
-      }, {
-        TabItem: true,
-        active: false
-      }]
+      isFollowing: false
     }
   },
   components: {
-    PersonalPostBox,
-    PersonalFollowing,
-    PersonalFollower,
-    PersonalLikes,
     FollowBtn
   },
   computed: {
@@ -136,7 +110,6 @@ export default {
   watch: {
     '$route.params.PersonAccount': function () {
       this.initUserID()
-      this.postTabClickEventHandler()
     }
   },
   created () {
@@ -145,40 +118,20 @@ export default {
   },
   methods: {
     async initUserID () {
-      // 取得 User ID 的兩種方式
-      // 1. route param: Url 指定用戶 ID
-      // 2. component prop: 程式邏輯實作，此處實作為取得登入用戶 ID 的 function
       this.personAccount = this.$route.params.PersonAccount
 
-      let res = await personInfo.GetPersonBasicInfo(this.personAccount, this.$store.getters.authToken)
+      let res = await personInfo.GetPersonBasicInfo(this.personAccount)
 
       if (!res.result) {
         console.log(res.errMsg)
         return
       }
 
-      console.log('Get New User Home Page')
       this.person = res.person
       this.isFollowing = res.isFollowing
     },
     windowScrollEventHandelr (e) {
       this.needPersonalWallFix = $(window).scrollTop() > 300
-    },
-    postTabClickEventHandler (e) {
-      this.setTabActive(0)
-    },
-    followingTabClickEventHandler (e) {
-      this.setTabActive(1)
-    },
-    followerTabClickEventHandler (e) {
-      this.setTabActive(2)
-    },
-    likesTabClickEventHandler (e) {
-      this.setTabActive(3)
-    },
-    setTabActive (index) {
-      this.TabItemClass.forEach(item => item.active = false)
-      this.TabItemClass[index].active = true
     }
   }
 }
