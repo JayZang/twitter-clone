@@ -23,7 +23,7 @@ router.beforeEach( async (to, from, next) => {
   if (!store.getters.isAuthChecked ||
       (store.getters.isLogin && !store.getters.isInMaxDurationTime())){
     await store.dispatch('checkAuth')
-    console.log('123')
+    console.log('Auth Updated')
   }
 
   // 登入用戶不能造訪之頁面

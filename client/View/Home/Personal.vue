@@ -66,7 +66,7 @@
 
 <script>
 import FollowBtn from '@/components/Btns/Follow'
-import personInfo from '@/API/Person/Info'
+import personInfo from '@/API/Person/info'
 
 export default {
   name: 'PersonalHome',

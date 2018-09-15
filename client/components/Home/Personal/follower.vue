@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import personInfo from '@/API/Person/Info'
+import personInfo from '@/API/Person/info'
 import FollowBtn from '@/components/Btns/Follow'
 
 export default {

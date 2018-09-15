@@ -2,7 +2,7 @@
   <div class="UserHomeContainer">
     <div class="UserHomeWrapper">
       <div class="LeftSideContainer">
-        <div class="ProfileCardContainer">
+        <div class="ProfileCardContainer" v-if="isResponsed">
           <router-link tag="div" :to="{name: 'PersonPosts', params: {PersonAccount: userAccount}}" class="ProfileWallImg" :style="`background-image: url(${userWallImg})`"></router-link>
           <div class="ProfileContentContainer">
             <router-link tag="img" :to="{name: 'PersonPosts', params: {PersonAccount: userAccount}}" :src="userImg" class="ProfileUserImg"></router-link>

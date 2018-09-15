@@ -33,7 +33,7 @@
           <span><span class="count">{{Post.likes.length}}</span> 個喜歡</span>
         </div>
         <div class="LikePersonImg">
-          <router-link class="LikeUserLink" :to="`/${person.account}`" v-for="(person, index) in Post.likes" v-if="index < 10">
+          <router-link class="LikeUserLink" :to="`/${person.account}`" v-for="(person, index) in Post.likes" v-if="index < 10" :key="person._id">
             <img :src="person.profileImg" :title="person.name">
           </router-link>
         </div>
@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="CommentsContainer">
-        <div class="CommentItem" v-for="comment in Post.comments">
+        <div class="CommentItem" v-for="comment in Post.comments" :key="comment._id">
           <div class="CommentImgWrapper">
             <img :src="comment.user.profileImg" class="CommentPersonImg">
           </div>

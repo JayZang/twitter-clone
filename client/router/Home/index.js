@@ -30,7 +30,7 @@ export default [{
     default: PersonalHome
   },
   children: [{
-    path: '',
+    path: './',
     name: 'PersonPosts',
     component: PersonalPost,
     children: [{
