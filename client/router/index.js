@@ -20,8 +20,10 @@ const router = new VueRouter({
 // 全局路由守衛設置
 router.beforeEach( async (to, from, next) => {
   // 是否已身份確認
-  if (!store.getters.isAuthChecked){
+  if (!store.getters.isAuthChecked ||
+      (store.getters.isLogin && !store.getters.isInMaxDurationTime())){
     await store.dispatch('checkAuth')
+    console.log('123')
   }
 
   // 登入用戶不能造訪之頁面
