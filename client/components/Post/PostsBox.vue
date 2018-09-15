@@ -1,13 +1,12 @@
 <template lang="html">
   <div class="PostsBox">
     <div class="PostsContainer">
-      <PostItemComponent v-for="post in posts" :post="post"/>
+      <PostItemComponent v-for="post in posts" :post="post" :detailPostRouteName="detailPostRouteName"/>
       <div class="NonPost" v-if="!posts.length">
         <img src="/static/img/twitter-bird.png" alt="">
         <div class="txt">尚未有貼文</div>
       </div>
     </div>
-    <router-view />
   </div>
 </template>
 
@@ -19,7 +18,7 @@ export default {
   components: {
     PostItemComponent
   },
-  props: ['posts']
+  props: ['posts', 'detailPostRouteName']
 }
 </script>
 

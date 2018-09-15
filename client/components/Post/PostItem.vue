@@ -1,5 +1,5 @@
 <template lang="html">
-  <router-link class="Post" :to="{name: 'PersonDetailPostInfo', params: {PersonAccount: post.author.account, PostID: post._id}}" tag="div">
+  <router-link class="Post" :to="{name: postRouteName, params: {PersonAccount: post.author.account, PostID: post._id}}" tag="div">
     <div class="LeftSide">
       <div class="ProfileImg">
         <img :src="post.author.profileImg" alt="">
@@ -53,7 +53,7 @@ import postAPI from '@/API/Post'
 
 export default {
   name: 'PostItem',
-  props: ['post'],
+  props: ['post', 'detailPostRouteName'],
   components: {
     PostCommentBoxComponent
   },
@@ -65,6 +65,9 @@ export default {
     }
   },
   computed: {
+    postRouteName: function () {
+      return !!this.detailPostRouteName ? this.detailPostRouteName : 'PersonDetailPostInfo'
+    },
     RegPostDate: function () {
       return date => moment(date).format('YYYY年M月D日')
     },

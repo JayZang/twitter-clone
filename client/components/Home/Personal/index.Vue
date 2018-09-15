@@ -8,7 +8,8 @@
       </div>
     </div>
     <PostCreaterComponent v-if="isLoginedUser" @newPost="newPostEventHandler"/>
-    <PostsBoxComponent :posts="posts"/>
+    <PostsBoxComponent :posts="posts" detailPostRouteName="PersonDetailPostInfo"/>
+    <router-view name="DetailPostInfoComponent"/>
   </div>
 </template>
 

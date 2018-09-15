@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="DetailPostInfoContainer" @click.stop="">
-    <router-link :to="{name: 'PersonPosts', params: {PersonAccount: personAccount}}" class="CloseBtn">╳</router-link>
+    <div @click.stop="closeEvent" class="CloseBtn">╳</div>
     <div class="DetailPostInfoBox" v-if="Post">
       <div class="PersonBox">
         <div class="LeftSide">
@@ -82,6 +82,7 @@ export default {
   components: {
     FollowBtnComponent
   },
+  props: ['backRoute'],
   data () {
     return {
       personAccount: this.$route.params.PersonAccount,
@@ -93,6 +94,9 @@ export default {
     }
   },
   computed: {
+    routeWhenClosing: function () {
+      return this.backRoute ? this.backRoute : {name: 'PersonPosts', params: {PersonAccount: this.personAccount}}
+    },
     RegPostDate: function () {
       moment.locale('zh-cn', {
         meridiem : function (hour, minute, isLowercase) {
@@ -112,7 +116,7 @@ export default {
 
       return date => moment(date).format('a h:m - YYYY年M月D日')
     },
-    RegCommentDate () {
+    RegCommentDate() {
       return date => moment(date).format('YYYY年M月D日')
     },
     loginedUser: function () {
@@ -133,7 +137,7 @@ export default {
     })
   },
   methods: {
-    async GetPostInfo () {
+    async GetPostInfo() {
       let res = await postAPI.GetDetailPostInfo(this.postID)
 
       if (!res.result) {
@@ -143,21 +147,22 @@ export default {
 
       this.Post = res.post
     },
-    sendCloseEvent (e) {
-      this.$emit('Close')
+    closeEvent(e) {
+      this.$router.push(this.routeWhenClosing)
+      // {name: 'PersonPosts', params: {PersonAccount: personAccount}}
     },
-    editerFocusEventHandler (e) {
+    editerFocusEventHandler(e) {
       this.contentEl = e.target
       this.isEditerFocused = true
     },
-    editerBlurEventHandler (e) {
+    editerBlurEventHandler(e) {
       this.isEditerFocused = false
       e.target.innerText = e.target.innerText.trim()
     },
-    editerInputEventHandler (e) {
+    editerInputEventHandler(e) {
       this.inputContent = e.target.innerText.trim()
     },
-    async replyBtnClickEventHandler () {
+    async replyBtnClickEventHandler() {
       let reg = new RegExp("\n","g");
       let res = await commentAPI.SendCommentToPost(this.postID, {
           content: this.inputContent.replace(reg, '<br>')

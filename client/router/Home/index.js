@@ -14,30 +14,14 @@ export default [{
   path: '/',
   name: 'Home',
   component: Home,
-  meta: {
-    title: 'Twitter'
-  },
   beforeEnter (to, from, next) {
     // 已登入使用者渲染使用者首頁而非預設首頁
     if (store.getters.isLogin) {
       return next({name: 'UserHome'})
     }
 
+    document.title = 'Twitter'
     next()
-  }
-}, {
-  path: '/',
-  name: 'UserHome',
-  components: {
-    TopNavBar,
-    default: UserHome
-  },
-  beforeEnter (to, from, next) {
-    if (!store.getters.isLogin) {
-      return next({name: 'Home'})
-    }
-
-    return next()
   }
 }, {
   path: '/:PersonAccount',
@@ -52,7 +36,9 @@ export default [{
     children: [{
       path: 'post/:PostID',
       name: 'PersonDetailPostInfo',
-      component: DetailPostInfoComponent
+      components: {
+        DetailPostInfoComponent
+      }
     }]
   }, {
     path: 'following',
@@ -63,4 +49,26 @@ export default [{
     name: 'PersonFollower',
     component: PersonalFollower
   }]
+}, {
+  path: '/',
+  name: 'UserHome',
+  components: {
+    TopNavBar,
+    default: UserHome
+  },
+  children: [{
+    path: ':PersonAccount/post/:PostID',
+    name: 'UserDetailPostInfo',
+    props: {
+      backRoute: '/'
+    },
+    component: DetailPostInfoComponent
+  }],
+  beforeEnter (to, from, next) {
+    if (!store.getters.isLogin) {
+      return next({name: 'Home'})
+    }
+
+    return next()
+  }
 }]

@@ -36,7 +36,8 @@
       <div class="RightSideContainer">
         <div class="PostCreaterContainer">
           <PostCreaterComponent @newPost="newPostEventHandler"/>
-          <PostsBoxComponent :posts="posts"/>
+          <PostsBoxComponent :posts="posts" detailPostRouteName="UserDetailPostInfo"/>
+          <router-view />
         </div>
       </div>
     </div>
@@ -100,6 +101,7 @@ export default {
       }
 
       this.user = res.user
+      document.title = `${this.user.name} (@${this.user.account}) | Twitter`
     },
     getPosts: async function () {
       let res = await UserInfoAPI.getPosts()
