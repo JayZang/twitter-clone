@@ -1,6 +1,7 @@
 <template lang="html">
   <div class="DetailPostInfoContainer" @click.stop="">
     <div @click.stop="closeEvent" class="CloseBtn">╳</div>
+    <LoadingAnimationComponent class="loadingAnimation" v-if="!loaded"/>
     <div class="DetailPostInfoBox" v-if="Post">
       <div class="PersonBox">
         <div class="LeftSide">
@@ -76,18 +77,21 @@ import moment from 'moment'
 import postAPI from '@/API/Post'
 import commentAPI from '@/API/Comment'
 import FollowBtnComponent from '@/components/Btns/Follow'
+import LoadingAnimationComponent from '@/components/Animate/Loading'
 
 export default {
   name: 'DetailPostInfo',
-  components: {
-    FollowBtnComponent
-  },
   props: ['backRoute'],
+  components: {
+    FollowBtnComponent,
+    LoadingAnimationComponent
+  },
   data () {
     return {
       personAccount: this.$route.params.PersonAccount,
       postID: this.$route.params.PostID,
       Post: null,
+      loaded: false,
       inputContent: '',
       contentEl: null,
       isEditerFocused: false
@@ -138,7 +142,10 @@ export default {
   },
   methods: {
     async GetPostInfo() {
+      this.Post = null
+      this.loaded = false
       let res = await postAPI.GetDetailPostInfo(this.postID)
+      this.loaded = true
 
       if (!res.result) {
         console.log(res)
@@ -423,5 +430,12 @@ export default {
 
 .CommentContent {
   font-size: 14px;
+}
+
+.loadingAnimation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

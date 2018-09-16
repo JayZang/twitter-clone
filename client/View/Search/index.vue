@@ -13,6 +13,7 @@
       </div>
     </div>
     <div class="SearchResultContainer">
+      <LoadingAnimationComponent :class="{loadingAnimation: true, loaded: loaded}"/>
       <div class="SearchResultWrapper">
         <PeopleBox :personList="personList" columnCount="3"/>
       </div>
@@ -25,13 +26,15 @@
 
 <script>
 import PeopleBox from '@/components/PersonList/PeopleBox'
+import LoadingAnimationComponent from '@/components/Animate/Loading'
 import SearchAPI from '@/API/Search'
 
 export default {
   name: 'SearchView',
   props: ['query'],
   components: {
-    PeopleBox
+    PeopleBox,
+    LoadingAnimationComponent
   },
   data() {
     return {
@@ -47,20 +50,17 @@ export default {
   },
   methods: {
     async searchUsers() {
-      if (typeof(this.query) !== 'string' || !this.query.trim()) {
-        console.log('Non Search')
-        return
-      }
-
       this.loaded = false
+      this.personList = []
       let res = await SearchAPI.searchUsers(this.query.trim())
+      this.loaded = true
+
       if (!res.result) {
         console.log(res)
         return
       }
 
       this.personList = res.users
-      this.loaded = true
     }
   }
 }
@@ -148,5 +148,17 @@ export default {
 
 .NoData {
   text-align: center;
+}
+
+.loadingAnimation {
+  height: 100px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.loadingAnimation.loaded {
+  height: 0;
+  transition: 1s;
 }
 </style>

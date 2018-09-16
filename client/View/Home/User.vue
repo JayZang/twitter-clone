@@ -2,7 +2,7 @@
   <div class="UserHomeContainer">
     <div class="UserHomeWrapper">
       <div class="LeftSideContainer">
-        <div class="ProfileCardContainer" v-if="isResponsed">
+        <div class="ProfileCardContainer" v-if="user">
           <router-link tag="div" :to="{name: 'PersonPosts', params: {PersonAccount: userAccount}}" class="ProfileWallImg" :style="`background-image: url(${userWallImg})`"></router-link>
           <div class="ProfileContentContainer">
             <router-link tag="img" :to="{name: 'PersonPosts', params: {PersonAccount: userAccount}}" :src="userImg" class="ProfileUserImg"></router-link>
@@ -34,11 +34,10 @@
         </div>
       </div>
       <div class="RightSideContainer">
-        <div class="PostCreaterContainer">
-          <PostCreaterComponent @newPost="newPostEventHandler"/>
-          <PostsBoxComponent :posts="posts" detailPostRouteName="UserDetailPostInfo"/>
-          <router-view />
-        </div>
+        <LoadingAnimationComponent :class="{loadingAnimation: true, loaded: postLoaded}" />
+        <PostCreaterComponent @newPost="newPostEventHandler"/>
+        <PostsBoxComponent :posts="posts" detailPostRouteName="UserDetailPostInfo" v-if="postLoaded"/>
+        <router-view />
       </div>
     </div>
   </div>
@@ -48,26 +47,25 @@
 import UserInfoAPI from '@/API/User/Info'
 import PostCreaterComponent from '@/components/Post/PostCreater'
 import PostsBoxComponent from '@/components/Post/PostsBox'
+import LoadingAnimationComponent from '@/components/Animate/Loading'
 
 export default {
   name: 'UserHome',
   components: {
     PostCreaterComponent,
-    PostsBoxComponent
+    PostsBoxComponent,
+    LoadingAnimationComponent
   },
   data () {
     return {
-      user: undefined,
-      posts: []
+      user: null,
+      posts: [],
+      userLoaded: false,
+      postLoaded: false,
+      errorMessage: ''
     }
   },
   computed: {
-    isResponsed: function () {
-      return this.user !== undefined
-    },
-    hasUser: function () {
-      return this.user !== undefined && this.user !== null
-    },
     userName: function () {
       return this.user ? this.user.name : ''
     },
@@ -93,7 +91,11 @@ export default {
   },
   methods: {
     getUserInfo: async function () {
+      this.userLoaded = false
+      this.user = null
+
       let res = await UserInfoAPI.getBasicInfo()
+      this.userLoaded = true
 
       if (!res.result) {
         console.log(res)
@@ -104,7 +106,11 @@ export default {
       document.title = `${this.user.name} (@${this.user.account}) | Twitter`
     },
     getPosts: async function () {
+      this.postLoaded = false
+      this.posts = []
+
       let res = await UserInfoAPI.getPosts()
+      this.postLoaded = true
 
       if (!res.result) {
         console.log(res)
@@ -210,5 +216,17 @@ export default {
   margin-left: 12px;
   width: calc(100% - 300px);
   margin-left: auto;
+}
+
+.loadingAnimation {
+  height: 100px;
+  overflow: hidden;
+  transition: 1s;
+  display: flex;
+  align-items: center;
+}
+
+.loadingAnimation.loaded {
+  height: 0;
 }
 </style>

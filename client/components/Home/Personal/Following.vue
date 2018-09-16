@@ -1,5 +1,6 @@
 <template lang="html">
   <div id="FollowingList">
+    <LoadingAnimationComponent v-if="!loaded"/>
     <div class="ListContainer">
       <PeopleBox :personList="personList" />
     </div>
@@ -12,15 +13,18 @@
 <script>
 import personInfo from '@/API/Person/info'
 import PeopleBox from '@/components/PersonList/PeopleBox'
+import LoadingAnimationComponent from '@/components/Animate/Loading'
 
 export default {
   name: 'PersonFollowingList',
   components: {
-    PeopleBox
+    PeopleBox,
+    LoadingAnimationComponent
   },
   data () {
     return {
-      personList: []
+      personList: [],
+      loaded: false
     }
   },
   created () {
@@ -31,8 +35,11 @@ export default {
   },
   methods: {
     async getPersonListInfo () {
+      this.loaded = false
+      this.personList = []
       let PersonAccount = this.$route.params.PersonAccount
       let res = await personInfo.GetPersonFollowingInfo(PersonAccount)
+      this.loaded = true
 
       if (!res.result) {
         console.log(res.errMsg)

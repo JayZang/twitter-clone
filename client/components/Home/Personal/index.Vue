@@ -7,8 +7,9 @@
         </div>
       </div>
     </div>
+    <LoadingAnimationComponent :class="{loadingAnimation: true, loaded: loaded}"/>
     <PostCreaterComponent v-if="isLoginedUser" @newPost="newPostEventHandler"/>
-    <PostsBoxComponent :posts="posts" detailPostRouteName="PersonDetailPostInfo"/>
+    <PostsBoxComponent v-if="loaded" :posts="posts" detailPostRouteName="PersonDetailPostInfo"/>
     <router-view name="DetailPostInfoComponent"/>
   </div>
 </template>
@@ -16,18 +17,20 @@
 <script>
 import PostsBoxComponent from '@/components/Post/PostsBox'
 import PostCreaterComponent from '@/components/Post/PostCreater'
+import LoadingAnimationComponent from '@/components/Animate/Loading'
 import personAPI from '@/API/Person/info'
 
 export default {
   name: 'PersonalDefault',
   components: {
+    LoadingAnimationComponent,
     PostCreaterComponent,
     PostsBoxComponent
   },
   data () {
     return {
       posts: [],
-      isResponsed: false
+      loaded: false
     }
   },
   computed: {
@@ -43,9 +46,11 @@ export default {
   },
   methods: {
     async getPersonPosts () {
+      this.posts = []
+      this.loaded = false
       let personAccount = this.$route.params.PersonAccount
       let res = await personAPI.GetPersonPosts(personAccount);
-      this.isResponsed = true
+      this.loaded = true
 
       if (!res.result) {
         console.log(res)
@@ -82,5 +87,17 @@ export default {
   font-weight: bold;
   line-height: 1;
   padding: 15px 15px 12px;
+}
+
+.loadingAnimation {
+  height: 100px;
+  overflow: hidden;
+  transition: 1s;
+  display: flex;
+  align-items: center;
+}
+
+.loadingAnimation.loaded {
+  height: 0;
 }
 </style>

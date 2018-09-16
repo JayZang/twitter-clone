@@ -32,7 +32,7 @@ router.beforeEach( async (to, from, next) => {
   if(to.meta.requireNotLogin && store.getters.isLogin)
     return next('/')
 
-  // 登入用戶不能造訪之頁面
+  // 預設網頁 title
   if(to.meta.title)
     document.title = to.meta.title
 
