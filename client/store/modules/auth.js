@@ -77,6 +77,11 @@ const actions = {
       commit('setUser', res.user)
       commit('setAuthToken', token)
       commit('setLoginTime', moment())
+    } else {
+      window.localStorage.removeItem('AuthToken')
+      commit('setUser', null)
+      commit('setAuthToken', null)
+      commit('setLoginTime', null)
     }
 
     return res

@@ -98,7 +98,7 @@ export default {
       return this.backRoute ? this.backRoute : {name: 'PersonPosts', params: {PersonAccount: this.personAccount}}
     },
     RegPostDate: function () {
-      moment.locale('zh-cn', {
+      moment.updateLocale('zh-cn', {
         meridiem : function (hour, minute, isLowercase) {
           if (hour < 9) {
             return "早上";
