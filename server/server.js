@@ -26,6 +26,7 @@ PersonRouters.forEach((RouteItem) => {
   app.use('/API/person/', RouteItem)
 })
 app.use('/API/post/', PostRouters)
+app.use('/API/comment/', CommentRouters)
 app.use('/API/search/', SearchRouters)
 
 

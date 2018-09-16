@@ -4,6 +4,7 @@ import store from '@/store'
 
 async function SendCommentToPost (postId, request) {
   let res;
+  let token = store.getters.authToken
 
   try {
     res = await axios({
@@ -11,7 +12,7 @@ async function SendCommentToPost (postId, request) {
       url: `/API/comment/post/${postId}`,
       data: request,
       headers: {
-        'x-auth': store.getters.authToken
+        'x-auth': token
       }
     })
   } catch (e) {
