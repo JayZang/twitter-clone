@@ -38,7 +38,7 @@
           </router-link>
         </div>
       </div>
-      <div class="BoxReplyContainer">
+      <div class="BoxReplyContainer" v-if="loginedUser">
         <img class="UserProfileImg" :src="loginedUser.profileImg">
         <div class="EditerContainer">
           <div class="Editer" default-txt="推你的回覆" contenteditable @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" @input="editerInputEventHandler"></div>
@@ -120,7 +120,7 @@ export default {
       return date => moment(date).format('YYYY年M月D日')
     },
     loginedUser: function () {
-      return this.$store.state.Auth.user
+      return this.$store.state.Auth.user || null
     }
   },
   created () {

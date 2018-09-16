@@ -3,13 +3,13 @@ import TopNavBar from '@/components/NavBar/TopNavBar'
 
 export default [{
   path: '/login',
-  name: 'Login | Twitter',
+  name: 'login',
   components: {
     TopNavBar,
     default: Login
   },
   meta: {
     requireNotLogin: true,
-    title: 'Login'
+    title: 'Login | Twitter'
   }
 }]

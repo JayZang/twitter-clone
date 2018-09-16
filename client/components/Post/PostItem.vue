@@ -16,7 +16,7 @@
       <div class="Content" v-html="post.content"></div>
       <div class="OperationBtns">
         <div class="ReplyBtn Btn">
-          <span class="BtnWrapper" @click.stop="showReplyBox = true">
+          <span class="BtnWrapper" @click.stop="openReplyBox">
             <i class="far fa-comment"></i>
             <span class="Count">{{commentsCount}}</span>
           </span>
@@ -81,7 +81,7 @@ export default {
       return this.comments.length
     }
   },
-  created () {
+  created() {
     this.likes = this.post.likes
     this.comments = this.post.comments
   },
@@ -92,14 +92,23 @@ export default {
     }
   },
   methods: {
-    async toggleLike (postID) {
+    async toggleLike(postID) {
       let res = await postAPI.ToggleLike(postID)
 
       if (res.result) {
         this.likes = res.likes
       }
     },
-    replySuccessEventHandler (comments) {
+    openReplyBox() {
+      if (!this.$store.getters.isLogin) {
+        return this.$router.push({
+          name: 'login'
+        })
+      }
+
+      this.showReplyBox = true
+    },
+    replySuccessEventHandler(comments) {
       this.comments = comments
     }
   }

@@ -25,12 +25,15 @@ export default [{
   }
 }, {
   path: '/:PersonAccount',
+  redirect: {
+    name: 'PersonPosts'
+  },
   components: {
     TopNavBar,
     default: PersonalHome
   },
   children: [{
-    path: './',
+    path: '.',
     name: 'PersonPosts',
     component: PersonalPost,
     children: [{
