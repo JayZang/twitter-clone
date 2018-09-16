@@ -70,6 +70,9 @@ import personInfo from '@/API/Person/info'
 
 export default {
   name: 'PersonalHome',
+  components: {
+    FollowBtn
+  },
   data () {
     return {
       personAccount: null,
@@ -77,9 +80,6 @@ export default {
       needPersonalWallFix: false,
       isFollowing: false
     }
-  },
-  components: {
-    FollowBtn
   },
   computed: {
     isLoginedUser: function () {
@@ -107,14 +107,12 @@ export default {
       return this.person ? this.person.bkgWallImg : ''
     }
   },
-  watch: {
-    '$route.params.PersonAccount': function () {
-      this.initUserID()
-    }
-  },
   created () {
     this.initUserID()
     window.addEventListener('scroll', this.windowScrollEventHandelr)
+  },
+  watch: {
+    '$route.params.PersonAccount': 'initUserID'
   },
   methods: {
     async initUserID () {

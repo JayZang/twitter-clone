@@ -39,9 +39,7 @@ export default {
     this.getPersonPosts()
   },
   watch: {
-    '$route.params.PersonAccount': function () {
-      this.getPersonPosts()
-    }
+    '$route.params.PersonAccount': 'getPersonPosts'
   },
   methods: {
     async getPersonPosts () {

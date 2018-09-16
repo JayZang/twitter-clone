@@ -17,14 +17,14 @@ export default {
       followingBtnTxt: '追蹤中'
     }
   },
-  watch: {
-    following: function () {
-      this.isFollowing = this.following
-    }
-  },
   computed: {
     isLoginedUser: function () {
       return this.userId === this.$store.getters.userAccount
+    }
+  },
+  watch: {
+    following: function () {
+      this.isFollowing = this.following
     }
   },
   methods: {
@@ -35,7 +35,7 @@ export default {
         return
       }
 
-      let res = await UserAction.follow(this.userId, this.$store.getters.authToken)
+      let res = await UserAction.follow(this.userId)
 
       if (!res.result)
         return
@@ -50,7 +50,7 @@ export default {
         return
       }
 
-      let res = await UserAction.deleteFollow(this.userId, this.$store.getters.authToken)
+      let res = await UserAction.deleteFollow(this.userId)
 
       if (!res.result)
         return

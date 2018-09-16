@@ -1,7 +1,10 @@
 import axios from 'axios'
 
-async function follow (userId, token) {
+import store from '@/store'
+
+async function follow (userId) {
   let res
+  let token = store.getters.authToken
 
   try {
     res = await axios({
@@ -21,8 +24,9 @@ async function follow (userId, token) {
   return res.data
 }
 
-async function deleteFollow (userId, token) {
+async function deleteFollow (userId) {
   let res
+  let token = store.getters.authToken
 
   try {
     res = await axios({
