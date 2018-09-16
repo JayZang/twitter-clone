@@ -41,7 +41,6 @@ export default {
 
 <style lang="css" scoped>
 .ItemContainer {
-  width: 50%;
   padding: 0 5px;
   margin-bottom: 10px;
 }

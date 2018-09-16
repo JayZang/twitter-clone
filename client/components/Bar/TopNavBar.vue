@@ -11,21 +11,25 @@
           </div>
         </router-link>
       </div>
+      <div class="right-side">
+        <SearchBar />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import SearchBar from './SearchBar'
+
 export default {
-  name: 'TopNavBar'
+  name: 'TopNavBar',
+  components: {
+    SearchBar
+  }
 }
 </script>
 
 <style lang="css" scoped>
-body {
-  padding-top: 46px;
-}
-
 #TopNavBar {
   box-shadow: 0 0 6px rgba(0,0,0,0.2);
   position: fixed;
@@ -81,5 +85,12 @@ body {
   top: 50%;
   transform: translateY(-50%);
   padding: 0 12px;
+}
+
+#TopNavBar .right-side {
+  flex-grow: 1;
+  justify-content: flex-end;
+  display: flex;
+  align-items: center;
 }
 </style>

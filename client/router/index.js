@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import store from '@/store'
 import HomeRouter from './Home'
+import SearchRouter from './Search'
 import LoginRouter from './login'
 import RegistRouter from './regist'
 
@@ -13,6 +14,7 @@ const router = new VueRouter({
   routes: [
     ...LoginRouter,
     ...RegistRouter,
+    ...SearchRouter,
     ...HomeRouter
   ]
 })

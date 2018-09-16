@@ -3,7 +3,7 @@ import axios from 'axios'
 import store from '@/store'
 
 // Get logined user self's basic information
-async function getBasicInfo () {
+async function getBasicInfo() {
   let token = store.getters.authToken
   let res
 
@@ -26,7 +26,7 @@ async function getBasicInfo () {
 }
 
 // Get logined user self's and following's posts
-async function getPosts () {
+async function getPosts() {
   let token = store.getters.authToken
   let res
 

@@ -2,7 +2,7 @@ import Home from '@/View/Home'
 import PersonalHome from '@/View/Home/Personal'
 import UserHome from '@/View/Home/User'
 
-import TopNavBar from '@/components/NavBar/TopNavBar'
+import TopNavBar from '@/components/Bar/TopNavBar'
 import PersonalPost from '@/components/Home/Personal/'
 import PersonalFollowing from '@/components/Home/Personal/Following'
 import PersonalFollower from '@/components/Home/Personal/Follower'
