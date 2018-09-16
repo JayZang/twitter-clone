@@ -148,8 +148,7 @@ export default {
       this.Post = res.post
     },
     closeEvent(e) {
-      this.$router.push(this.routeWhenClosing)
-      // {name: 'PersonPosts', params: {PersonAccount: personAccount}}
+      this.$router.replace(this.routeWhenClosing)
     },
     editerFocusEventHandler(e) {
       this.contentEl = e.target

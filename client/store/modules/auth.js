@@ -23,6 +23,24 @@ const getters = {
 }
 
 const actions = {
+  regist: async ({commit}, para) => {
+    if (!para.name || !para.account || !para.password || !para.password2) {
+      return {
+        errMsg: '請勿空白',
+        result: false
+      }
+    }
+
+    let {res, token} = await userAuth.regist(para)
+
+    if (res.result) {
+      commit('setUser', res.user)
+      commit('setAuthToken', token)
+      commit('setLoginTime', moment())
+      window.localStorage.setItem('AuthToken', token)
+    }
+    return res
+  },
   login: async ({commit}, para) => {
     if (!para.account || !para.password) {
       return {
@@ -41,23 +59,11 @@ const actions = {
     }
     return res
   },
-  regist: async ({commit}, para) => {
-    if (!para.name || !para.account || !para.password || !para.password2) {
-      return {
-        errMsg: '請勿空白',
-        result: false
-      }
-    }
-
-    let {res, token} = await userAuth.regist(para)
-
-    if (res.result) {
-      commit('setUser', res.user)
-      commit('setAuthToken', token)
-      commit('setLoginTime', moment())
-      window.localStorage.setItem('AuthToken', token)
-    }
-    return res
+  logout: ({commit}) => {
+    window.localStorage.removeItem('AuthToken')
+    commit('setUser', null)
+    commit('setAuthToken', null)
+    commit('setLoginTime', null)
   },
   checkAuth: async ({commit}) => {
     commit('setIsAuthChecked', true)
@@ -78,7 +84,7 @@ const actions = {
       commit('setAuthToken', token)
       commit('setLoginTime', moment())
     } else {
-      window.localStorage.removeItem('AuthToken')
+      // window.localStorage.removeItem('AuthToken')
       commit('setUser', null)
       commit('setAuthToken', null)
       commit('setLoginTime', null)
