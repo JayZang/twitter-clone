@@ -57,6 +57,10 @@ UserSchema.statics.findByCredentials = async function (account, password) {
 
   try{
     let user = await UserModel.findOne({account})
+    if (!user) {
+      return Promise.reject()
+    }
+
     let result = bcryptjs.compareSync(password, user.password)
 
     if (!result) {

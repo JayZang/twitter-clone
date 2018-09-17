@@ -55,8 +55,7 @@ router.post('/', async (req, res) => {
     } else if (err.errors && err.errors.password) {
       errMsg = err.errors.password.message
     } else {
-      console.log(err)
-      errMsg = '未知錯誤'
+      errMsg = '欄位請勿空白'
     }
 
     res.json({
@@ -81,7 +80,6 @@ router.post('/login', async (req, res) => {
         user
       })
   } catch (err) {
-    console.log(err)
     res.json({
       result: false,
       errMsg: '帳號或密碼錯誤',
