@@ -56,6 +56,7 @@ export default {
         })
 
       if (!res.result || !res.post) {
+        console.log(res)
         this.errorMessage = res.errMsg
         return
       }

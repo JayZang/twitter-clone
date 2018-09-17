@@ -1,6 +1,8 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
+var fs = require('fs')
+var path = require('path')
 
 var AuthMiddleware = require('./middleware/Auth')
 
@@ -10,7 +12,9 @@ var app = express()
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
+app.use(express.static(path.resolve(__dirname, '../dist')));			// 設置靜態資料夾路徑（ js、css ... ）
 
+// middleware setting
 app.use(AuthMiddleware.GetLoginedUser)
 
 // API 路由
@@ -29,11 +33,10 @@ app.use('/API/post/', PostRouters)
 app.use('/API/comment/', CommentRouters)
 app.use('/API/search/', SearchRouters)
 
-
-
 // 頁面路由
 app.get('*', (req, res) => {
-  res.send('hello World');
+  var html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8');
+  res.send(html);
 })
 
 app.listen(8081, () => {

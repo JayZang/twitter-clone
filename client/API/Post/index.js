@@ -16,10 +16,8 @@ async function SendPost (request) {
     })
   } catch (e) {
     return {
-      res: {
-        result: false,
-        errMsg: '無法連接伺服器'
-      }
+      result: false,
+      errMsg: '無法連接伺服器'
     }
   }
 
@@ -39,10 +37,8 @@ async function ToggleLike (postId) {
     })
   } catch (e) {
     return {
-      res: {
-        result: false,
-        errMsg: '無法連接伺服器'
-      }
+      result: false,
+      errMsg: '無法連接伺服器'
     }
   }
 
@@ -62,10 +58,8 @@ async function GetDetailPostInfo (postId) {
     })
   } catch (e) {
     return {
-      res: {
-        result: false,
-        errMsg: '無法連接伺服器'
-      }
+      result: false,
+      errMsg: '無法連接伺服器'
     }
   }
 

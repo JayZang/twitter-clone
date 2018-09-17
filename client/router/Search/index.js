@@ -11,5 +11,8 @@ export default [{
   components: {
     TopNavBar,
     default: SearchView
+  },
+  meta: {
+    title: `Twitter Search`
   }
 }]

@@ -1,5 +1,6 @@
 <template lang="html">
   <div class="UserHomeContainer">
+    <ErrorMessageBar :text="errorMessage" v-if="errorMessage"/>
     <div class="UserHomeWrapper">
       <div class="LeftSideContainer">
         <div class="ProfileCardContainer" v-if="user">
@@ -48,13 +49,15 @@ import UserInfoAPI from '@/API/User/Info'
 import PostCreaterComponent from '@/components/Post/PostCreater'
 import PostsBoxComponent from '@/components/Post/PostsBox'
 import LoadingAnimationComponent from '@/components/Animate/Loading'
+import ErrorMessageBar from '@/components/Bar/ErrorMessageBar'
 
 export default {
   name: 'UserHome',
   components: {
     PostCreaterComponent,
     PostsBoxComponent,
-    LoadingAnimationComponent
+    LoadingAnimationComponent,
+    ErrorMessageBar
   },
   data () {
     return {
@@ -113,7 +116,7 @@ export default {
       this.postLoaded = true
 
       if (!res.result) {
-        console.log(res)
+        this.errorMessage = res.errMsg
         return
       }
 

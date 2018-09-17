@@ -1,5 +1,5 @@
 import Login from '@/View/login'
-import TopNavBar from '@/components/NavBar/TopNavBar'
+import TopNavBar from '@/components/Bar/TopNavBar'
 
 export default [{
   path: '/login',

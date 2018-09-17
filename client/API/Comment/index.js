@@ -17,10 +17,8 @@ async function SendCommentToPost (postId, request) {
     })
   } catch (e) {
     return {
-      res: {
-        result: false,
-        errMsg: '無法連接伺服器'
-      }
+      result: false,
+      errMsg: '無法連接伺服器'
     }
   }
 

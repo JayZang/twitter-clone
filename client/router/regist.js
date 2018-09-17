@@ -1,5 +1,5 @@
 import regist from '@/View/regist'
-import TopNavBar from '@/components/NavBar/TopNavBar'
+import TopNavBar from '@/components/Bar/TopNavBar'
 
 export default [{
   path: '/regist',
