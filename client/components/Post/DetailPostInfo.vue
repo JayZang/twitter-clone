@@ -2,6 +2,7 @@
   <div class="DetailPostInfoContainer" @click.stop="">
     <div @click.stop="closeEvent" class="CloseBtn">╳</div>
     <LoadingAnimationComponent class="loadingAnimation" v-if="!loaded"/>
+    <ErrorMessageBar :text="errorMessage" v-if="errorMessage"/>
     <div class="DetailPostInfoBox" v-if="Post">
       <div class="PersonBox">
         <div class="LeftSide">
@@ -78,13 +79,15 @@ import postAPI from '@/API/Post'
 import commentAPI from '@/API/Comment'
 import FollowBtnComponent from '@/components/Btns/Follow'
 import LoadingAnimationComponent from '@/components/Animate/Loading'
+import ErrorMessageBar from '@/components/Bar/ErrorMessageBar'
 
 export default {
   name: 'DetailPostInfo',
   props: ['backRoute'],
   components: {
     FollowBtnComponent,
-    LoadingAnimationComponent
+    LoadingAnimationComponent,
+    ErrorMessageBar
   },
   data () {
     return {
@@ -92,6 +95,7 @@ export default {
       postID: this.$route.params.PostID,
       Post: null,
       loaded: false,
+      errorMessage: '',
       inputContent: '',
       contentEl: null,
       isEditerFocused: false
@@ -148,7 +152,7 @@ export default {
       this.loaded = true
 
       if (!res.result) {
-        console.log(res)
+        this.errorMessage = res.errMsg
         return
       }
 

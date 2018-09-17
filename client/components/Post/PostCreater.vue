@@ -1,5 +1,6 @@
 <template lang="html">
   <div class="PostSenderContainer" v-if="isLogin">
+    <ErrorMessageBar :text="errorMessage" v-if="errorMessage" displayTime="5000" @close="errorMessage = ''"/>
     <img :src="user.profileImg" class="UserImg">
     <div class="EditerContainer">
       <div class="Editer" default-txt="有什麼新鮮事？" contenteditable @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" @input="editerInputEventHandler">
@@ -12,16 +13,21 @@
 
 <script>
 import postAPI from '@/API/Post'
+import ErrorMessageBar from '@/components/Bar/ErrorMessageBar'
 
 export default {
   name: 'PostSender',
+  components: {
+    ErrorMessageBar
+  },
   data () {
     return {
       user: this.$store.state.Auth.user,
       isLogin: this.$store.getters.isLogin,
       isEditerFocused: false,
       contentEl: null,
-      inputContent: ''
+      inputContent: '',
+      errorMessage: ''
     }
   },
   methods: {
@@ -50,6 +56,7 @@ export default {
         })
 
       if (!res.result || !res.post) {
+        this.errorMessage = res.errMsg
         return
       }
 

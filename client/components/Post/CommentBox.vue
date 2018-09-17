@@ -1,5 +1,6 @@
 <template lang="html">
   <div class="PostCommentSenderContainer" @click.stop="">
+    <ErrorMessageBar :text="errorMessage" v-if="errorMessage" :displayTime="5000" @close="errorMessage = ''"/>
     <div class="CommentSenderBox">
       <div class="BoxHeader">
         <div class="CloseBtn" @click.stop="closeBtnClickEventHandler">
@@ -47,13 +48,18 @@
 
 <script>
 import commentAPI from '@/API/Comment'
+import ErrorMessageBar from '@/components/Bar/ErrorMessageBar'
 
 export default {
   name: 'PostCommentBox',
   props: ['postID'],
+  components: {
+    ErrorMessageBar
+  },
   data () {
     return {
-      inputContent: ''
+      inputContent: '',
+      errorMessage: ''
     }
   },
   methods: {
@@ -69,7 +75,7 @@ export default {
         })
 
       if (!res.result) {
-        console.log(res)
+        this.errorMessage = "糟糕，發生一些錯誤 "
         return
       }
 

@@ -1,5 +1,6 @@
 <template lang="html">
   <div class="SearchViewContainer">
+    <ErrorMessageBar :text="errorMessage" v-if="errorMessage"/>
     <div class="QueryTextContainer">
       <div class="QueryTextWrapper">{{query}}</div>
     </div>
@@ -27,6 +28,7 @@
 <script>
 import PeopleBox from '@/components/PersonList/PeopleBox'
 import LoadingAnimationComponent from '@/components/Animate/Loading'
+import ErrorMessageBar from '@/components/Bar/ErrorMessageBar'
 import SearchAPI from '@/API/Search'
 
 export default {
@@ -34,12 +36,14 @@ export default {
   props: ['query'],
   components: {
     PeopleBox,
-    LoadingAnimationComponent
+    LoadingAnimationComponent,
+    ErrorMessageBar
   },
   data() {
     return {
       personList: [],
-      loaded: false
+      loaded: false,
+      errorMessage: ''
     }
   },
   created() {
@@ -56,6 +60,7 @@ export default {
       this.loaded = true
 
       if (!res.result) {
+        this.errorMessage = '糟糕，發生了一些錯誤！'
         console.log(res)
         return
       }

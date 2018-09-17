@@ -1,20 +1,26 @@
 <template lang="html">
   <div class="FollowBtnContainer" v-if="!isLoginedUser">
+    <ErrorMessageBar :text="errorMessage" v-if="errorMessage"/>
     <button class="FollowBtn" v-if="!isFollowing" @click="followClickEventHandler">追蹤</button>
     <button class="BackFollowBtn" v-if="isFollowing" @mouseenter="backFollowMouseEnterEventHandler" @mouseleave="backFollowMouseLeaveEventHandler" @click="backFollowClickEventHandler">{{followingBtnTxt}}</button>
   </div>
 </template>
 
 <script>
+import ErrorMessageBar from '@/components/Bar/ErrorMessageBar'
 import UserAction from '@/API/User/Action'
 
 export default {
   name: 'FollowBtn',
   props: ['userId', 'following'],
+  components: {
+    ErrorMessageBar
+  },
   data () {
     return {
       isFollowing: this.following,
-      followingBtnTxt: '追蹤中'
+      followingBtnTxt: '追蹤中',
+      errorMessage: ''
     }
   },
   computed: {
@@ -37,8 +43,10 @@ export default {
 
       let res = await UserAction.follow(this.userId)
 
-      if (!res.result)
+      if (!res.result) {
+        this.errorMessage = res.errMsg
         return
+      }
 
       this.isFollowing = true
       this.followingBtnTxt = '追蹤中'
@@ -52,8 +60,10 @@ export default {
 
       let res = await UserAction.deleteFollow(this.userId)
 
-      if (!res.result)
+      if (!res.result) {
+        this.errorMessage = res.errMsg
         return
+      }
 
       this.isFollowing = false
       this.followingBtnTxt = '追蹤'

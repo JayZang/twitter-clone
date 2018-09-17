@@ -1,5 +1,6 @@
 <template lang="html">
   <div id="PersonalHome" :fix="needPersonalWallFix">
+    <ErrorMessageBar v-if="errorMessage" :text="errorMessage"/>
     <div class="PersonalWall">
       <div class="WallImgContainer">
         <div class="BkgImgContainer" :style="`background-image: url(${personBkgImg})`"></div>
@@ -66,19 +67,22 @@
 
 <script>
 import FollowBtn from '@/components/Btns/Follow'
+import ErrorMessageBar from '@/components/Bar/ErrorMessageBar'
 import personInfo from '@/API/Person/info'
 
 export default {
   name: 'PersonalHome',
   components: {
-    FollowBtn
+    FollowBtn,
+    ErrorMessageBar
   },
   data () {
     return {
       personAccount: null,
       person: null,
       needPersonalWallFix: false,
-      isFollowing: false
+      isFollowing: false,
+      errorMessage: ''
     }
   },
   computed: {
@@ -115,13 +119,14 @@ export default {
     '$route.params.PersonAccount': 'initUserID'
   },
   methods: {
-    async initUserID () {
+    async initUserID() {
       this.personAccount = this.$route.params.PersonAccount
 
       let res = await personInfo.GetPersonBasicInfo(this.personAccount)
 
       if (!res.result) {
-        console.log(res.errMsg)
+        this.errorMessage = res.errMsg
+        document.title = 'Twitter'
         return
       }
 
@@ -129,7 +134,7 @@ export default {
       this.isFollowing = res.isFollowing
       document.title = `${this.person.name} (@${this.person.account}) | Twitter`
     },
-    windowScrollEventHandelr (e) {
+    windowScrollEventHandelr(e) {
       this.needPersonalWallFix = $(window).scrollTop() > 300
     }
   }
