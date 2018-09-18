@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 
 const { app } = require('../../../server/server')
 const userModel = require('../../../server/model/user')
+const postModel = require('../../../server/model/post')
 
 describe('Server Test Case', () => {
   describe('User API', () => {
@@ -822,6 +823,185 @@ describe('Server Test Case', () => {
                 done(e)
               })
           })
+      })
+    })
+
+    describe('GET /API/user/info --- Get basic information of login user', () => {
+      let seedUserId = mongoose.Types.ObjectId()
+      let seedUser = {
+        _id: seedUserId,
+        name: 'Jay',
+        account: 'testAccount',
+        password: '11111111',
+        tokens: [{
+          access: 'auth',
+          token: jwt.sign({
+            id: seedUserId,
+            access: 'auth',
+            exp: Math.floor(Date.now() / 1000) + (60 * 60 * 3)
+          }, 'Secret')
+        }]
+      }
+
+      beforeEach(done => {
+        userModel(seedUser).save()
+          .then(user => {
+            if (!user) {
+              return done('Create user fail')
+            }
+
+            return done()
+          })
+          .catch(done)
+      })
+
+      afterEach(done => {
+        userModel.deleteMany()
+          .then(() => {
+            done()
+          })
+          .catch(done)
+      })
+
+      it('1. should get login user info', done => {
+        request(app)
+          .get('/API/user/info')
+          .set('x-auth', seedUser.tokens[0].token)
+          .expect(200)
+          .expect(res => {
+            expect(res.body.result).toBe(true)
+            expect(res.body.user).toBeTruthy()
+            expect(res.body.user._id).toBe(seedUser._id.toString())
+            expect(res.body.user.account).toBe(seedUser.account)
+            expect(res.body.user.name).toBe(seedUser.name)
+            expect(res.body.user.password).toBeFalsy()
+            expect(res.body.user.tokens).toBeFalsy()
+          })
+          .end(done)
+      })
+
+      it('2. should not get login user info when token is not offered', done => {
+        request(app)
+          .get('/API/user/info')
+          .expect(200)
+          .expect(res => {
+            expect(res.body.result).toBe(false)
+            expect(res.body.user).toBeFalsy()
+          })
+          .end(done)
+      })
+    })
+
+    describe('GET /API/user/posts --- Get posts of login user\'s and login user\'s following\'s', () => {
+      let seedUser1Id = mongoose.Types.ObjectId()
+      let seedUser2Id = mongoose.Types.ObjectId()
+      let seedPost1Id = mongoose.Types.ObjectId()
+      let seedPost2Id = mongoose.Types.ObjectId()
+      let seedUser1 = {
+        _id: seedUser1Id,
+        name: 'Jay1',
+        account: 'testAccount1',
+        password: '11111111',
+        posts:[seedPost1Id],
+        following: [seedUser2Id],
+        tokens: [{
+          access: 'auth',
+          token: jwt.sign({
+            id: seedUser1Id,
+            access: 'auth',
+          }, 'Secret')
+        }]
+      }
+      let seedUser2 = {
+        _id: seedUser2Id,
+        name: 'Jay2',
+        account: 'testAccount2',
+        password: '11111111',
+        posts: [seedPost2Id],
+        tokens: [{
+          access: 'auth',
+          token: jwt.sign({
+            id: seedUser2Id,
+            access: 'auth',
+          }, 'Secret')
+        }]
+      }
+      let seedPost1 = {
+        _id: seedPost1Id,
+        author: seedUser1Id,
+        content: 'Post 1'
+      }
+      let seedPost2 = {
+        _id: seedPost2Id,
+        author: seedUser2Id,
+        content: 'Post 2'
+      }
+
+      beforeEach(done => {
+        let promise1 = userModel(seedUser1).save()
+        let promise2 = userModel(seedUser2).save()
+        let promise3 = postModel(seedPost1).save()
+        let promise4 = postModel(seedPost2).save()
+
+        Promise.all([promise1, promise2, promise3, promise4])
+          .then(value => {
+            if (!value[0] || !value[1] || !value[2] || !value[3]) {
+              return done('Create document fail')
+            }
+
+            done()
+          })
+          .catch(done)
+      })
+
+      afterEach(done => {
+        let promise1 = userModel.deleteMany()
+        let promise2 = postModel.deleteMany()
+
+        Promise.all([promise1, promise2])
+          .then(value => {
+            if (!value[0] || !value[1]) {
+              return done('Delete document fail')
+            }
+
+            done()
+          })
+          .catch(done)
+      })
+
+      it('1. should get posts of login user\'s and login user\'s following\'s', done => {
+        request(app)
+          .get('/API/user/posts')
+          .set('x-auth', seedUser1.tokens[0].token)
+          .expect(200)
+          .expect(res => {
+            expect(res.body.result).toBe(true)
+            expect(res.body.posts.length).toBe(2)
+          })
+          .end(done)
+      })
+
+      it('2. should only get posts of login user\'s when login user has no following', done => {
+        request(app)
+          .get('/API/user/posts')
+          .set('x-auth', seedUser2.tokens[0].token)
+          .expect(200)
+          .expect(res => {
+            expect(res.body.result).toBe(true)
+            expect(res.body.posts.length).toBe(1)
+          })
+          .end(done)
+      })
+
+      it('3. should not get posts when token is not offered', done => {
+        request(app)
+          .get('/API/user/posts')
+          .expect(200)
+          .expect(res => {
+            expect(res.body.result).toBe(false)
+            expect(res.body.posts).toBeFalsy()
+          })
+          .end(done)
       })
     })
   })

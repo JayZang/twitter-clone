@@ -44,10 +44,10 @@ PostSchema.methods.getDetailAllInfo = async function () {
   let opts = [{
     path: 'author',
     select: '_id name account profileImg'
-  },{
+  }, {
     path: 'likes',
     select: '_id name account profileImg'
-  },{
+  }, {
     path: 'comments',
     select: 'user created content',
     sort: {

@@ -15,10 +15,14 @@ router.get('/', async (req, res) => {
 
   // Set new token
   let token = await req.user.setAuthToken(req.headers['x-auth'])
+  let user = _.omit(req.user.toObject(), [
+    'password',
+    'tokens'
+  ])
   res.header('x-auth', token)
     .json({
       result: true,
-      user: req.user
+      user
     })
 })
 
