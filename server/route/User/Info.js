@@ -5,7 +5,7 @@ var PostModel = require('../../model/post')
 
 var router = express.Router()
 
-// get logined user basic informations
+// get login user basic information
 router.get('/info', (req, res) => {
   try {
     if (!req.user) {
@@ -13,9 +13,9 @@ router.get('/info', (req, res) => {
     }
 
     let user = _.omit(req.user.toObject(), [
-        'password',
-        'tokens'
-      ])
+      'password',
+      'tokens'
+    ])
 
     res.json({
       result: true,
@@ -44,7 +44,7 @@ router.get('/info', (req, res) => {
   }
 })
 
-// get logined user's and following's posts
+// get login user's and following's posts
 router.get('/posts', async (req, res) => {
   try {
     if (!req.user) {

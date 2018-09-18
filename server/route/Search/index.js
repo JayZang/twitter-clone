@@ -8,7 +8,7 @@ var router = express.Router()
 // See https://stackoverflow.com/questions/38421664/fuzzy-searching-with-mongodb
 // Escape regular expression special characters
 function escapeRegex(text) {
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
 router.get('/person/:query', async (req, res) => {
@@ -24,8 +24,7 @@ router.get('/person/:query', async (req, res) => {
     if (req.user) {
       users = users.map(item => {
         let _item = item.toObject()
-        let isFollowing = !!req.user.following.find(val => val.toString() === _item._id.toString())
-        _item.isFollowing = isFollowing
+        _item.isFollowing = !!req.user.following.find(val => val.toString() === _item._id.toString())
 
         return _item
       })

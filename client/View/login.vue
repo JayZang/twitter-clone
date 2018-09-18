@@ -33,8 +33,6 @@
 </template>
 
 <script>
-import store from '@/store'
-
 export default {
   name: 'LoginPage',
   data () {

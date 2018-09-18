@@ -8,7 +8,7 @@ var UserSchema = mongoose.Schema({
     required: true,
     trim: true
   },
-  account:{
+  account: {
     type: String,
     required: true,
     unique: true,
@@ -55,16 +55,16 @@ var UserSchema = mongoose.Schema({
 UserSchema.statics.findByCredentials = async function (account, password) {
   let UserModel = this
 
-  try{
+  try {
     let user = await UserModel.findOne({account})
     if (!user) {
-      return Promise.reject()
+      return Promise.reject(new Error('User not fount'))
     }
 
     let result = bcryptjs.compareSync(password, user.password)
 
     if (!result) {
-      return Promise.reject()
+      return Promise.reject(new Error('Password is not correct'))
     }
 
     return user
@@ -75,7 +75,7 @@ UserSchema.statics.findByCredentials = async function (account, password) {
 
 // 用 token 取得用戶
 UserSchema.statics.findByToken = async function (token) {
-  let UserModel = this;
+  let UserModel = this
 
   try {
     let decoded = jwt.verify(token, 'Secret')
@@ -85,9 +85,9 @@ UserSchema.statics.findByToken = async function (token) {
       'tokens.access': 'auth'
     })
 
-    return user;
+    return user
   } catch (e) {
-    return Promise.reject()
+    return Promise.reject(new Error(e))
   }
 }
 
@@ -98,13 +98,13 @@ UserSchema.methods.setAuthToken = async function (replaceToken) {
   let token = jwt.sign({
     id: user._id,
     access,
-    exp:  Math.floor(Date.now() / 1000) + (60 * 60 * 3)
+    exp: Math.floor(Date.now() / 1000) + (60 * 60 * 3)
   }, 'Secret')
 
   // delete token which equal to replaceToken
-  if (!!replaceToken) {
+  if (replaceToken) {
     let tokenIndex = user.tokens.findIndex(item => item.access === access && item.token === replaceToken)
-    tokenIndex >= 0 && user.tokens.splice(tokenIndex,1)
+    tokenIndex >= 0 && user.tokens.splice(tokenIndex, 1)
   }
 
   user.tokens.push({
@@ -112,13 +112,13 @@ UserSchema.methods.setAuthToken = async function (replaceToken) {
     token
   })
 
-  await user.save();
+  await user.save()
   return token
 }
 
 // 存入資料庫前把密碼 Hash 起來
 UserSchema.pre('save', function (next) {
-  let user = this;
+  let user = this
 
   if (user.isModified('password')) {
     let hash = bcryptjs.hashSync(user.password, 10)
@@ -128,4 +128,4 @@ UserSchema.pre('save', function (next) {
   next()
 })
 
-module.exports = mongoose.model('Users', UserSchema);
+module.exports = mongoose.model('Users', UserSchema)

@@ -6,23 +6,25 @@ var path = require('path')
 
 var AuthMiddleware = require('./middleware/Auth')
 
-mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost:27017/TwitterWeblike')
 var app = express()
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-app.use(express.static(path.resolve(__dirname, '../dist')));			// 設置靜態資料夾路徑（ js、css ... ）
+
+// 設置靜態資料夾路徑（ js、css ... ）
+app.use(express.static(path.resolve(__dirname, '../dist')))
 
 // middleware setting
 app.use(AuthMiddleware.GetLoginedUser)
 
 // API 路由
-var UserRouters = require ('./route/User')
-var PersonRouters = require ('./route/Person')
-var PostRouters = require ('./route/Post')
-var CommentRouters = require ('./route/Comment')
-var SearchRouters = require ('./route/Search')
+var UserRouters = require('./route/User')
+var PersonRouters = require('./route/Person')
+var PostRouters = require('./route/Post')
+var CommentRouters = require('./route/Comment')
+var SearchRouters = require('./route/Search')
 UserRouters.forEach((RouteItem) => {
   app.use('/API/user/', RouteItem)
 })
@@ -36,7 +38,7 @@ app.use('/API/search/', SearchRouters)
 // 頁面路由
 app.get('*', (req, res) => {
   var html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8');
-  res.send(html);
+  res.send(html)
 })
 
 app.listen(8081, () => {

@@ -1,11 +1,10 @@
 var express = require('express')
 var UserModel = require('../../model/user')
-var _ = require('lodash')
 
 var router = express.Router()
 
 // follow other person
-router.get('/follow/:UserId', async (req, res) => {
+router.get('/follow/:UserAccount', async (req, res) => {
   if (!req.user) {
     return res.json({
       result: false,
@@ -14,7 +13,7 @@ router.get('/follow/:UserId', async (req, res) => {
   }
 
   try {
-    let targetUser = await UserModel.findOne({account: req.params.UserId})
+    let targetUser = await UserModel.findOne({account: req.params.UserAccount})
     if (!targetUser) {
       throw new Error('無法追蹤未知用戶')
     }
@@ -41,7 +40,7 @@ router.get('/follow/:UserId', async (req, res) => {
     await Promise.all([userPromise, targetUserPromise])
 
     return res.json({
-      result: true,
+      result: true
     })
   } catch (e) {
     return res.json({
@@ -52,8 +51,8 @@ router.get('/follow/:UserId', async (req, res) => {
   }
 })
 
-// disfollow someone
-router.delete('/follow/:UserId', async (req, res) => {
+// delete follow someone
+router.delete('/follow/:UserAccount', async (req, res) => {
   if (!req.user) {
     return res.json({
       result: false,
@@ -62,7 +61,7 @@ router.delete('/follow/:UserId', async (req, res) => {
   }
 
   try {
-    let targetUser = await UserModel.findOne({account: req.params.UserId})
+    let targetUser = await UserModel.findOne({account: req.params.UserAccount})
     if (!targetUser) {
       throw new Error('無此用戶')
     }
@@ -87,7 +86,7 @@ router.delete('/follow/:UserId', async (req, res) => {
     await Promise.all([userPromise, targetUserPromise])
 
     return res.json({
-      result: true,
+      result: true
     })
   } catch (e) {
     return res.json({
@@ -98,4 +97,4 @@ router.delete('/follow/:UserId', async (req, res) => {
   }
 })
 
-module.exports = router;
+module.exports = router
