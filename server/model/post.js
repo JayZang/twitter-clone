@@ -12,6 +12,7 @@ var PostSchema = mongoose.Schema({
   },
   content: {
     type: String,
+    trim: true,
     required: [true, '貼文不能空白']
   },
   likes: [{

@@ -66,7 +66,9 @@ router.get('/:Id/like', async (req, res) => {
 
   try {
     let post = await PostModel.findById(req.params.Id)
-      .catch(e => {throw new Error('錯誤格式ID')})
+      .catch(e => {
+        throw new Error('錯誤格式ID')
+      })
 
     if (!post) {
       throw new Error('找不到該貼文')
@@ -105,7 +107,7 @@ router.get('/:Id/like', async (req, res) => {
   }
 })
 
-// get detail infomation of the indicated post
+// get detail information of the indicated post
 router.get('/:Id', async (req, res) => {
   try {
     let post = await PostModel.findById(req.params.Id)
@@ -130,7 +132,6 @@ router.get('/:Id', async (req, res) => {
       result: true,
       post: DetailedPost
     })
-
   } catch (e) {
     let errMsgArray = []
     let errMsg = ''
