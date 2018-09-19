@@ -9,7 +9,7 @@ const postModel = require('../../../server/model/post')
 const commentModel = require('../../../server/model/comment')
 
 describe('Server: Comment API', () => {
-  describe('POST /API/comment/post/:Id', () => {
+  describe('POST /API/comment/post/:Id --- Comment the post', () => {
     let seedUserId = mongoose.Types.ObjectId()
     let seedPostId = mongoose.Types.ObjectId()
     let seedUser = {
