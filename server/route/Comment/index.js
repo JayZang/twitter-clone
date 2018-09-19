@@ -1,4 +1,4 @@
-var express= require('express')
+var express = require('express')
 var _ = require('lodash')
 
 var CommentModel = require('../../model/comment')

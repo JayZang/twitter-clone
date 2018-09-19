@@ -1,5 +1,4 @@
 var express = require('express')
-var _ = require('lodash')
 
 var UserModel = require('../../model/user')
 
@@ -7,14 +6,14 @@ var router = express.Router()
 
 // See https://stackoverflow.com/questions/38421664/fuzzy-searching-with-mongodb
 // Escape regular expression special characters
-function escapeRegex(text) {
-  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+function escapeRegex (text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 };
 
 router.get('/person/:query', async (req, res) => {
   try {
     // fuzzy query
-    const regex = new RegExp(escapeRegex(req.params.query), 'gi');
+    const regex = new RegExp(escapeRegex(req.params.query), 'gi')
     let users = await UserModel.find({name: regex}, '_id account name profileImg bkgWallImg')
       .catch(e => {
         throw new Error('搜尋發生錯誤')

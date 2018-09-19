@@ -119,7 +119,7 @@ export default {
     '$route.params.PersonAccount': 'initUserID'
   },
   methods: {
-    async initUserID() {
+    async initUserID () {
       this.personAccount = this.$route.params.PersonAccount
 
       let res = await personInfo.GetPersonBasicInfo(this.personAccount)
@@ -134,7 +134,7 @@ export default {
       this.isFollowing = res.isFollowing
       document.title = `${this.person.name} (@${this.person.account}) | Twitter`
     },
-    windowScrollEventHandelr(e) {
+    windowScrollEventHandelr (e) {
       this.needPersonalWallFix = $(window).scrollTop() > 300
     }
   }
