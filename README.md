@@ -18,21 +18,20 @@
 
 ## Build Setup
 
-Install all dependency packages:  
-(assume has installed [Node](https://nodejs.org/en/) and Node Package Manager(NPM))
+Install all dependency packages: (assume has installed [Node](https://nodejs.org/en/) and NPM)
 
 ``` bash
 npm install
 ```
 
 Serve with hot reload at [localhost:8080](http://localhost:8080/):  
-This step only display frontend, backend server is not started yet.
+This step only can display frontend, backend server is not started yet.
 
 ```
 npm run dev
 ```
 
-Start [MongoDB](https://www.mongodb.com/) (assume has installed):
+Start [MongoDB](https://www.mongodb.com/): (assume has installed)
 
 ```bash
 mongod --dbpath=YOUR_PATH_TO_STORE_DATA
@@ -55,7 +54,7 @@ If all of unit test is pass, we can link in [localhost:8080](http://localhost:80
 Above steps building application are enough for us to learn `Vue` and `Node`. However, if we want to deploy our project to cloud,  below steps 
 are required.
 
-#### Bundle to deploy
+### Bundle to deploy
 
 Bundle frontend(Vue) code:
 
@@ -74,7 +73,7 @@ npm run start:dev
 Start server on **production** environment:  
 When deploy to cloud, we take [Heroku](https://devcenter.heroku.com/) as a example, the [Heroku](https://devcenter.heroku.com/) will auto run `npm start` 
 by default. And we just auto take environment variables(Ex: PORT) of [Heroku](https://devcenter.heroku.com/) system to set up our server to work (Server of 
-MongoDB to connect should be configured by yourself).  
+MongoDB to connect should be configured by yourself)  
 
 ```shell
 npm start           #same as 'npm run start:prod'
