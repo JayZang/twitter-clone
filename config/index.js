@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/API': {                                   // 自訂 local 端的位置
-        target: 'http://localhost:8081/API/',     // 遠端 URL Domain
+        target: 'http://localhost:3001/API/',     // 遠端 URL Domain
         changeOrigin: true,
         pathRewrite: {
           '^/API': ''
