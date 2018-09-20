@@ -1,9 +1,9 @@
-var express = require('express')
-var _ = require('lodash')
+const express = require('express')
+const _ = require('lodash')
 
-var PostModel = require('../../model/post')
+const PostModel = require('../../model/post')
 
-var router = express.Router()
+const router = express.Router()
 
 // create new post
 router.post('/', async (req, res) => {

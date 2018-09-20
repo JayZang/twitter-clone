@@ -1,8 +1,8 @@
-var express = require('express')
+const express = require('express')
 
-var UserModel = require('../../model/user')
+const UserModel = require('../../model/user')
 
-var router = express.Router()
+const router = express.Router()
 
 // See https://stackoverflow.com/questions/38421664/fuzzy-searching-with-mongodb
 // Escape regular expression special characters

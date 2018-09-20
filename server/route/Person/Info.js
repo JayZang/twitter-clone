@@ -1,7 +1,7 @@
-var express = require('express')
-var UserModel = require('../../model/user')
+const express = require('express')
+const UserModel = require('../../model/user')
 
-var router = express.Router()
+const router = express.Router()
 
 // 取得用戶基本資訊
 router.get('/:account', async (req, res) => {

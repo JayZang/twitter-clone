@@ -1,15 +1,14 @@
-var UserModel = require('../model/user')
+const UserModel = require('../model/user')
 
-const GetLoginedUser = async (req, res, next) => {
+const GetLoginUser = async (req, res, next) => {
   let token = req.headers['x-auth']
 
   if (!token) {
-      return next()
+    return next()
   }
 
   try {
-    let user = await UserModel.findByToken(token)
-    req.user = user
+    req.user = await UserModel.findByToken(token)
     req.token || (req.token = {})
     req.token.auth = token
 
@@ -21,5 +20,5 @@ const GetLoginedUser = async (req, res, next) => {
 }
 
 module.exports = {
-  GetLoginedUser
+  GetLoginUser
 }

@@ -1,13 +1,13 @@
-var express = require('express')
-var _ = require('lodash')
+const express = require('express')
+const _ = require('lodash')
 
-var CommentModel = require('../../model/comment')
-var PostModel = require('../../model/post')
+const CommentModel = require('../../model/comment')
+const PostModel = require('../../model/post')
 
-var router = express.Router()
+const router = express.Router()
 
 // create a comment to a post
-router.post('/post/:Id', async (req, res) => {
+router.post('/post/:Id', async (req, res, next) => {
   try {
     // verify the auth status
     if (!req.user) {

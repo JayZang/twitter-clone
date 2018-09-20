@@ -24,7 +24,7 @@ export default {
 
 <style lang="css" scoped>
 .PostsBox {
-    background-color: white;
+  background-color: white;
 }
 
 .NonPost {

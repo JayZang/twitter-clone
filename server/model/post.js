@@ -1,6 +1,6 @@
-var mongoose = require('mongoose')
+const mongoose = require('mongoose')
 
-var PostSchema = mongoose.Schema({
+const PostSchema = mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
@@ -40,7 +40,7 @@ PostSchema.methods.toggleLike = async function (userId) {
 }
 
 // populate relatived information to the post
-PostSchema.methods.getDetailAllInfo = async function () {
+PostSchema.methods.getDetailAllInfo = function () {
   let post = this
   let opts = [{
     path: 'author',
@@ -60,13 +60,11 @@ PostSchema.methods.getDetailAllInfo = async function () {
     }
   }]
 
-  let populatedPost = await post.populate(opts).execPopulate()
-
-  return populatedPost
+  return post.populate(opts).execPopulate()
 }
 
-// populate relatived information to the post
-PostSchema.methods.getDetailCommentInfo = async function () {
+// populate relative information to the post
+PostSchema.methods.getDetailCommentInfo = function () {
   let post = this
   let opts = [{
     path: 'comments',
@@ -80,9 +78,7 @@ PostSchema.methods.getDetailCommentInfo = async function () {
     }
   }]
 
-  let populatedPost = await post.populate(opts).execPopulate()
-
-  return populatedPost
+  return post.populate(opts).execPopulate()
 }
 
 module.exports = mongoose.model('Posts', PostSchema)

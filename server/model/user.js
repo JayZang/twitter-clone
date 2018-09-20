@@ -1,8 +1,8 @@
-var mongoose = require('mongoose')
-var jwt = require('jsonwebtoken')
-var bcryptjs = require('bcryptjs')
+const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
+const bcryptjs = require('bcryptjs')
 
-var UserSchema = mongoose.Schema({
+const UserSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -74,18 +74,16 @@ UserSchema.statics.findByCredentials = async function (account, password) {
 }
 
 // 用 token 取得用戶
-UserSchema.statics.findByToken = async function (token) {
+UserSchema.statics.findByToken = function (token) {
   let UserModel = this
 
   try {
     let decoded = jwt.verify(token, process.env.JWT_SECRET)
-    let user = await UserModel.findOne({
+    return UserModel.findOne({
       _id: decoded.id,
       'tokens.token': token,
       'tokens.access': 'auth'
     })
-
-    return user
   } catch (e) {
     return Promise.reject(new Error(e))
   }
@@ -121,8 +119,7 @@ UserSchema.pre('save', function (next) {
   let user = this
 
   if (user.isModified('password')) {
-    let hash = bcryptjs.hashSync(user.password, 10)
-    user.password = hash
+    user.password = bcryptjs.hashSync(user.password, 10)
   }
 
   next()

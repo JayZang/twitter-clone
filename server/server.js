@@ -12,6 +12,10 @@ const app = express()
 
 mongoose.Promise = global.Promise
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
+  .catch(e => {
+    console.log('Connecting database fail')
+    console.log(e)
+  })
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
@@ -20,7 +24,7 @@ app.use(bodyParser.json())
 app.use(express.static(path.resolve(__dirname, '../dist')))
 
 // middleware setting
-app.use(AuthMiddleware.GetLoginedUser)
+app.use(AuthMiddleware.GetLoginUser)
 
 // API 路由
 const UserRouters = require('./route/User')
