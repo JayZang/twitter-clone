@@ -458,7 +458,7 @@ describe('Server: User API', () => {
           id: objectId,
           access: 'auth',
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 3)
-        }, 'Secret')
+        }, process.env.JWT_SECRET)
       }]
     }
 
@@ -554,7 +554,7 @@ describe('Server: User API', () => {
           id: userId1,
           access: 'auth',
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 3)
-        }, 'Secret')
+        }, process.env.JWT_SECRET)
       }]
     }
     let user2 = {
@@ -706,7 +706,7 @@ describe('Server: User API', () => {
           id: userId1,
           access: 'auth',
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 3)
-        }, 'Secret')
+        }, process.env.JWT_SECRET)
       }],
       following: [
         userId2
@@ -838,7 +838,7 @@ describe('Server: User API', () => {
           id: seedUserId,
           access: 'auth',
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 3)
-        }, 'Secret')
+        }, process.env.JWT_SECRET)
       }]
     }
 
@@ -908,7 +908,7 @@ describe('Server: User API', () => {
         token: jwt.sign({
           id: seedUser1Id,
           access: 'auth',
-        }, 'Secret')
+        }, process.env.JWT_SECRET)
       }]
     }
     let seedUser2 = {
@@ -922,7 +922,7 @@ describe('Server: User API', () => {
         token: jwt.sign({
           id: seedUser2Id,
           access: 'auth',
-        }, 'Secret')
+        }, process.env.JWT_SECRET)
       }]
     }
     let seedPost1 = {

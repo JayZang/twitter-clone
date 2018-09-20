@@ -23,7 +23,7 @@ describe('Server: Comment API', () => {
         token: jwt.sign({
           id: seedUserId,
           access: 'auth'
-        }, 'Secret')
+        }, process.env.JWT_SECRET)
       }]
     }
     let seedPost = {

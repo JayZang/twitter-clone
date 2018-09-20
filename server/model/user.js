@@ -78,7 +78,7 @@ UserSchema.statics.findByToken = async function (token) {
   let UserModel = this
 
   try {
-    let decoded = jwt.verify(token, 'Secret')
+    let decoded = jwt.verify(token, process.env.JWT_SECRET)
     let user = await UserModel.findOne({
       _id: decoded.id,
       'tokens.token': token,
@@ -99,7 +99,7 @@ UserSchema.methods.setAuthToken = async function (replaceToken) {
     id: user._id,
     access,
     exp: Math.floor(Date.now() / 1000) + (60 * 60 * 3)
-  }, 'Secret')
+  }, process.env.JWT_SECRET)
 
   // delete token which equal to replaceToken
   if (replaceToken) {

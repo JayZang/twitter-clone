@@ -22,7 +22,7 @@ describe('Server: Post API', () => {
         token: jwt.sign({
           id: seedUserId,
           access: 'auth'
-        }, 'Secret')
+        }, process.env.JWT_SECRET)
       }]
     }
 
@@ -225,7 +225,7 @@ describe('Server: Post API', () => {
         token: jwt.sign({
           id: seedUserId,
           access: 'auth'
-        }, 'Secret')
+        }, process.env.JWT_SECRET)
       }]
     }
 

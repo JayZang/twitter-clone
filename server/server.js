@@ -1,14 +1,17 @@
-var express = require('express')
-var bodyParser = require('body-parser')
-var mongoose = require('mongoose')
-var fs = require('fs')
-var path = require('path')
+// set configuration
+require('./config/config')
 
-var AuthMiddleware = require('./middleware/Auth')
+const express = require('express')
+const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+const fs = require('fs')
+const path = require('path')
+
+const AuthMiddleware = require('./middleware/Auth')
+const app = express()
 
 mongoose.Promise = global.Promise
-mongoose.connect('mongodb://localhost:27017/TwitterWeblike')
-var app = express()
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
@@ -20,11 +23,11 @@ app.use(express.static(path.resolve(__dirname, '../dist')))
 app.use(AuthMiddleware.GetLoginedUser)
 
 // API 路由
-var UserRouters = require('./route/User')
-var PersonRouters = require('./route/Person')
-var PostRouters = require('./route/Post')
-var CommentRouters = require('./route/Comment')
-var SearchRouters = require('./route/Search')
+const UserRouters = require('./route/User')
+const PersonRouters = require('./route/Person')
+const PostRouters = require('./route/Post')
+const CommentRouters = require('./route/Comment')
+const SearchRouters = require('./route/Search')
 UserRouters.forEach((RouteItem) => {
   app.use('/API/user/', RouteItem)
 })
@@ -37,12 +40,15 @@ app.use('/API/search/', SearchRouters)
 
 // 頁面路由
 app.get('*', (req, res) => {
-  var html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8');
+  let html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8')
   res.send(html)
 })
 
-app.listen(8081, () => {
-  console.log('Server is started')
+app.listen(process.env.PORT, () => {
+  console.log(`Server is started`)
+  console.log(`Server environment: ${process.env.NODE_ENV}`)
+  console.log(`Listening on ${process.env.PORT} port`)
+  console.log('')
 })
 
 module.exports = {

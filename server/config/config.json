@@ -1,0 +1,17 @@
+{
+  "production": {
+    "PORT": 3000,
+    "MONGODB_URI": "mongodb://localhost:27017/TwitterWebLike",
+    "JWT_SECRET": "kjandkjsandksajbvdkjasjdknas"
+  },
+  "development": {
+    "PORT": 3001,
+    "MONGODB_URI": "mongodb://localhost:27017/TwitterWebLikeDev",
+    "JWT_SECRET": "cdodoijvosijalskdmcspodcdskm"
+  },
+  "test": {
+    "PORT": 3002,
+    "MONGODB_URI": "mongodb://localhost:27017/TwitterWebLikeTest",
+    "JWT_SECRET": "fwevsdvjnqiwfjnosdvsdnvosdno"
+  }
+}

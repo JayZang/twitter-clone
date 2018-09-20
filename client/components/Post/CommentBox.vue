@@ -71,11 +71,11 @@ export default {
     },
     async replyBtnClickEventHandler (e) {
       let res = await commentAPI.SendCommentToPost(this.postID, {
-          content: this.inputContent
-        })
+        content: this.inputContent
+      })
 
       if (!res.result) {
-        this.errorMessage = "糟糕，發生一些錯誤 "
+        this.errorMessage = '糟糕，發生一些錯誤 '
         return
       }
 
