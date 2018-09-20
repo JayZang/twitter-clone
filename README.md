@@ -31,13 +31,13 @@ This step only can display frontend, backend server is not started yet.
 npm run dev
 ```
 
-Start [MongoDB](https://www.mongodb.com/): (assume has installed)
+Run server of [MongoDB](https://www.mongodb.com/): (assume has installed)
 
 ```bash
 mongod --dbpath=YOUR_PATH_TO_STORE_DATA
 ```
 
-Start backend server listening 3001 port on **development** environment to handle API request:
+Run backend server listening 3001 port on **development** environment to handle API request:
 
 ```shell
 npm run start:dev
@@ -70,7 +70,7 @@ It means that the server will response bundled frontend page if the http request
 npm run start:dev
 ```
 
-Start server on **production** environment:  
+Run server on **production** environment:  
 When deploy to cloud, we take [Heroku](https://devcenter.heroku.com/) as a example, the [Heroku](https://devcenter.heroku.com/) will auto run `npm start` 
 by default. And we just auto take environment variables(Ex: PORT) of [Heroku](https://devcenter.heroku.com/) system to set up our server to work (Server of 
 MongoDB to connect should be configured by yourself)  
