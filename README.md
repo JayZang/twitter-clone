@@ -6,7 +6,7 @@
 > Used techniques, tools and packages by this project are not actually used by [Twitter](https://twitter.com/).  
 > Welcome technical exchange, if this project has mistake of code or concept of programming, let me know, thanks:thumbsup:
 
-![Demo](./demo.gif)
+![Demo](https://github.com/JayZang/Twitter-Web-Like/blob/master/Demo.gif?raw=true)
 
 ## Main used package
 
