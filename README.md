@@ -6,7 +6,7 @@
 > Used techniques, tools and packages by this project are not actually used by [Twitter](https://twitter.com/).  
 > Welcome technical exchange, if this project has mistake of code or concept of programming, let me know, thanks:thumbsup:
 
-![Demo](./demo.gif)
+![Demo](https://github.com/JayZang/Twitter-Web-Like/blob/master/Demo.gif?raw=true)
 
 ## Main used package
 
@@ -127,7 +127,6 @@ Schema setting:
 
 ```javascript
 const userSchema = mongoose.Schema({
-  _id: mongoose.Types.ObjectId(),
   posts: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Posts'
@@ -135,7 +134,6 @@ const userSchema = mongoose.Schema({
   //...
 })
 const postSchema = mongoose.Schema({
-  _id: mongoose.Types.ObjectId(),
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Users'
@@ -147,14 +145,13 @@ const postSchema = mongoose.Schema({
   //...
 })
 const commentSchema = mongoose.Schema({
-  _id: mongoose.Types.ObjectId(),
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Users'
   },
   target: {
     model: String,
-    id: mongoose.Types.ObjectId()
+    id: mongoose.Schema.Types.ObjectId()
   },
   //...
 })
