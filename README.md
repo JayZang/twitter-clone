@@ -217,3 +217,42 @@ try {
   // Verify fail
 }
 ```
+
+### Vue
+
+[Official document](https://cn.vuejs.org/v2/guide/index.html)  
+The following picture shows the life cycle of a instance component.  
+I think it is the most important thing to understand each event when will be invoked.  
+
+![Vue component's life cycle](https://cn.vuejs.org/images/lifecycle.png)
+
+
+If we have the component needs props of 'userID' to get user's info async.  
+When the components is instanced, function of `created` will be invoked and get user's information by current 'userID'. 
+But if the next route also has this component and has different props of 'userID', this component is reused rather than
+instance a new component again. At this time the `created` function is not invoked, so the other method is using `watch`
+property to monitor the 'userID' props change or not, if the indicated target change, the function you set will be invoked. 
+
+```javascript
+Vue.component('your-component', {
+  props:['userID'],
+  data: function () {
+    return {
+      user: null
+    }
+  },
+  created() {
+    this.getUserInfo()
+  },
+  watch: {
+    // here is important
+    'userID': 'getUserInfo'
+  },
+  method: {
+    getUserInfo() {
+      // Some http Request to get user information from server
+    }
+  },
+  template: '<div v-if="user">{{ user.name }}</div>'
+})
+```
