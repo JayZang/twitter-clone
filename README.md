@@ -12,7 +12,7 @@
 
 * [express](#express)
 * [mongoose](#mongoose)
-* jsonwebtoken
+* [jsonwebtoken](#jsonwebtoken)
 * vue
 * vuex
 * vue-router
@@ -87,6 +87,7 @@ Custom configurations can be set at /server/config/config.json
 
 ### Express
 
+[Official document](https://expressjs.com/zh-tw/guide/routing.html)  
 Use RESTful routes to handle http request.
 
 ```javascript
@@ -108,14 +109,15 @@ app.delete('/', (req, res, next) => {
   })
 })
 app.update('/', (req, res, next) => {
-    res.json({
-      res: 'This is UPDATE method'
-    })
+  res.json({
+    res: 'This is UPDATE method'
+  })
 })
 ```
 
 ### Mongoose
 
+[Official doeument](https://mongoosejs.com/docs/guide.html)  
 Use relational database.  
 This project has three models:
 
@@ -190,3 +192,28 @@ userModel.findById(USER_ID)
   })
 ```
 
+### Jsonwebtoken
+
+[Official document](https://github.com/auth0/node-jsonwebtoken)  
+Create an token and it will be invalid after 1 hour.  
+You can put some data into token to let server know this token's owner and information.
+
+```javascript
+const jwt = require('jsonwebtoken')
+
+const token = jwt.sign({
+  id: USER_ID,
+  access: 'auth',
+  exp: Math.floor(Date.now() / 1000) + (60 * 60 * 1)
+}, 'YOUR_SECRET_KEY')
+```
+
+Token verification:
+
+```javascript
+try {
+  let data = jwt.verify(RECEIVED_TOKEN, 'YOUR_SECRET_KEY')
+} catch (e) {
+  // Verify fail
+}
+```
