@@ -2,11 +2,11 @@
 
 > This project is built using [Node](https://nodejs.org/en/) and [Vue](https://vuejs.org/).  
 > The target is learning Vue framework and technique of backend to implement a SPA website.  
-> All right of picture and sign is belong to [Twitter](https://twitter.com/).  
+> All right of picture and sign is reserved for [Twitter](https://twitter.com/).  
 > Used techniques, tools and packages by this project are not actually used by [Twitter](https://twitter.com/).  
 > Welcome technical exchange, if this project has mistake of code or concept of programming, let me know, thank you:thumbsup:
 
-## Main package
+## Main used package
 
 * express
 * mongoose
@@ -62,7 +62,7 @@ Bundle frontend(Vue) code:
 npm run build
 ```
 
-Start server on **development** environment at [localhost:3001](http://localhost:3001/):  
+Run server on **development** environment at [localhost:3001](http://localhost:3001/):  
 The different with above step is now we can access our frontend page at [localhost:3001](http://localhost:3001/) and no longer link to localhost:8080.
 It means that the server will response bundled frontend page if the http request URL is not for API request.
 
@@ -80,3 +80,28 @@ npm start           #same as 'npm run start:prod'
 ```
 
 Custom configurations can be set at /server/config/config.json
+
+## Instruction of package
+
+### Express
+
+Use RESTful routes to handle http request.
+
+```javascript
+const app = require('expess')
+
+app.get('/', (req, res, next) => {
+  res.json('This GET method')
+})
+app.post('/', (req, res, next) => {
+  res.json('This POST method')
+})
+app.delete('/', (req, res, next) => {
+  res.json('This DELETE method')
+})
+app.update('/', (req, res, next) => {
+  res.json('This UPDATE method')
+})
+```
+
+
