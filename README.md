@@ -13,7 +13,7 @@
 * [express](#express)
 * [mongoose](#mongoose)
 * [jsonwebtoken](#jsonwebtoken)
-* vue
+* [vue](#vue)
 * vuex
 * vue-router
 * axios
