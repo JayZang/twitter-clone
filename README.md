@@ -4,12 +4,14 @@
 > The target is learning Vue framework and technique of backend to implement a SPA website.  
 > All right of picture and sign is reserved for [Twitter](https://twitter.com/).  
 > Used techniques, tools and packages by this project are not actually used by [Twitter](https://twitter.com/).  
-> Welcome technical exchange, if this project has mistake of code or concept of programming, let me know, thank you:thumbsup:
+> Welcome technical exchange, if this project has mistake of code or concept of programming, let me know, thanks:thumbsup:
+
+![Demo](./demo.gif)
 
 ## Main used package
 
-* express
-* mongoose
+* [express](#express)
+* [mongoose](#mongoose)
 * jsonwebtoken
 * vue
 * vuex
@@ -81,7 +83,7 @@ npm start           #same as 'npm run start:prod'
 
 Custom configurations can be set at /server/config/config.json
 
-## Instruction of package
+## Simple Introduction
 
 ### Express
 
@@ -91,17 +93,103 @@ Use RESTful routes to handle http request.
 const app = require('expess')
 
 app.get('/', (req, res, next) => {
-  res.json('This GET method')
+  res.json({
+    res: 'This is GET method'
+  })
 })
 app.post('/', (req, res, next) => {
-  res.json('This POST method')
+    res.json({
+      res: 'This is POST method'
+    })
 })
 app.delete('/', (req, res, next) => {
-  res.json('This DELETE method')
+  res.json({
+    res: 'This is DELETE method'
+  })
 })
 app.update('/', (req, res, next) => {
-  res.json('This UPDATE method')
+    res.json({
+      res: 'This is UPDATE method'
+    })
 })
 ```
 
+### Mongoose
+
+Use relational database.  
+This project has three models:
+
+* Users
+* Posts
+* Comments
+
+Schema setting:
+
+```javascript
+const userSchema = mongoose.Schema({
+  _id: mongoose.Types.ObjectId(),
+  posts: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Posts'
+  }],
+  //...
+})
+const postSchema = mongoose.Schema({
+  _id: mongoose.Types.ObjectId(),
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Users'
+  },
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comments'
+  }],
+  //...
+})
+const commentSchema = mongoose.Schema({
+  _id: mongoose.Types.ObjectId(),
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Users'
+  },
+  target: {
+    model: String,
+    id: mongoose.Types.ObjectId()
+  },
+  //...
+})
+
+const userModel = mongoose.Model('Users', userSchema)
+const postModel = mongoose.Model('Posts', postSchema)
+const commentModel = mongoose.Model('Comments', commentSchema)
+```
+
+Get populated data:
+
+```javascript
+userModel.findById(USER_ID)
+  .then(user => {
+    if (!user) {
+      //...
+    }
+    
+    let opt = {
+      path: 'posts',
+      populate: {
+        path: 'comments'
+      }
+    }
+    
+    user.populate(opt).execPopulate()
+      .then(populatedUser => {
+        // Do what tou want to do
+      }).
+      catch(e => {
+        //...
+      })
+  })
+  .catch(e => {
+    //...
+  })
+```
 
