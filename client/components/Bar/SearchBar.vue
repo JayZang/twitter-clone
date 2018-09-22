@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="UserSearchBarContainer">
-    <input type="text" class="SearchInput" v-model.trim="searchText" placeholder="搜尋 Twitter" @keyup.enter="search">
+    <input type="text" class="SearchInput" v-model.trim="searchText" placeholder="搜尋" @keyup.enter="search">
     <i class="fas fa-search search-btn" @click.stop="search"></i>
   </div>
 </template>

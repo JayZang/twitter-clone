@@ -32,7 +32,7 @@
       <div class="OperactionContainer">
         <div class="OperactionDesc">
           <div class="BirdImg">
-            <img src="/static/img/twitter-bird.png" alt="">
+            <!--<img src="/static/img/twitter-bird.png" alt="">-->
           </div>
           <div class="Title">
             看看世界上正在發生的新鮮事
@@ -40,7 +40,7 @@
         </div>
         <div class="OperactionBtns">
           <div class="RegisterTitle">
-            今天就加入 Twitter。
+            今天就加入。
           </div>
           <router-link class="btn regist" to="/regist" href="/regist">
             註冊

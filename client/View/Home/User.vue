@@ -106,7 +106,7 @@ export default {
       }
 
       this.user = res.user
-      document.title = `${this.user.name} (@${this.user.account}) | Twitter`
+      document.title = `${this.user.name} (@${this.user.account})`
     },
     getPosts: async function () {
       this.postLoaded = false

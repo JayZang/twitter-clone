@@ -10,6 +10,6 @@ export default [{
   },
   meta: {
     requireNotLogin: true,
-    title: 'Regist | Twitter'
+    title: 'Sign up'
   }
 }]

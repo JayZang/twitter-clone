@@ -20,7 +20,7 @@ export default [{
       return next({name: 'UserHome'})
     }
 
-    document.title = 'Twitter'
+    document.title = 'Twitter Like'
     next()
   }
 }, {

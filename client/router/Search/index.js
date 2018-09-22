@@ -13,6 +13,6 @@ export default [{
     default: SearchView
   },
   meta: {
-    title: `Twitter Search`
+    title: `Search`
   }
 }]

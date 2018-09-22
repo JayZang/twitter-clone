@@ -3,7 +3,7 @@
     <div class="LoginFormContainer">
       <div class="Wrapper">
         <div class="LoginText">
-          <span>登入 Twitter</span>
+          <span>登入</span>
         </div>
         <div class="ErrHint alert alert-danger" v-if="errHint">
           {{ errHint }}
@@ -24,7 +24,7 @@
     <div class="RegistHint">
       <div class="Wrapper">
         <div class="hint">
-          <span>新加入 Twitter?</span>
+          <span>新加入 ?</span>
           <router-link to="/regist">立即加入 »</router-link>
         </div>
       </div>

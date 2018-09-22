@@ -3,7 +3,7 @@
     <div class="PostsContainer">
       <PostItemComponent v-for="post in posts" :post="post" :detailPostRouteName="detailPostRouteName" :key="post._id"/>
       <div class="NonPost" v-if="!posts.length">
-        <img src="/static/img/twitter-bird.png" alt="">
+        <!--<img src="/static/img/twitter-bird.png" alt="">-->
         <div class="txt">尚未有貼文</div>
       </div>
     </div>

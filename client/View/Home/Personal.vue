@@ -126,13 +126,13 @@ export default {
 
       if (!res.result) {
         this.errorMessage = res.errMsg
-        document.title = 'Twitter'
+        document.title = 'Twitter Like'
         return
       }
 
       this.person = res.person
       this.isFollowing = res.isFollowing
-      document.title = `${this.person.name} (@${this.person.account}) | Twitter`
+      document.title = `${this.person.name} (@${this.person.account})`
     },
     windowScrollEventHandelr (e) {
       this.needPersonalWallFix = $(window).scrollTop() > 300

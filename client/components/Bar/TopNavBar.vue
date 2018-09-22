@@ -5,7 +5,7 @@
         <router-link to="/" class="home-btn-link">
           <div class="link-wrapper">
             <span class="twitter-img">
-              <img src="/static/img/twitter-bird.png" alt="">
+              <!--<img src="/static/img/twitter-bird.png" alt="">-->
             </span>
             <span>首頁</span>
           </div>

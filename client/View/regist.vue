@@ -30,7 +30,7 @@
     <div class="LoginHint">
       <div class="Wrapper">
         <div class="hint">
-          <span>已加入 Twitter?</span>
+          <span>已加入 ?</span>
           <router-link to="/login">立即登入 »</router-link>
         </div>
       </div>
@@ -39,8 +39,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'RegistPage',
   data () {
