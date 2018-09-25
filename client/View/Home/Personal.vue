@@ -113,7 +113,7 @@ export default {
   },
   created () {
     this.initUserID()
-    window.addEventListener('scroll', this.windowScrollEventHandelr)
+    window.addEventListener('scroll', this.windowScrollEventHandler)
   },
   watch: {
     '$route.params.PersonAccount': 'initUserID'
@@ -134,7 +134,7 @@ export default {
       this.isFollowing = res.isFollowing
       document.title = `${this.person.name} (@${this.person.account})`
     },
-    windowScrollEventHandelr (e) {
+    windowScrollEventHandler (e) {
       this.needPersonalWallFix = $(window).scrollTop() > 300
     }
   }
@@ -158,10 +158,8 @@ export default {
 
 .BkgImgContainer {
   height: 320px;
-  background-color: #dedede;
-  background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
+  background: #dedede no-repeat center;
 }
 
 .ProfileImgContainer {

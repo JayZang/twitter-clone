@@ -18,6 +18,14 @@
 * vue-router
 * axios
 
+## Feature
+
+* Sign up
+* Login
+* Post
+* Comment
+* Follow
+
 ## Build Setup
 
 Install all dependency packages: (assume has installed [Node](https://nodejs.org/en/) and NPM)
@@ -117,7 +125,7 @@ app.update('/', (req, res, next) => {
 
 ### Mongoose
 
-[Official doeument](https://mongoosejs.com/docs/guide.html)  
+[Official document](https://mongoosejs.com/docs/guide.html)  
 Use relational database.  
 This project has three models:
 
