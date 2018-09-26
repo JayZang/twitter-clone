@@ -380,7 +380,7 @@ describe('Server: Post API', () => {
     })
   })
 
-  describe('GET /API/post/:Id/like --- Return detail information of the post about post content, author, who likes, all comments content', () => {
+  describe('GET /API/post/:Id --- Return detail information of the post about post content, author, who likes, all comments content', () => {
     let seedUserId = mongoose.Types.ObjectId()
     let seedPostId = mongoose.Types.ObjectId()
     let seedCommentId = mongoose.Types.ObjectId()

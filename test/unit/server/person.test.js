@@ -47,7 +47,7 @@ describe('Server: Person API', () => {
         .end(done)
     })
 
-    it('2.should get info fail when the parameter account is not exist', done => {
+    it('2. should get info fail when the parameter account is not exist', done => {
       request(app)
         .get(`/API/person/${seedUser.account}123`)
         .expect(200)
