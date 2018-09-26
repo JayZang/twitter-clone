@@ -53,7 +53,7 @@ Run backend server listening 3001 port on **development** environment to handle 
 npm run start:dev
 ```
 
-Uint test of server API:
+Unit test of server API:
 
 ```shell
 npm run unit
