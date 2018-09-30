@@ -1,4 +1,4 @@
-var GetPersonInfoRoute = require('./info')
+var GetPersonInfoRoute = require('./Info')
 
 module.exports = [
   GetPersonInfoRoute
