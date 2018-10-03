@@ -1,5 +1,7 @@
 # twitter-web-like
 
+[![build](https://travis-ci.org/JayZang/Twitter-Web-Like.svg?branch=master)](https://travis-ci.org/JayZang/Twitter-Web-Like)
+
 > This project is built using [Node](https://nodejs.org/en/) and [Vue](https://vuejs.org/).  
 > The target is learning Vue framework and technique of backend to implement a SPA website.  
 > All right of picture and sign is reserved for [Twitter](https://twitter.com/).  
