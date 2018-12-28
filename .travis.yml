@@ -4,6 +4,6 @@ node_js: '8.11.3'
 services: 
   - docker
 
-script: npm run docker-test
+script: npm run docker-test && docker-compose kill mongodb
 
 after_success: echo npm test succeeded
