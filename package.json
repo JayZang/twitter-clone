@@ -11,6 +11,7 @@
     "start": "npm run start:prod",
     "docker-start": "docker-compose up",
     "docker-test": "docker-compose -f docker-compose.test.yml up",
+    "docker-test-stop-mongodb": "docker-compose -f docker-compose.test.yml kill mongodb",
     "unit": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha test/unit/**/*.test.js --exit",
     "unit:watch": "nodemon --exec 'npm test'",
     "lint": "eslint --ext .js,.vue src",
