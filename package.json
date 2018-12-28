@@ -9,6 +9,8 @@
     "start:dev": "export NODE_ENV=development || SET \"NODE_ENV=development\" && node server/server.js",
     "start:prod": "export NODE_ENV=production || SET \"NODE_ENV=production\" && node server/server.js",
     "start": "npm run start:prod",
+    "docker-start": "docker-compose up",
+    "docker-test": "docker-compose -f docker-compose.test.yml up",
     "unit": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha test/unit/**/*.test.js --exit",
     "unit:watch": "nodemon --exec 'npm test'",
     "lint": "eslint --ext .js,.vue src",
