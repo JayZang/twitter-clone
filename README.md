@@ -1,4 +1,4 @@
-# twitter-web-like
+# twitter-clone
 
 [![build](https://travis-ci.org/JayZang/twitter-clone.svg?branch=master)](https://travis-ci.org/JayZang/Twitter-Web-Like)
 
