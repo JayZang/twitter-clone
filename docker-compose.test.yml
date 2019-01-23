@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  api-server-test:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.test

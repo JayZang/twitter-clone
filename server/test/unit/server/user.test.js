@@ -3,9 +3,9 @@ const request = require('supertest')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 
-const { app } = require('../../../server/server')
-const userModel = require('../../../server/model/user')
-const postModel = require('../../../server/model/post')
+const { app } = require('../../../server')
+const userModel = require('../../../model/user')
+const postModel = require('../../../model/post')
 
 describe('Server: User API', () => {
   describe('POST /API/user/ --- Register', () => {

@@ -2,9 +2,9 @@ const expect = require('expect')
 const request = require('supertest')
 const mongoose = require('mongoose')
 
-const { app } = require('../../../server/server')
-const userModel = require('../../../server/model/user')
-const postModel = require('../../../server/model/post')
+const { app } = require('../../../server')
+const userModel = require('../../../model/user')
+const postModel = require('../../../model/post')
 
 describe('Server: Person API', () => {
   describe('GET /API/person/:account --- Get basic information of the indicated person', () => {

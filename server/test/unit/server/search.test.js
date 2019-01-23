@@ -3,8 +3,8 @@ const request = require('supertest')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 
-const { app } = require('../../../server/server')
-const userModel = require('../../../server/model/user')
+const { app } = require('../../../server')
+const userModel = require('../../../model/user')
 
 describe('Server: Search API', () => {
   describe('Get /API/search/person/:query --- Fuzzy search users by name', () => {
