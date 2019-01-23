@@ -42,10 +42,12 @@ app.use('/API/post/', PostRouters)
 app.use('/API/comment/', CommentRouters)
 app.use('/API/search/', SearchRouters)
 
-// 頁面路由
+// 前端頁面將由 nginx 導向
+// 頁面路由(舊)
 app.get('*', (req, res) => {
-  let html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8')
-  res.send(html)
+  res.json({
+    msg: '無此 API'
+  })
 })
 
 app.listen(process.env.PORT, () => {

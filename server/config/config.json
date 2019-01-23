@@ -6,7 +6,7 @@
   },
   "development": {
     "PORT": 3001,
-    "MONGODB_URI": "mongodb://localhost:27017/TwitterWebLikeDev",
+    "MONGODB_URI": "mongodb://mongodb-server:27017/TwitterWebLikeDev",
     "JWT_SECRET": "cdodoijvosijalskdmcspodcdskm"
   },
   "test": {
