@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  nginx:
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+
+    ports:
+      - 8080:8080
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+
+  api-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+
+  mongodb-server:
+    image: mongo:latest
+
+    ports:
+      # 在 Windows 和 Mac 上無法使用 volumes mapping 資料夾
+      # 因此只好 mapping ports  
+      - 27017:27017
+      
